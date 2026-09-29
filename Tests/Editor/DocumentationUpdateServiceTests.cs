@@ -468,6 +468,75 @@ namespace Geurts.GameForge.Documentation.Tests
             Assert.That(File.ReadAllText(agentsPath), Is.EqualTo("new route: copilot-instructions.md"));
         }
 
+        [Test] public async Task AutomaticContentUpdateAppliesFourTargetsThenSkipsCurrentRevision()
+        {
+            var original = DocumentationUpdaterController.Service;
+            DocumentationUpdaterController.Service = service;
+            DocumentationUpdaterController.ConfirmForTests = () => throw new Exception("Saved opt-in must not open the manual confirmation.");
+            try
+            {
+                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true);
+                Assert.That(transport.DownloadCalls, Is.EqualTo(1));
+                Assert.That(ReadInstalledCommit(), Is.EqualTo(Commit('a')));
+                Assert.That(DocumentationIntegration.Failed, Is.False);
+                var before = CaptureManagedFiles(projectRoot);
+                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true);
+                Assert.That(transport.DownloadCalls, Is.EqualTo(1));
+                AssertSnapshotsEqual(before, CaptureManagedFiles(projectRoot));
+            }
+            finally { DocumentationUpdaterController.Service = original; DocumentationUpdaterController.ConfirmForTests = null; }
+        }
+
+        [Test] public async Task AutomaticContentUpdateWithNoConsentDoesNotReadOrDownload()
+        {
+            var original = DocumentationUpdaterController.Service;
+            DocumentationUpdaterController.Service = service;
+            try
+            {
+                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => false);
+                Assert.That(transport.ResolveCalls, Is.Zero);
+                Assert.That(transport.DownloadCalls, Is.Zero);
+                Assert.That(ReadInstalledCommit(), Is.Null.Or.Empty);
+            }
+            finally { DocumentationUpdaterController.Service = original; }
+        }
+
+        [Test] public async Task RevokingAutomaticConsentDuringDownloadPreservesAllManagedFiles()
+        {
+            await InstallAsync(service);
+            var before = CaptureManagedFiles(projectRoot);
+            transport.HeadCommit = Commit('b');
+            bool authorized = true;
+            transport.Downloaded = () => authorized = false;
+            var original = DocumentationUpdaterController.Service;
+            DocumentationUpdaterController.Service = service;
+            try
+            {
+                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => authorized);
+                AssertSnapshotsEqual(before, CaptureManagedFiles(projectRoot));
+                Assert.That(ReadInstalledCommit(), Is.EqualTo(Commit('a')));
+                Assert.That(DocumentationIntegration.StatusMessage, Does.Contain("stopped before replacement"));
+            }
+            finally { DocumentationUpdaterController.Service = original; }
+        }
+
+        [Test] public async Task FailedAutomaticMetadataNeverAcquiresOrReplacesContent()
+        {
+            await InstallAsync(service);
+            var before = CaptureManagedFiles(projectRoot);
+            transport.ResetCounts(); transport.ResolveFailure = new IOException("Offline fixture");
+            var original = DocumentationUpdaterController.Service;
+            DocumentationUpdaterController.Service = service;
+            try
+            {
+                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true);
+                Assert.That(transport.DownloadCalls, Is.Zero);
+                Assert.That(DocumentationIntegration.Failed, Is.True);
+                AssertSnapshotsEqual(before, CaptureManagedFiles(projectRoot));
+            }
+            finally { DocumentationUpdaterController.Service = original; }
+        }
+
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true, EntryPoint = "CreateHardLinkW")]
         private static extern bool CreateHardLink(
             string fileName,
@@ -537,6 +606,7 @@ namespace Geurts.GameForge.Documentation.Tests
             internal string VersionCommit { get; private set; }
             internal int ResolveCalls { get; private set; }
             internal int DownloadCalls { get; private set; }
+            internal Action Downloaded;
 
             public Task<string> ResolveHeadCommitAsync(CancellationToken cancellationToken)
             {
@@ -562,6 +632,7 @@ namespace Geurts.GameForge.Documentation.Tests
 
                 string candidate = Path.Combine(workingDirectory, "extracted");
                 DocumentationFileOperations.CopyDirectory(templateRoot, candidate);
+                Downloaded?.Invoke();
                 return Task.FromResult(new DocumentationDownload(workingDirectory, candidate));
             }
 

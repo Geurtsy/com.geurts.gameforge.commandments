@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+
+- Add an optional host integration for explicitly opted-in automatic documentation updates when God opens. Reuse the existing metadata, validation and four-target replacement pipeline.
+- Recheck saved consent and Editor/host state after download and before replacement. Turning off or closing God stops pending replacement; automatic failures report through status without modal dialogs or automatic retry.
+- Standalone startup remains metadata-only and manual Update keeps its cancel-default confirmation. No God dependency is added.
+
 ## [0.9.2] - 2026-09-26
 
 - Open a new Documentation dashboard at a larger, resizable initial size, preferring 1000 × 760 Editor points fitted to the main Editor area where space permits, with its 540 × 560 supported minimum taking precedence.

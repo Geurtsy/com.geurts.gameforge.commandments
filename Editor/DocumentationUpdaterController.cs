@@ -78,6 +78,20 @@ namespace Geurts.GameForge.Documentation
         internal static async void BeginConfirmedUpdate()
         {
             _updateQueued = false;
+            await ApplyUpdateAsync(null);
+        }
+
+        internal static async Task UpdateAutomaticallyAsync(Func<bool> stillAuthorized)
+        {
+            if (!stillAuthorized() || !CanStartUpdate()) return;
+            await CheckForUpdatesAsync(false);
+            if (!stillAuthorized() || Status.Failed || Availability != DocumentationAvailability.UpdateAvailable) return;
+            await ApplyUpdateAsync(stillAuthorized);
+        }
+
+        private static async Task ApplyUpdateAsync(Func<bool> stillAuthorized)
+        {
+            if (stillAuthorized != null && !stillAuthorized()) return;
             if (!CanStartUpdate()) return;
 
             _installing = true;
@@ -90,6 +104,14 @@ namespace Geurts.GameForge.Documentation
                 prepared = await Service.PrepareLatestAsync(CancellationToken.None, ReportProgress);
                 ReportProgress(new UpdateProgress("Replacing and verifying the four confirmed managed targets..."));
                 await Task.Yield();
+
+                // Recheck the host's saved consent and Unity state after the network wait, before the first write.
+                if (stillAuthorized != null && (!stillAuthorized() || DocumentationIntegration.ExternalOperationUnavailableReason != null ||
+                    PackageSelfUpdater.EditorBusy || EditorUtility.scriptCompilationFailed))
+                {
+                    Status.Message = "Automatic documentation update stopped before replacement. Reopen God with auto-update enabled to try again.";
+                    return;
+                }
 
                 DocumentationApplyResult applyResult = Service.Apply(prepared);
                 Status.Availability = applyResult.CommitPersisted
@@ -109,7 +131,7 @@ namespace Geurts.GameForge.Documentation
                 else
                 {
                     Debug.LogWarning("[Geurts Documentation] " + applyResult.Warning);
-                    EditorUtility.DisplayDialog(
+                    if (stillAuthorized == null) EditorUtility.DisplayDialog(
                         "Geurts Documentation Updated With Warning",
                         applyResult.Warning + "\n\nThe content update succeeded and will not be undone.",
                         "Close");
@@ -122,7 +144,7 @@ namespace Geurts.GameForge.Documentation
                 Status.InstalledVersion = Service.ReadInstalledVersion();
                 Status.Message = "Update failed: " + exception.Message;
                 Debug.LogError("[Geurts Documentation] " + Status.Message);
-                EditorUtility.DisplayDialog(
+                if (stillAuthorized == null) EditorUtility.DisplayDialog(
                     "Geurts Documentation Update Failed",
                     Status.Message +
                     "\n\nNo successful installed-commit value was written. Failures before replacement leave the existing managed targets unchanged.",

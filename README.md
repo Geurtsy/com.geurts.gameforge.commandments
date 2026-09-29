@@ -12,7 +12,7 @@ In Unity, open **Window > Package Manager**, choose **Install package from git U
 https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#main
 ```
 
-Package version 0.9.2 targets **Unity 6000.3 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
+Package version 0.10.0 targets **Unity 6000.3 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
 
 Select **Geurts Game Forge Documentation** in Unity Package Manager to see **Required external dependencies**, with separate **Required** labels for Odin Inspector and Quantum Console. The package description also includes these labels before the scripts compile. These are separately imported assets, so the native resolver's Dependencies list remains reserved for Unity package dependencies.
 
@@ -107,7 +107,7 @@ These methods never update documentation, run scripts, create the folder structu
 
 ## Optional Game Forge God interface
 
-God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.9.2 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
+God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.10.0 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
 
 ## Shared Editor appearance
 
@@ -116,3 +116,7 @@ All companion-owned Editor surfaces follow the Geurts Game Forge dark/green them
 `Editor/DocumentationEditorTheme.cs` and `.uss` are generated from God's canonical `Editor/ForgeEditorTheme.cs` and `.uss` by `Tools~/SyncEditorTheme.ps1 -DocumentationPackagePath <this-package-path>`. Use the same command with `-Check` to detect drift. Change the canonical source and regenerate both copies; do not hand-edit the generated files. The generated helper has no God dependency and guards its optional Odin styling with `ODIN_INSPECTOR`. Its IMGUI scope restores shared styles after each draw and disposes only its own generated textures.
 
 `Geurts.GameForge.Documentation.DocumentationIntegration` exposes content `InstalledVersion`, `AvailableVersion`, `Availability`, `StatusMessage`, `Failed`, measured nullable `Progress`, actual-operation `IsBusy`, `ActionUnavailableReason`, and a `Changed` event. `CheckForUpdatesAsync` delegates to the existing content controller. `UpdateDocumentation` opens the same single cancel-default confirmation and uses the same updater; cancelling performs no acquisition or write. `OpenWindow` opens the existing companion dashboard. `RegisterOperationGuard(Func<string>)` allows an optional host to explain a conflicting operation without a reverse dependency; dispose its returned token on host unload. Hosts must unsubscribe from `Changed` when their UI closes.
+
+### Optional automatic updates from God
+
+God 0.15.0 can request `DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(Func<bool> stillAuthorized)` after the user enables its default-off, project-saved automatic update option and accepts the four-target overwrite explanation. The callback must remain true only while that host stays open and its saved consent remains enabled. The companion checks metadata, skips current content, and rechecks consent and operation guards before any replacement. It uses the same validated archive and exact managed targets as manual Update. It never automatically repairs an interrupted update. Errors remain visible in the shared status. This API does not change standalone startup, manual confirmation, or the independent package dependency boundary.

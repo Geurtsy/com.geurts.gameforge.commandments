@@ -57,6 +57,17 @@ namespace Geurts.GameForge.Documentation
         /// <summary>Shows the existing cancel-default confirmation; acquisition and replacement require acceptance.</summary>
         public static void UpdateDocumentation() => DocumentationUpdaterController.ConfirmAndUpdate();
 
+        /// <summary>Checks and updates content for a host with explicit saved consent covering all four managed targets.
+        /// The host must explain overwrite/no-backup behavior when enabling its opt-in, default it off, and pass a live consent check.
+        /// Ordinary companion startup and manual Update never use this entry point.</summary>
+        /// <param name="stillAuthorized">True only while the opted-in host remains open and its saved setting is enabled.</param>
+        /// <returns>The completed check/update; failures remain visible in the shared status.</returns>
+        public static Task UpdateDocumentationAutomaticallyAsync(Func<bool> stillAuthorized)
+        {
+            if (stillAuthorized == null) throw new ArgumentNullException(nameof(stillAuthorized));
+            return DocumentationUpdaterController.UpdateAutomaticallyAsync(stillAuthorized);
+        }
+
         /// <summary>Opens the existing companion window without introducing another updater.</summary>
         public static void OpenWindow() => DocumentationUpdaterWindow.ShowWindow();
 
