@@ -12,7 +12,7 @@ In Unity, open **Window > Package Manager**, choose **Install package from git U
 https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#main
 ```
 
-Package version 0.10.0 targets **Unity 6000.3 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
+Package version 0.10.1 targets **Unity 6000.3 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
 
 Select **Geurts Game Forge Documentation** in Unity Package Manager to see **Required external dependencies**, with separate **Required** labels for Odin Inspector and Quantum Console. The package description also includes these labels before the scripts compile. These are separately imported assets, so the native resolver's Dependencies list remains reserved for Unity package dependencies.
 
@@ -44,7 +44,7 @@ Package version checks support public `github.com` repositories, including confi
 
 Documentation checks resolve official `main`, then read `GeurtsTechniqueManifest.md` at that exact commit. The installed version comes only from the local documentation manifest. A missing installation says **Not installed**; an unreadable/invalid manifest says **Unknown**. Commit comparisons use the per-project last-successful-install signal and do not certify the contents of local files. Versions are informational; Git revision equality determines whether an update is available.
 
-Checks never acquire an installation archive, run an installer, or modify project files. Overlapping open/startup/manual checks share the same active requests. A successful package installation refreshes both checks. Window-open and manual refresh plus the narrow local-manifest read are explicit user-requested extensions to the original startup-only metadata policy; the documentation replacement boundary and confirmation remain unchanged.
+Checks never acquire an installation archive, run an installer, or modify project files. Overlapping explicit-open/manual checks share the same active requests. A successful package installation refreshes both checks. Unity startup and restored dashboard windows perform no remote checks and open no update popup. Deliberate menu openings and manual refresh keep their bounded metadata checks and narrow local-manifest read; the documentation replacement boundary and confirmation remain unchanged.
 
 ## Install the project .gitignore
 
@@ -107,7 +107,7 @@ These methods never update documentation, run scripts, create the folder structu
 
 ## Optional Game Forge God interface
 
-God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.10.0 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
+God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.10.1 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
 
 ## Shared Editor appearance
 
@@ -119,4 +119,4 @@ All companion-owned Editor surfaces follow the Geurts Game Forge dark/green them
 
 ### Optional automatic updates from God
 
-God 0.15.0 can request `DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(Func<bool> stillAuthorized)` after the user enables its default-off, project-saved automatic update option and accepts the four-target overwrite explanation. The callback must remain true only while that host stays open and its saved consent remains enabled. The companion checks metadata, skips current content, and rechecks consent and operation guards before any replacement. It uses the same validated archive and exact managed targets as manual Update. It never automatically repairs an interrupted update. Errors remain visible in the shared status. This API does not change standalone startup, manual confirmation, or the independent package dependency boundary.
+God 0.17.1 can request `DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(Func<bool> stillAuthorized)` after the user enables its default-off, project-saved automatic update option and accepts the four-target overwrite explanation. The callback must remain true only while that host stays open and its saved consent remains enabled. The companion checks metadata, skips current content, and rechecks consent and operation guards before any replacement. It uses the same validated archive and exact managed targets as manual Update. It never automatically repairs an interrupted update. Errors remain visible in the shared status. Restoring God at Unity startup does not invoke this API. It does not change manual confirmation or the independent package dependency boundary.

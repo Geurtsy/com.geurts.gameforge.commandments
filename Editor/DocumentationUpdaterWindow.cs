@@ -48,6 +48,7 @@ namespace Geurts.GameForge.Documentation
 
         private void ScheduleOpenCheck()
         {
+            EditorApplication.delayCall -= CheckOnOpen;
             if (!_openingAfterCheck && (!Application.isBatchMode || OpenCheckForTests != null))
                 EditorApplication.delayCall += CheckOnOpen;
         }
@@ -61,6 +62,7 @@ namespace Geurts.GameForge.Documentation
                 new Vector2(540f, 560f), "Geurts Documentation");
             window.titleContent = new GUIContent("Geurts Documentation", EditorGUIUtility.IconContent("TextAsset Icon").image);
             window.Show();
+            window.ScheduleOpenCheck();
         }
 
 #if ODIN_INSPECTOR
@@ -92,7 +94,6 @@ namespace Geurts.GameForge.Documentation
             DependencyInstallation.Changed += Repaint;
             EditorApplication.update -= RepaintWhileBusy;
             EditorApplication.update += RepaintWhileBusy;
-            ScheduleOpenCheck();
         }
 
         protected override void OnDisable()
@@ -457,7 +458,6 @@ namespace Geurts.GameForge.Documentation
             DrawSelectable(string.IsNullOrWhiteSpace(commit) ? "Not recorded" : commit);
         }
 #else
-        private void OnEnable() => ScheduleOpenCheck();
         private void OnDisable() => EditorApplication.delayCall -= CheckOnOpen;
 
         // Odin is distributed separately; missing it must not create compilation errors or hide the menu.

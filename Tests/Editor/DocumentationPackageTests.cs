@@ -64,19 +64,5 @@ namespace Geurts.GameForge.Documentation.Tests
             Assert.That(message, Does.Contain("no backup or rollback"));
         }
 
-        [Test]
-        public void StartupCheckIsGatedOncePerInteractiveEditorSession()
-        {
-            DocumentationStartup.ResetSessionCheckForTests();
-            try
-            {
-                Assert.That(DocumentationStartup.TryMarkCheckScheduled(), Is.True);
-                Assert.That(DocumentationStartup.TryMarkCheckScheduled(), Is.False);
-            }
-            finally
-            {
-                DocumentationStartup.ResetSessionCheckForTests();
-            }
-        }
     }
 }

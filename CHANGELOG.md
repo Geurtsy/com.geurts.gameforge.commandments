@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.1
+
+- Remove remote package/documentation checks and automatic dashboard popups at Unity startup.
+- Restored dashboards remain offline; deliberate menu openings and manual refresh still check updates.
+- Preserve active package requests through script reload.
+
 ## 0.10.0
 
 - Add an optional host integration for explicitly opted-in automatic documentation updates when God opens. Reuse the existing metadata, validation and four-target replacement pipeline.

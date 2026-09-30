@@ -38,9 +38,11 @@ namespace Geurts.GameForge.Documentation.Tests
                     window.Repaint();
                     yield return null;
                     yield return null;
+                    Assert.That(checks, Is.EqualTo(attempt), "Restoring/enabling a window must not check remote updates.");
+                    windowType.GetMethod("ShowWindow", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).Invoke(null, null);
                     double deadline = EditorApplication.timeSinceStartup + 3;
                     while (checks < attempt + 1 && EditorApplication.timeSinceStartup < deadline) yield return null;
-                    Assert.That(checks, Is.EqualTo(attempt + 1), "Each opening should automatically request both update checks once.");
+                    Assert.That(checks, Is.EqualTo(attempt + 1), "An explicit menu opening still requests both checks once.");
 #if ODIN_INSPECTOR
                     Assert.That(windowType.BaseType.FullName,
                         Is.EqualTo("Sirenix.OdinInspector.Editor.OdinEditorWindow"));
