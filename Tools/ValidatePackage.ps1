@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string]$UnityPath = "C:\Program Files\Unity\Hub\Editor\6000.3.24f1\Editor\Unity.exe",
+    [string]$UnityPath = "C:\Program Files\Unity\Hub\Editor\6000.6.3f1\Editor\Unity.exe",
 
     [Parameter()]
     [string]$ProjectPath,
@@ -90,6 +90,11 @@ if ($StaticOnly) {
     return
 }
 
+if ([string]::IsNullOrWhiteSpace($PackageReference) -or
+    $PackageReference -notmatch '^(?:https://|ssh://|git://|git@)[^\s]+\.git(?:\?path=[^#\s]+)?#[^#\s]+$') {
+    throw "Provide an explicit Git PackageReference with a pushed revision, for example https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#<commit>. Local file or embedded packages are not supported."
+}
+
 if (-not (Test-Path -LiteralPath $UnityPath -PathType Leaf)) {
     throw "Unity Editor was not found at: $UnityPath"
 }
@@ -106,11 +111,6 @@ if (Test-Path -LiteralPath $ProjectPath) {
 New-Item -ItemType Directory -Path (Join-Path $ProjectPath "Assets") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $ProjectPath "Packages") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $ProjectPath "ProjectSettings") -Force | Out-Null
-
-if ([string]::IsNullOrWhiteSpace($PackageReference)) {
-    $packagePath = $repositoryRoot.Replace('\', '/')
-    $PackageReference = "file:$packagePath"
-}
 
 $manifest = [ordered]@{
     dependencies = [ordered]@{
@@ -169,8 +169,7 @@ if (-not [string]::IsNullOrWhiteSpace($DocumentationPath)) {
     }
 }
 @"
-m_EditorVersion: 6000.3.24f1
-m_EditorVersionWithRevision: 6000.3.24f1 (4e7b9b5b6244)
+m_EditorVersion: 6000.6.3f1
 "@ | Set-Content -LiteralPath (Join-Path $ProjectPath "ProjectSettings\ProjectVersion.txt") -Encoding UTF8
 
 $resultPath = Join-Path $ProjectPath "TestResults.xml"
@@ -206,8 +205,37 @@ if ($null -eq $testRun -or [int]$testRun.failed -ne 0 -or [int]$testRun.passed -
 }
 
 $log = Get-Content -LiteralPath $logPath -Raw
-if ($log -match '(?m)\berror CS\d+' -or $log -match '(?m)\bwarning CS\d+' -or $log -match 'Tundra build failed') {
-    throw "Unity reported a C# compiler diagnostic or build failure. See $logPath"
+# Only this copied vendor source has known provenance; malformed or other warning sources fail.
+$quantumSourcePrefix = [System.IO.Path]::GetFullPath((Join-Path $quantumDestination 'Source')).TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
+$thirdPartyWarnings = @()
+$blockingWarnings = @()
+foreach ($warningMatch in [regex]::Matches($log, '(?im)^[^\r\n]*\bwarning\s+CS\d+\b[^\r\n]*')) {
+    $warning = $warningMatch.Value.Trim()
+    $source = [regex]::Match($warning, '^(?<file>.+?)(?<diagnostic>\(\d+(?:,\d+)?\):\s*warning\s+CS\d+\s*:.*)$')
+    $knownVendor = $false
+    if ($source.Success) {
+        try {
+            $warningPath = $source.Groups['file'].Value.Replace('/', '\')
+            if (-not [System.IO.Path]::IsPathRooted($warningPath)) { $warningPath = Join-Path $ProjectPath $warningPath }
+            $warningPath = [System.IO.Path]::GetFullPath($warningPath)
+            $knownVendor = $warningPath.StartsWith($quantumSourcePrefix, [System.StringComparison]::OrdinalIgnoreCase)
+            if ($knownVendor) {
+                $warning = $warningPath.Substring($ProjectPath.Length).TrimStart('\', '/').Replace('\', '/') + $source.Groups['diagnostic'].Value
+            }
+        }
+        catch { $knownVendor = $false }
+    }
+    if ($knownVendor) { $thirdPartyWarnings += $warning }
+    else { $blockingWarnings += $warning }
+}
+$thirdPartyWarnings = @($thirdPartyWarnings | Sort-Object -Unique)
+$blockingWarnings = @($blockingWarnings | Sort-Object -Unique)
+foreach ($warning in $thirdPartyWarnings) { Write-Warning "Third-party Quantum Console: $warning" }
+foreach ($warning in $blockingWarnings) { Write-Warning "First-party or unknown source: $warning" }
+if ($log -match '(?im)\berror\s+[A-Z]+\d+\b|(?:^|:)\s*(?:fatal\s+)?error\s*:' -or
+    $log -match '(?i)\b(?:Tundra\s+build\s+failed|compilation\s+failed|scripts\s+have\s+compiler\s+errors|build\s+failed|build\s+completed\s+with\s+a\s+result\s+of\s+[''"]?failed)\b' -or
+    $blockingWarnings.Count -gt 0) {
+    throw "Unity reported a compiler error, build failure, or first-party/unknown C# warning. See $logPath"
 }
 
 [pscustomobject]@{
@@ -216,10 +244,12 @@ if ($log -match '(?m)\berror CS\d+' -or $log -match '(?m)\bwarning CS\d+' -or $l
     PackageReference = $PackageReference
     Odin = -not [string]::IsNullOrWhiteSpace($OdinPath)
     QuantumConsole = -not [string]::IsNullOrWhiteSpace($QuantumConsolePath)
-    Unity = "6000.3.24f1"
+    Unity = "6000.6.3f1"
     Passed = [int]$testRun.passed
     Failed = [int]$testRun.failed
     Skipped = [int]$testRun.skipped
+    ThirdPartyWarningCount = $thirdPartyWarnings.Count
+    ThirdPartyWarnings = $thirdPartyWarnings
     ResultPath = $resultPath
     LogPath = $logPath
 }

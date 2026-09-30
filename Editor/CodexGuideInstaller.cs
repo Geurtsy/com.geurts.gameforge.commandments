@@ -30,12 +30,12 @@ namespace Geurts.GameForge.Documentation
                 if (!Install(projectRoot, target, CodexGuideConfirmation.Confirm)) return;
                 string message = "Installed the Codex guide at:\n" + target + "\n\nDocumentation entry point:\n" +
                                  GetEntryPoint(projectRoot) + "\n\n" + DiscoveryNotice();
-                Debug.Log("[Geurts Documentation] " + message);
+                Debug.Log("[Geurts Documentation Companion] " + message);
                 EditorUtility.DisplayDialog("Codex Guide Installed", message, "Close");
             }
             catch (Exception exception)
             {
-                Debug.LogError("[Geurts Documentation] Codex guide installation failed: " + exception.Message);
+                Debug.LogError("[Geurts Documentation Companion] Codex guide installation failed: " + exception.Message);
                 EditorUtility.DisplayDialog("Codex Guide Installation Failed", exception.Message, "Close");
             }
         }

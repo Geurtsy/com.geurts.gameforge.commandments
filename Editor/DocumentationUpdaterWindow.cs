@@ -56,14 +56,21 @@ namespace Geurts.GameForge.Documentation
                 EditorApplication.delayCall += CheckOnOpen;
         }
 
-        private const string MenuPath = "Tools/Geurts Game Forge/Documentation";
+        private const string MenuPath = "Tools/Geurts Game Forge/Documentation Companion";
+        private const string WindowTitle = "Geurts Documentation Companion";
+
+        // Restored windows keep their geometry and remain offline while adopting the current title.
+        private void RefreshTitle()
+        {
+            titleContent = new GUIContent(WindowTitle, EditorGUIUtility.IconContent("TextAsset Icon").image);
+        }
 
         [MenuItem(MenuPath)]
         internal static void ShowWindow()
         {
             DocumentationUpdaterWindow window = DocumentationEditorTheme.OpenWindow<DocumentationUpdaterWindow>(
-                new Vector2(540f, 560f), "Geurts Documentation");
-            window.titleContent = new GUIContent("Geurts Documentation", EditorGUIUtility.IconContent("TextAsset Icon").image);
+                new Vector2(540f, 560f), WindowTitle);
+            window.RefreshTitle();
             window.Show();
             window.ScheduleOpenCheck();
         }
@@ -86,6 +93,7 @@ namespace Geurts.GameForge.Documentation
         protected override void OnEnable()
         {
             base.OnEnable();
+            RefreshTitle();
             WindowPadding = new Vector4(20f, 20f, 16f, 16f);
             OnBeginGUI -= DrawCanvas;
             OnBeginGUI += DrawCanvas;
@@ -146,13 +154,13 @@ namespace Geurts.GameForge.Documentation
                 if (Event.current.type == EventType.Repaint)
                     EditorGUI.DrawRect(new Rect(header.rect.x, header.rect.y, 4f, header.rect.height), DocumentationEditorTheme.Green);
                 GUILayout.Label("GEURTS  /  GAME FORGE", _eyebrowStyle);
-                GUILayout.Label("DOCUMENTATION", _titleStyle);
+                GUILayout.Label("DOCUMENTATION COMPANION", _titleStyle);
                 GUILayout.Label(EmbeddedInGod ? "Documentation tools for this project." : "Installed versions and the latest from Git, in one place.", _bodyStyle);
                 string blocked = DocumentationIntegration.ModuleToggleUnavailableReason;
                 bool current = DocumentationIntegration.ModuleEnabled;
                 bool next;
                 using (new EditorGUI.DisabledScope(blocked != null))
-                    next = EditorGUILayout.ToggleLeft(new GUIContent("Module enabled", "Pause Documentation tools for this project without removing its package or content."), current);
+                    next = EditorGUILayout.ToggleLeft(new GUIContent("Module enabled", "Pause Documentation Companion tools for this project without removing its package or content."), current);
                 if (next != current) DeferAction(() =>
                 {
                     try { DocumentationIntegration.SetModuleEnabled(next); }
@@ -483,6 +491,8 @@ namespace Geurts.GameForge.Documentation
             DrawSelectable(string.IsNullOrWhiteSpace(commit) ? "Not recorded" : commit);
         }
 #else
+        private void OnEnable() => RefreshTitle();
+
         private void OnDisable() => EditorApplication.delayCall -= CheckOnOpen;
 
         // Odin is distributed separately; missing it must not create compilation errors or hide the menu.
@@ -499,7 +509,7 @@ namespace Geurts.GameForge.Documentation
             header.AddToClassList("forge-header");
             var eyebrow = new Label("GEURTS  /  GAME FORGE");
             eyebrow.AddToClassList("forge-eyebrow");
-            var title = new Label("DOCUMENTATION");
+            var title = new Label("DOCUMENTATION COMPANION");
             title.AddToClassList("forge-title");
             header.Add(eyebrow); header.Add(title); root.Add(header);
             root.Add(new Label("Dependencies") { style = { fontSize = 16, marginBottom = 8f } });

@@ -126,11 +126,11 @@ namespace Geurts.GameForge.Documentation
                     : applyResult.Warning;
                 if (applyResult.CommitPersisted)
                 {
-                    Debug.Log("[Geurts Documentation] Update completed at commit " + prepared.Commit + ".");
+                    Debug.Log("[Geurts Documentation Companion] Update completed at commit " + prepared.Commit + ".");
                 }
                 else
                 {
-                    Debug.LogWarning("[Geurts Documentation] " + applyResult.Warning);
+                    Debug.LogWarning("[Geurts Documentation Companion] " + applyResult.Warning);
                     if (stillAuthorized == null) EditorUtility.DisplayDialog(
                         "Geurts Documentation Updated With Warning",
                         applyResult.Warning + "\n\nThe content update succeeded and will not be undone.",
@@ -143,7 +143,7 @@ namespace Geurts.GameForge.Documentation
                 Status.Failed = true;
                 Status.InstalledVersion = Service.ReadInstalledVersion();
                 Status.Message = "Update failed: " + exception.Message;
-                Debug.LogError("[Geurts Documentation] " + Status.Message);
+                Debug.LogError("[Geurts Documentation Companion] " + Status.Message);
                 if (stillAuthorized == null) EditorUtility.DisplayDialog(
                     "Geurts Documentation Update Failed",
                     Status.Message +
@@ -183,7 +183,7 @@ namespace Geurts.GameForge.Documentation
 
         private static bool CanStartUpdate()
         {
-            string reason = !DocumentationIntegration.ModuleEnabled ? "Enable the Documentation module first." : DocumentationIntegration.ExternalOperationUnavailableReason ?? (!DocumentationDependencies.RequiredToolsAvailable ? "Odin Inspector and Quantum Console are required."
+            string reason = !DocumentationIntegration.ModuleEnabled ? "Enable the Documentation Companion module first." : DocumentationIntegration.ExternalOperationUnavailableReason ?? (!DocumentationDependencies.RequiredToolsAvailable ? "Odin Inspector and Quantum Console are required."
                 : IsBusy || PackageSelfUpdater.instance.IsBusy ? "Another documentation or package operation is still running."
                 : EditorUtility.scriptCompilationFailed ? "Unity has script compilation errors."
                 : PackageSelfUpdater.EditorBusy ? "Unity is compiling, importing assets, or in Play mode." : null);
@@ -196,7 +196,7 @@ namespace Geurts.GameForge.Documentation
                 Status.Failed = true;
                 NotifyChanged();
             }
-            Debug.LogWarning("[Geurts Documentation] " + message);
+            Debug.LogWarning("[Geurts Documentation Companion] " + message);
             return false;
         }
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.1 - 2026-10-01
+
+- Rename the package display, menu, dashboard and module status to Geurts Game Forge Documentation Companion, keeping the documentation content name and update action distinct.
+- Refresh restored window titles without changing their layout or starting remote checks. Preserve package identity, APIs, assemblies, asset GUIDs, saved preferences and the existing console command.
+- Align isolated validation with Unity 6000.6.3f1 and require an explicit Git candidate reference instead of a local package fallback. Report distinct warnings from the copied Quantum Console source separately while retaining failures for compiler errors, build failures and first-party or unknown C# warnings.
+
 ## 0.13.0 - 2026-10-01
 
 - Expose an independent embedded tools view for God without update controls or opening checks; preserve the standalone dashboard.
