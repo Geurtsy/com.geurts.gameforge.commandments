@@ -31,12 +31,12 @@ namespace Geurts.GameForge.Documentation
 
                 string message = "Installed the GeurtsGameForgeDocumentation template at:\n" +
                                  Path.Combine(projectRoot, ".gitignore");
-                Debug.Log("[Geurts Documentation] " + message);
+                Debug.Log("[Geurts Documentation Companion] " + message);
                 EditorUtility.DisplayDialog("Geurts .gitignore Installed", message, "Close");
             }
             catch (Exception exception)
             {
-                Debug.LogError("[Geurts Documentation] .gitignore installation failed: " + exception.Message);
+                Debug.LogError("[Geurts Documentation Companion] .gitignore installation failed: " + exception.Message);
                 EditorUtility.DisplayDialog("Geurts .gitignore Installation Failed", exception.Message, "Close");
             }
         }

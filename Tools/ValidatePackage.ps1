@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter()]
-    [string]$UnityPath = "C:\Program Files\Unity\Hub\Editor\6000.3.24f1\Editor\Unity.exe",
+    [string]$UnityPath = "C:\Program Files\Unity\Hub\Editor\6000.6.3f1\Editor\Unity.exe",
 
     [Parameter()]
     [string]$ProjectPath,
@@ -90,6 +90,11 @@ if ($StaticOnly) {
     return
 }
 
+if ([string]::IsNullOrWhiteSpace($PackageReference) -or
+    $PackageReference -notmatch '^(?:https://|ssh://|git://|git@)[^\s]+\.git(?:\?path=[^#\s]+)?#[^#\s]+$') {
+    throw "Provide an explicit Git PackageReference with a pushed revision, for example https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#<commit>. Local file or embedded packages are not supported."
+}
+
 if (-not (Test-Path -LiteralPath $UnityPath -PathType Leaf)) {
     throw "Unity Editor was not found at: $UnityPath"
 }
@@ -106,11 +111,6 @@ if (Test-Path -LiteralPath $ProjectPath) {
 New-Item -ItemType Directory -Path (Join-Path $ProjectPath "Assets") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $ProjectPath "Packages") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $ProjectPath "ProjectSettings") -Force | Out-Null
-
-if ([string]::IsNullOrWhiteSpace($PackageReference)) {
-    $packagePath = $repositoryRoot.Replace('\', '/')
-    $PackageReference = "file:$packagePath"
-}
 
 $manifest = [ordered]@{
     dependencies = [ordered]@{
@@ -169,8 +169,7 @@ if (-not [string]::IsNullOrWhiteSpace($DocumentationPath)) {
     }
 }
 @"
-m_EditorVersion: 6000.3.24f1
-m_EditorVersionWithRevision: 6000.3.24f1 (4e7b9b5b6244)
+m_EditorVersion: 6000.6.3f1
 "@ | Set-Content -LiteralPath (Join-Path $ProjectPath "ProjectSettings\ProjectVersion.txt") -Encoding UTF8
 
 $resultPath = Join-Path $ProjectPath "TestResults.xml"
@@ -216,7 +215,7 @@ if ($log -match '(?m)\berror CS\d+' -or $log -match '(?m)\bwarning CS\d+' -or $l
     PackageReference = $PackageReference
     Odin = -not [string]::IsNullOrWhiteSpace($OdinPath)
     QuantumConsole = -not [string]::IsNullOrWhiteSpace($QuantumConsolePath)
-    Unity = "6000.3.24f1"
+    Unity = "6000.6.3f1"
     Passed = [int]$testRun.passed
     Failed = [int]$testRun.failed
     Skipped = [int]$testRun.skipped

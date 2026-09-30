@@ -65,7 +65,7 @@ namespace Geurts.GameForge.Documentation.Tests
                     button = (Rect)windowType.GetProperty("DocumentationUpdateButtonRect", Instance).GetValue(window);
                 }
                 Assert.That(button.width, Is.GreaterThan(0), "The documentation update button must be drawn.");
-                LogAssert.Expect(LogType.Log, "[Geurts Documentation] Update completed at commit " + ConfirmationTransport.Commit + ".");
+                LogAssert.Expect(LogType.Log, "[Geurts Documentation Companion] Update completed at commit " + ConfirmationTransport.Commit + ".");
                 window.SendEvent(new Event { type = EventType.MouseDown, button = 0, mousePosition = button.center });
                 window.SendEvent(new Event { type = EventType.MouseUp, button = 0, mousePosition = button.center });
                 Assert.That(confirmations, Is.Zero, "Opening a modal inside the dashboard draw corrupts Odin's layout stack.");

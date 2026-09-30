@@ -9,7 +9,7 @@ namespace Geurts.GameForge.Documentation
     internal static class DocumentationPackageConstants
     {
         internal const string PackageName = "com.geurts.gameforge.documentation";
-        internal const string DisplayName = "Geurts Game Forge Documentation";
+        internal const string DisplayName = "Geurts Game Forge Documentation Companion";
         internal const string RepositoryUrl = "https://github.com/Geurtsy/GeurtsGameForge_Documentation.git";
         internal const string RepositoryBranch = "main";
         internal const string HeadCommitAdvertisementUrl = RepositoryUrl + "/info/refs?service=git-upload-pack";

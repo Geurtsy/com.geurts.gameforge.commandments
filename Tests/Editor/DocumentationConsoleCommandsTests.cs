@@ -38,7 +38,7 @@ namespace Geurts.GameForge.Documentation.Tests
             }
             else result = QuantumConsoleProcessor.InvokeCommand("GeurtsGameForge.Documentation.Status") as string;
             Assert.That(result, Is.Not.Null, "The direct status command must return the existing dashboard text.");
-            Assert.That(result, Does.Contain("Geurts Game Forge Documentation"));
+            Assert.That(result, Does.StartWith("Geurts Game Forge Documentation Companion\n"));
             Assert.That(result, Does.Contain(DocumentationUpdaterController.StatusMessage));
             Assert.That(result, Does.Contain(PackageSelfUpdater.instance.StatusMessage));
             Assert.That(DocumentationUpdaterController.IsBusy, Is.EqualTo(documentationBusy));

@@ -76,7 +76,7 @@ namespace Geurts.GameForge.Documentation.Tests
                     EditorApplication.delayCall -= DocumentationUpdaterController.BeginConfirmedUpdate;
                     blocked = true;
                     Assert.That(DocumentationIntegration.ActionUnavailableReason, Is.EqualTo("Test host operation is active."));
-                    LogAssert.Expect(LogType.Warning, "[Geurts Documentation] Documentation update could not start: Test host operation is active. Try Update again when Unity is ready.");
+                    LogAssert.Expect(LogType.Warning, "[Geurts Documentation Companion] Documentation update could not start: Test host operation is active. Try Update again when Unity is ready.");
                     DocumentationUpdaterController.BeginConfirmedUpdate();
                     Assert.That(DocumentationIntegration.IsBusy, Is.False);
                     Assert.That(DocumentationIntegration.Failed, Is.True);

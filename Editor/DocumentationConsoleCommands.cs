@@ -10,7 +10,7 @@ namespace Geurts.GameForge.Documentation
         [Command("GeurtsGameForge.Documentation.Status", "Shows current documentation and package update status in the Unity Editor."), Preserve]
         internal static string ReadStatus()
         {
-            return "Geurts Game Forge Documentation\nDocumentation: " + DocumentationUpdaterController.StatusMessage +
+            return DocumentationPackageConstants.DisplayName + "\nDocumentation: " + DocumentationUpdaterController.StatusMessage +
                    "\nPackage: " + PackageSelfUpdater.instance.StatusMessage;
         }
     }
