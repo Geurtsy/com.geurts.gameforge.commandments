@@ -24,8 +24,22 @@ namespace Geurts.GameForge.Documentation
         }
         /// <summary>Whether the companion is checking or changing documentation, its package, or required tools.</summary>
         public static bool IsBusy => DocumentationUpdaterController.IsBusy || PackageSelfUpdater.instance.IsBusy || DependencyInstallation.IsImporting;
+        /// <summary>Whether this project's Documentation module may start checks, content updates or setup actions.</summary>
+        public static bool ModuleEnabled => DocumentationModule.Enabled;
+        /// <summary>Reason the module preference cannot change until current work finishes.</summary>
+        public static string ModuleToggleUnavailableReason => IsBusy || PackageSelfUpdater.EditorBusy ?
+            "Wait for Documentation and Unity operations to finish and exit Play Mode before changing the module." : ExternalOperationUnavailableReason;
+        /// <summary>Pauses or resumes this project's Documentation tools without uninstalling or deleting content.</summary>
+        /// <param name="enabled">Whether new Documentation work is allowed. Enabling does not start a check.</param>
+        public static void SetModuleEnabled(bool enabled)
+        {
+            if (enabled == ModuleEnabled) return;
+            string reason = ModuleToggleUnavailableReason;
+            if (reason != null) throw new InvalidOperationException(reason);
+            DocumentationModule.SetEnabled(enabled);
+        }
         /// <summary>Current documentation action outcome or progress description.</summary>
-        public static string StatusMessage => DocumentationUpdaterController.StatusMessage;
+        public static string StatusMessage => !ModuleEnabled ? "Documentation module is off; package and installed guidance are retained." : DocumentationUpdaterController.StatusMessage;
         /// <summary>Last observed installed content version; Unknown is not an integrity assertion.</summary>
         public static string InstalledVersion => DocumentationUpdaterController.Status.InstalledVersion;
         /// <summary>Version returned by the last content check, or an explicit unknown/unavailable label.</summary>
@@ -35,7 +49,7 @@ namespace Geurts.GameForge.Documentation
         /// <summary>Whether the last content operation failed.</summary>
         public static bool Failed => DocumentationUpdaterController.Status.Failed;
         /// <summary>Actionable explanation while a content operation cannot start, otherwise null.</summary>
-        public static string ActionUnavailableReason => ExternalOperationUnavailableReason ?? (IsBusy ? "Wait for the Documentation operation to finish." :
+        public static string ActionUnavailableReason => !ModuleEnabled ? "Enable the Documentation module to check or update its content." : ExternalOperationUnavailableReason ?? (IsBusy ? "Wait for the Documentation operation to finish." :
             !DocumentationDependencies.RequiredToolsAvailable ? "Install the required Odin Inspector and Quantum Console tools first." :
             EditorUtility.scriptCompilationFailed ? "Fix Unity script errors before updating documentation." :
             PackageSelfUpdater.EditorBusy ? "Exit Play Mode and wait for Unity compilation or asset imports to finish." : null);
@@ -46,8 +60,8 @@ namespace Geurts.GameForge.Documentation
         /// <summary>Raised for content, package and required-tool state changes. Callers must unsubscribe when closed.</summary>
         public static event Action Changed
         {
-            add { DocumentationUpdaterController.Changed += value; PackageSelfUpdater.Changed += value; DependencyInstallation.Changed += value; }
-            remove { DocumentationUpdaterController.Changed -= value; PackageSelfUpdater.Changed -= value; DependencyInstallation.Changed -= value; }
+            add { DocumentationUpdaterController.Changed += value; PackageSelfUpdater.Changed += value; DependencyInstallation.Changed += value; DocumentationModule.Changed += value; }
+            remove { DocumentationUpdaterController.Changed -= value; PackageSelfUpdater.Changed -= value; DependencyInstallation.Changed -= value; DocumentationModule.Changed -= value; }
         }
 
         /// <summary>Checks content metadata through the existing controller without opening another window or replacing files.</summary>

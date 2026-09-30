@@ -23,9 +23,9 @@ namespace Geurts.GameForge.Documentation
         internal static System.Func<System.Threading.Tasks.Task> OpenCheckForTests;
 
         // Modal windows and package operations must start after the current Odin/IMGUI draw has finished.
-        internal static void DeferAction(System.Action action)
+        internal static void DeferAction(System.Action action, bool requiresEnabledModule = true)
         {
-            EditorApplication.delayCall += () => action();
+            EditorApplication.delayCall += () => { if (!requiresEnabledModule || DocumentationIntegration.ModuleEnabled) action(); };
         }
 
         internal static void ShowAfterCheck()
@@ -37,7 +37,7 @@ namespace Geurts.GameForge.Documentation
 
         private async void CheckOnOpen()
         {
-            if (this == null) return;
+            if (this == null || !DocumentationIntegration.ModuleEnabled) return;
             if (PackageSelfUpdater.instance.IsInstalling || DocumentationUpdaterController.IsInstalling)
             {
                 EditorApplication.delayCall += CheckOnOpen;
@@ -77,7 +77,8 @@ namespace Geurts.GameForge.Documentation
         internal Rect DocumentationUpdateButtonRect { get; private set; }
 
         private bool IsBusy => DocumentationUpdaterController.IsBusy || PackageSelfUpdater.instance.IsBusy || PackageSelfUpdater.EditorBusy;
-        private bool CanUpdatePackage => PackageSelfUpdater.instance.CanUpdate;
+        private bool ActionsBlocked => IsBusy || !DocumentationIntegration.ModuleEnabled;
+        private bool CanUpdatePackage => DocumentationIntegration.ModuleEnabled && PackageSelfUpdater.instance.CanUpdate;
 
         protected override void OnEnable()
         {
@@ -92,6 +93,8 @@ namespace Geurts.GameForge.Documentation
             PackageSelfUpdater.Changed += Repaint;
             DependencyInstallation.Changed -= Repaint;
             DependencyInstallation.Changed += Repaint;
+            DocumentationModule.Changed -= Repaint;
+            DocumentationModule.Changed += Repaint;
             EditorApplication.update -= RepaintWhileBusy;
             EditorApplication.update += RepaintWhileBusy;
         }
@@ -101,6 +104,7 @@ namespace Geurts.GameForge.Documentation
             DocumentationUpdaterController.Changed -= Repaint;
             PackageSelfUpdater.Changed -= Repaint;
             DependencyInstallation.Changed -= Repaint;
+            DocumentationModule.Changed -= Repaint;
             EditorApplication.update -= RepaintWhileBusy;
             EditorApplication.delayCall -= CheckOnOpen;
             OnBeginGUI -= DrawCanvas;
@@ -141,6 +145,18 @@ namespace Geurts.GameForge.Documentation
                 GUILayout.Label("GEURTS  /  GAME FORGE", _eyebrowStyle);
                 GUILayout.Label("DOCUMENTATION", _titleStyle);
                 GUILayout.Label("Installed versions and the latest from Git, in one place.", _bodyStyle);
+                string blocked = DocumentationIntegration.ModuleToggleUnavailableReason;
+                bool current = DocumentationIntegration.ModuleEnabled;
+                bool next;
+                using (new EditorGUI.DisabledScope(blocked != null))
+                    next = EditorGUILayout.ToggleLeft(new GUIContent("Module enabled", "Pause Documentation tools for this project without removing its package or content."), current);
+                if (next != current) DeferAction(() =>
+                {
+                    try { DocumentationIntegration.SetModuleEnabled(next); }
+                    catch (System.Exception error) { if (this != null) ShowNotification(new GUIContent(error.Message)); }
+                }, false);
+                if (blocked != null) GUILayout.Label(blocked, _bodyStyle);
+                else if (!current) GUILayout.Label("Off · package and installed guidance retained. Enable the module to use its tools.", _bodyStyle);
             }
             GUILayout.Space(12f);
         }
@@ -150,12 +166,12 @@ namespace Geurts.GameForge.Documentation
         {
             EnsureStyles();
             GUILayout.Label("Refresh the package and documentation versions from Git.", _bodyStyle);
-            GUILayout.Label("Both sources are checked automatically whenever this window opens.", _bodyStyle);
+            GUILayout.Label("While the module is enabled, both sources are checked when this window opens.", _bodyStyle);
             GUILayout.Space(6f);
         }
 
         [BoxGroup("Check for updates", order: -10)]
-        [Button("Check for updates", ButtonSizes.Large), PropertyOrder(1), DisableIf(nameof(IsBusy))]
+        [Button("Check for updates", ButtonSizes.Large), PropertyOrder(1), DisableIf(nameof(ActionsBlocked))]
         private async void CheckForUpdates()
         {
             await DocumentationUpdateChecks.CheckAllAsync();
@@ -168,7 +184,7 @@ namespace Geurts.GameForge.Documentation
                 DocumentationUpdaterController.IsInstalling,
                 "Checks the official documentation repository on main.",
                 "Replaces the shared documentation and three Copilot instruction files after confirmation.",
-                DocumentationPackageConstants.UpdateActionLabel, !IsBusy,
+                DocumentationPackageConstants.UpdateActionLabel, !ActionsBlocked,
                 DocumentationUpdaterController.ConfirmAndUpdate);
         }
 
@@ -313,7 +329,7 @@ namespace Geurts.GameForge.Documentation
             string message = DependencyInstallation.Message(tool);
             if (!string.IsNullOrEmpty(message)) GUILayout.Label(message, _bodyStyle);
             GUILayout.Space(6f);
-            using (new EditorGUI.DisabledScope(DependencyInstallation.IsBusy))
+            using (new EditorGUI.DisabledScope(DependencyInstallation.IsBusy || !DocumentationIntegration.ModuleEnabled))
             {
                 if (GUILayout.Button("Download / import owned copy in My Assets", _theme.Button, GUILayout.Height(30f)))
                     DeferAction(() => { DependencyInstallation.OpenOwnedAssets(tool); Repaint(); });
@@ -340,7 +356,7 @@ namespace Geurts.GameForge.Documentation
         }
 
         [BoxGroup("Project setup"), ShowIf(nameof(HasBuildForge)), PropertyOrder(1)]
-        [Button("Open Build Forge", ButtonSizes.Large), DisableIf(nameof(IsBusy))]
+        [Button("Open Build Forge", ButtonSizes.Large), DisableIf(nameof(ActionsBlocked))]
         private void OpenBuildForge()
         {
             DeferAction(() => EditorApplication.ExecuteMenuItem("Tools/Geurts Game Forge/Build Forge"));
@@ -362,7 +378,7 @@ namespace Geurts.GameForge.Documentation
         }
 
         [BoxGroup("Codex guide"), HideIf(nameof(HasBuildForge)), PropertyOrder(1)]
-        [Button(CodexGuideInstaller.ActionLabel, ButtonSizes.Large), DisableIf(nameof(IsBusy))]
+        [Button(CodexGuideInstaller.ActionLabel, ButtonSizes.Large), DisableIf(nameof(ActionsBlocked))]
         private void InstallCodexGuide()
         {
             DeferAction(CodexGuideInstaller.ChooseAndInstall);
@@ -380,7 +396,7 @@ namespace Geurts.GameForge.Documentation
         }
 
         [BoxGroup("Git ignore rules"), HideIf(nameof(HasBuildForge)), PropertyOrder(1)]
-        [Button(GitIgnoreInstaller.ActionLabel, ButtonSizes.Medium), DisableIf(nameof(IsBusy))]
+        [Button(GitIgnoreInstaller.ActionLabel, ButtonSizes.Medium), DisableIf(nameof(ActionsBlocked))]
         private void InstallGitIgnore()
         {
             DeferAction(GitIgnoreInstaller.ConfirmAndInstall);

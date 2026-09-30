@@ -30,7 +30,7 @@ namespace Geurts.GameForge.Documentation
 
         internal static Task CheckAllAsync()
         {
-            if (PackageSelfUpdater.instance.IsInstalling || DocumentationUpdaterController.IsInstalling)
+            if (!DocumentationIntegration.ModuleEnabled || PackageSelfUpdater.instance.IsInstalling || DocumentationUpdaterController.IsInstalling)
                 return Task.CompletedTask;
             return Coordinator.CheckAsync();
         }

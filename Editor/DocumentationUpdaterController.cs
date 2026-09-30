@@ -30,7 +30,7 @@ namespace Geurts.GameForge.Documentation
 
         internal static async Task CheckForUpdatesAsync(bool showWindowWhenAvailable)
         {
-            if (IsBusy || PackageSelfUpdater.instance.IsInstalling || DocumentationIntegration.ExternalOperationUnavailableReason != null)
+            if (!DocumentationIntegration.ModuleEnabled || IsBusy || PackageSelfUpdater.instance.IsInstalling || DocumentationIntegration.ExternalOperationUnavailableReason != null)
             {
                 return;
             }
@@ -83,7 +83,7 @@ namespace Geurts.GameForge.Documentation
 
         internal static async Task UpdateAutomaticallyAsync(Func<bool> stillAuthorized)
         {
-            if (!stillAuthorized() || !CanStartUpdate()) return;
+            if (!DocumentationIntegration.ModuleEnabled || !stillAuthorized() || !CanStartUpdate()) return;
             await CheckForUpdatesAsync(false);
             if (!stillAuthorized() || Status.Failed || Availability != DocumentationAvailability.UpdateAvailable) return;
             await ApplyUpdateAsync(stillAuthorized);
@@ -183,7 +183,7 @@ namespace Geurts.GameForge.Documentation
 
         private static bool CanStartUpdate()
         {
-            string reason = DocumentationIntegration.ExternalOperationUnavailableReason ?? (!DocumentationDependencies.RequiredToolsAvailable ? "Odin Inspector and Quantum Console are required."
+            string reason = !DocumentationIntegration.ModuleEnabled ? "Enable the Documentation module first." : DocumentationIntegration.ExternalOperationUnavailableReason ?? (!DocumentationDependencies.RequiredToolsAvailable ? "Odin Inspector and Quantum Console are required."
                 : IsBusy || PackageSelfUpdater.instance.IsBusy ? "Another documentation or package operation is still running."
                 : EditorUtility.scriptCompilationFailed ? "Unity has script compilation errors."
                 : PackageSelfUpdater.EditorBusy ? "Unity is compiling, importing assets, or in Play mode." : null);

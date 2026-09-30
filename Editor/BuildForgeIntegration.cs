@@ -69,6 +69,8 @@ namespace Geurts.GameForge.Documentation
 
         private static void EnsureReady()
         {
+            if (!DocumentationIntegration.ModuleEnabled)
+                throw new InvalidOperationException("Enable the Documentation module before using its setup tools.");
             if (!DocumentationDependencies.RequiredToolsAvailable)
                 throw new InvalidOperationException("Odin Inspector and Quantum Console are required before project setup.");
             if (IsBusy)

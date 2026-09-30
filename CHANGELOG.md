@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.12.0 - 2026-10-01
+
+- Add visible module enable/disable checkboxes, retaining installed packages and saved settings.
+- Block module changes during active work and preserve independent Documentation integration.
+
 ## 0.11.0
 
 - Target Unity 6000.6.3f1 for the standalone Documentation Companion package.
