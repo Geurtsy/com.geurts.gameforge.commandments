@@ -1,5 +1,6 @@
 // IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -38,7 +39,9 @@ namespace Geurts.GameForge.Documentation.Tests
             var original = DocumentationUpdaterController.Service;
             var transport = new CountingTransport();
             int confirmations = 0;
-            DocumentationUpdaterController.Service = new DocumentationUpdateService("C:/Forge/ModuleTest", transport);
+            string root = Path.Combine(Path.GetTempPath(), "GeurtsDocumentationModule-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(root);
+            DocumentationUpdaterController.Service = new DocumentationUpdateService(root, transport);
             DocumentationUpdaterController.ConfirmForTests = () => { confirmations++; return true; };
             try
             {
@@ -48,9 +51,15 @@ namespace Geurts.GameForge.Documentation.Tests
                 LogAssert.Expect(LogType.Warning, "[Geurts Documentation] Documentation update could not start: Enable the Documentation module first. Try Update again when Unity is ready.");
                 DocumentationIntegration.UpdateDocumentation();
                 Assert.That(confirmations + transport.Calls, Is.Zero);
-                Assert.Throws<InvalidOperationException>(() => BuildForgeIntegration.InstallGitIgnore("C:/Forge/ModuleTest"));
+                Assert.Throws<InvalidOperationException>(() => BuildForgeIntegration.InstallGitIgnore(root));
+                Assert.That(Directory.GetFileSystemEntries(root), Is.Empty);
             }
-            finally { DocumentationUpdaterController.Service = original; DocumentationUpdaterController.ConfirmForTests = null; }
+            finally
+            {
+                DocumentationUpdaterController.Service = original; DocumentationUpdaterController.ConfirmForTests = null;
+                Assert.That(Path.GetFullPath(root).StartsWith(Path.GetFullPath(Path.GetTempPath()), StringComparison.OrdinalIgnoreCase), Is.True);
+                Directory.Delete(root, true);
+            }
         }
         [Test] public void ConflictingWorkBlocksPreferenceChange()
         {
