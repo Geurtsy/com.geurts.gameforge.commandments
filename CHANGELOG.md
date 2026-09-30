@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.2
+
+- Support the documentation-owned FMOD ignore template 1.0.1 alongside the original 1.0.0 template, each with its exact version, line count and SHA-256.
+- Preserve existing project ignore files and reject unsupported versions, modified payloads and self-declared replacement hashes.
+
 ## 0.10.1
 
 - Remove remote package/documentation checks and automatic dashboard popups at Unity startup.

@@ -401,7 +401,7 @@ namespace Geurts.GameForge.Documentation.Tests
                 "GeurtsDocumentationCompanionContract.json");
             File.WriteAllText(
                 contractPath,
-                File.ReadAllText(contractPath).Replace(
+                File.ReadAllText(contractPath).Replace("\r\n", "\n").Replace(
                     "{\n  \"schemaVersion\"",
                     "{\n  \"contractVersion\": \"1.0.0\",\n  \"schemaVersion\""));
 

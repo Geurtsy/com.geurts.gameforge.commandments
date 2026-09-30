@@ -12,7 +12,7 @@ In Unity, open **Window > Package Manager**, choose **Install package from git U
 https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#main
 ```
 
-Package version 0.10.1 targets **Unity 6000.3 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
+Package version 0.10.2 targets **Unity 6000.3 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
 
 Select **Geurts Game Forge Documentation** in Unity Package Manager to see **Required external dependencies**, with separate **Required** labels for Odin Inspector and Quantum Console. The package description also includes these labels before the scripts compile. These are separately imported assets, so the native resolver's Dependencies list remains reserved for Unity package dependencies.
 
@@ -50,7 +50,7 @@ Checks never acquire an installation archive, run an installer, or modify projec
 
 After installing the documentation, use the **Git ignore rules** step in **Tools > Geurts Game Forge > Build Forge**. The Documentation window opens that setup window when available. When God is absent or predates the setup window, use **Install Geurts .gitignore** inside the Documentation window. The duplicate top-level installation menus have been removed.
 
-The tool reads the approved fenced payload from `GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsGitIgnoreTechnique.md` and checks its version against `GeurtsTechniqueManifest.md`, plus its markers, encoding, line count, and checksum. No template is bundled with this Unity package or downloaded by this action. If the installed documentation is missing or invalid, installation stops before changing `.gitignore`; run the documentation Update first.
+The tool reads the approved fenced payload from `GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsGitIgnoreTechnique.md` and checks its version against `GeurtsTechniqueManifest.md`, plus its markers, encoding, line count, and checksum. Version 0.10.2 accepts both the original template 1.0.0 and FMOD template 1.0.1, each with its own pinned fingerprint. Update an older companion before provisioning template 1.0.1. No template is bundled with this Unity package or downloaded by this action. If the installed documentation is missing or invalid, installation stops before changing `.gitignore`; run the documentation Update first.
 
 The confirmation names the full project-root destination. Cancel is focused initially; Cancel, Enter, Escape, and closing the dialog leave the file untouched. Choose **Install** to create a missing file. An existing approved file with LF, CRLF or CR newlines counts as installed and is left unchanged, including its bytes and timestamp. Only newlines are normalized for comparison: other text, whitespace, ordering, BOM and terminal-newline differences are preserved and reported for review. A file created while confirmation is open is also preserved. There is no replacement, merge, or Git tracking change.
 
@@ -107,7 +107,7 @@ These methods never update documentation, run scripts, create the folder structu
 
 ## Optional Game Forge God interface
 
-God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.10.1 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
+God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.10.2 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
 
 ## Shared Editor appearance
 

@@ -167,10 +167,10 @@ namespace Geurts.GameForge.Documentation.Tests
             using (SHA256 sha256 = SHA256.Create())
             {
                 Assert.That(BitConverter.ToString(sha256.ComputeHash(installed)).Replace("-", "").ToLowerInvariant(),
-                    Is.EqualTo("7223a9449718942d3a5cad00cf4d4e0dee9c89eb64951541fa4ebfb803acb45b"));
+                    Is.EqualTo("4d9408d141d128225e02615c7e72031d53153f5dfcc9427305a6c651689008d4"));
             }
             string payload = _utf8.GetString(installed);
-            Assert.That(payload.Count(character => character == '\n'), Is.EqualTo(376));
+            Assert.That(payload.Count(character => character == '\n'), Is.EqualTo(404));
             Assert.That(payload, Does.Not.Contain("\r").And.Not.Contain("GEURTS-GITIGNORE-BEGIN").And.Not.Contain("```"));
             Assert.That(installed.Take(3), Is.Not.EqualTo(new byte[] { 0xef, 0xbb, 0xbf }));
             Assert.That(File.ReadAllText(sentinel), Is.EqualTo("user content"));
@@ -185,11 +185,58 @@ namespace Geurts.GameForge.Documentation.Tests
             Assert.That(File.GetLastWriteTimeUtc(_target), Is.EqualTo(timestamp));
         }
 
+        [TestCase(false)]
+        [TestCase(true)]
+        public void LegacyTemplateStillInstallsOrMatchesAnExistingOriginal(bool existing)
+        {
+            CopyDocumentationFixture();
+            byte[] legacy = UseLegacyDocumentationFixture();
+            Assert.That(ComputeHash(legacy),
+                Is.EqualTo("7223a9449718942d3a5cad00cf4d4e0dee9c89eb64951541fa4ebfb803acb45b"));
+            byte[] expected = existing ? _utf8.GetBytes(_utf8.GetString(legacy).Replace("\n", "\r\n")) : legacy;
+            if (existing)
+            {
+                File.WriteAllBytes(_target, expected);
+                File.SetLastWriteTimeUtc(_target, new DateTime(2024, 1, 2, 3, 4, 6, DateTimeKind.Utc));
+            }
+            DateTime timestamp = existing ? File.GetLastWriteTimeUtc(_target) : default;
+
+            Assert.That(GitIgnoreInstaller.InstallWithConfirmation(_projectRoot, _ =>
+            {
+                Assert.That(existing, Is.False, "Matching legacy text needs no confirmation.");
+                return true;
+            }), Is.True);
+
+            Assert.That(File.ReadAllBytes(_target), Is.EqualTo(expected));
+            if (existing) Assert.That(File.GetLastWriteTimeUtc(_target), Is.EqualTo(timestamp));
+            Assert.That(BuildForgeIntegration.IsGitIgnoreInstalled(_projectRoot), Is.True);
+        }
+
+        [Test]
+        public void UpdatingDocumentationDoesNotReplaceAnExistingLegacyIgnoreFile()
+        {
+            CopyDocumentationFixture();
+            byte[] legacy = _utf8.GetBytes(string.Join("\n",
+                _utf8.GetString(BuildForgeIntegration.LoadGitIgnore(_projectRoot)).Split('\n').Take(376)) + "\n");
+            File.WriteAllBytes(_target, legacy);
+            File.SetLastWriteTimeUtc(_target, new DateTime(2024, 1, 2, 3, 4, 6, DateTimeKind.Utc));
+            DateTime timestamp = File.GetLastWriteTimeUtc(_target);
+
+            Assert.That(BuildForgeIntegration.IsGitIgnoreInstalled(_projectRoot), Is.False);
+            Assert.That(GitIgnoreInstaller.InstallWithConfirmation(_projectRoot,
+                _ => throw new Exception("A changed template must preserve the existing file without confirmation.")), Is.False);
+            Assert.That(File.ReadAllBytes(_target), Is.EqualTo(legacy));
+            Assert.That(File.GetLastWriteTimeUtc(_target), Is.EqualTo(timestamp));
+        }
+
         [TestCase("payload")]
         [TestCase("duplicate-marker")]
         [TestCase("fence")]
         [TestCase("manifest-version")]
         [TestCase("technique-version")]
+        [TestCase("unsupported-version")]
+        [TestCase("legacy-version-with-current-payload")]
+        [TestCase("self-declared-hash")]
         [TestCase("invalid-utf8")]
         public void InvalidDocumentationPreservesExistingTargetBeforeReplacement(string fault)
         {
@@ -209,11 +256,28 @@ namespace Geurts.GameForge.Documentation.Tests
                     break;
                 case "manifest-version":
                     File.WriteAllText(_manifestPath, File.ReadAllText(_manifestPath).Replace(
-                        "`GeurtsTechniques/GeurtsGitIgnoreTechnique.md` | 1.0.0",
+                        "`GeurtsTechniques/GeurtsGitIgnoreTechnique.md` | 1.0.1",
                         "`GeurtsTechniques/GeurtsGitIgnoreTechnique.md` | 9.0.0"), _utf8);
                     break;
                 case "technique-version":
-                    document = document.Replace("**Version:** 1.0.0", "**Version:** 9.0.0");
+                    document = document.Replace("**Version:** 1.0.1", "**Version:** 9.0.0");
+                    break;
+                case "unsupported-version":
+                case "legacy-version-with-current-payload":
+                    string version = fault == "unsupported-version" ? "1.0.2" : "1.0.0";
+                    document = document.Replace("1.0.1", version);
+                    File.WriteAllText(_manifestPath, File.ReadAllText(_manifestPath).Replace(
+                        "`GeurtsTechniques/GeurtsGitIgnoreTechnique.md` | 1.0.1",
+                        "`GeurtsTechniques/GeurtsGitIgnoreTechnique.md` | " + version), _utf8);
+                    if (fault == "legacy-version-with-current-payload")
+                        document = document.Replace(GitIgnoreTemplateReader.TemplateSha256,
+                            "7223a9449718942d3a5cad00cf4d4e0dee9c89eb64951541fa4ebfb803acb45b");
+                    break;
+                case "self-declared-hash":
+                    byte[] altered = _utf8.GetBytes(_utf8.GetString(BuildForgeIntegration.LoadGitIgnore(_projectRoot))
+                        .Replace(".geurts/", "changed-rule/"));
+                    document = document.Replace(".geurts/", "changed-rule/")
+                        .Replace(GitIgnoreTemplateReader.TemplateSha256, ComputeHash(altered));
                     break;
             }
             File.WriteAllText(_documentPath, document, _utf8);
@@ -281,6 +345,30 @@ namespace Geurts.GameForge.Documentation.Tests
         {
             File.WriteAllText(_target, "# custom rules\r\nkeep-private/\r\n", _utf8);
             File.SetLastWriteTimeUtc(_target, new DateTime(2024, 1, 2, 3, 4, 6, DateTimeKind.Utc));
+        }
+
+        private byte[] UseLegacyDocumentationFixture()
+        {
+            string current = _utf8.GetString(BuildForgeIntegration.LoadGitIgnore(_projectRoot));
+            string legacy = string.Join("\n", current.Split('\n').Take(376)) + "\n";
+            string document = File.ReadAllText(_documentPath).Replace("\r\n", "\n")
+                .Replace(current, legacy).Replace("1.0.1", "1.0.0")
+                .Replace(GitIgnoreTemplateReader.TemplateSha256,
+                    "7223a9449718942d3a5cad00cf4d4e0dee9c89eb64951541fa4ebfb803acb45b")
+                .Replace("`404`", "`376`")
+                .Replace("1af49cb7916167b1dad80b762ba5e545fc727f609970a268069027f997658216",
+                    "c8412a38435bccd89f1fefb855da3c24680612c27609341e64dcbaf99c0f88ab");
+            File.WriteAllText(_documentPath, document, _utf8);
+            File.WriteAllText(_manifestPath, File.ReadAllText(_manifestPath).Replace(
+                "`GeurtsTechniques/GeurtsGitIgnoreTechnique.md` | 1.0.1",
+                "`GeurtsTechniques/GeurtsGitIgnoreTechnique.md` | 1.0.0"), _utf8);
+            return _utf8.GetBytes(legacy);
+        }
+
+        private static string ComputeHash(byte[] bytes)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+                return BitConverter.ToString(sha256.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();
         }
 
         private void CopyDocumentationFixture()

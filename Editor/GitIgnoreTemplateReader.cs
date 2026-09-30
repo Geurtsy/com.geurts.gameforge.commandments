@@ -12,8 +12,10 @@ namespace Geurts.GameForge.Documentation
     internal static class GitIgnoreTemplateReader
     {
         internal const string TechniquePath = "GeurtsTechniques/GeurtsGitIgnoreTechnique.md";
-        internal const string TemplateVersion = "1.0.0";
-        internal const string TemplateSha256 = "7223a9449718942d3a5cad00cf4d4e0dee9c89eb64951541fa4ebfb803acb45b";
+        internal const string TemplateVersion = "1.0.1";
+        internal const string TemplateSha256 = "4d9408d141d128225e02615c7e72031d53153f5dfcc9427305a6c651689008d4";
+        private const string LegacyTemplateVersion = "1.0.0";
+        private const string LegacyTemplateSha256 = "7223a9449718942d3a5cad00cf4d4e0dee9c89eb64951541fa4ebfb803acb45b";
         private const string BeginMarker = "<!-- GEURTS-GITIGNORE-BEGIN";
         private const string EndMarker = "<!-- GEURTS-GITIGNORE-END -->";
         private const string RegistryBegin = "<!-- GEURTS-PACKAGE-FILES:BEGIN -->";
@@ -50,15 +52,33 @@ namespace Geurts.GameForge.Documentation
             string registry = ExtractRegion(manifest, RegistryBegin, RegistryEnd);
             MatchCollection entries = Regex.Matches(registry,
                 @"(?m)^\|[ \t]*`" + Regex.Escape(TechniquePath) + @"`[ \t]*\|[ \t]*([^|\n]+)\|");
-            if (versions.Count != 1 || versions[0].Groups[1].Value.Trim() != TemplateVersion ||
-                entries.Count != 1 || entries[0].Groups[1].Value.Trim() != TemplateVersion)
+            if (versions.Count != 1 || entries.Count != 1 ||
+                versions[0].Groups[1].Value.Trim() != entries[0].Groups[1].Value.Trim())
             {
-                throw InvalidTemplate("The technique and manifest must select template version " + TemplateVersion + ".");
+                throw InvalidTemplate("The technique and manifest must select the same approved template version.");
+            }
+
+            string version = versions[0].Groups[1].Value.Trim();
+            string approvedHash;
+            int approvedLineCount;
+            switch (version)
+            {
+                case TemplateVersion:
+                    approvedHash = TemplateSha256;
+                    approvedLineCount = 404;
+                    break;
+                case LegacyTemplateVersion:
+                    approvedHash = LegacyTemplateSha256;
+                    approvedLineCount = 376;
+                    break;
+                default:
+                    throw InvalidTemplate("Unsupported template version " + version +
+                        ". Update the Documentation Companion package before provisioning a newer template.");
             }
 
             string region = ExtractRegion(document, BeginMarker, EndMarker);
-            string header = " version=\"" + TemplateVersion + "\" target=\".gitignore\" sha256=\"" +
-                            TemplateSha256 + "\" -->\n```gitignore\n";
+            string header = " version=\"" + version + "\" target=\".gitignore\" sha256=\"" +
+                            approvedHash + "\" -->\n```gitignore\n";
             if (!region.StartsWith(header, StringComparison.Ordinal) ||
                 !region.EndsWith("```\n", StringComparison.Ordinal))
             {
@@ -76,7 +96,7 @@ namespace Geurts.GameForge.Documentation
             if (payload.StartsWith("\uFEFF", StringComparison.Ordinal) ||
                 !payload.EndsWith("\n", StringComparison.Ordinal) ||
                 payload.EndsWith("\n\n", StringComparison.Ordinal) ||
-                payload.Count(character => character == '\n') != 376 || hash != TemplateSha256)
+                payload.Count(character => character == '\n') != approvedLineCount || hash != approvedHash)
             {
                 throw InvalidTemplate("The payload does not match the approved line count, newlines, or SHA-256.");
             }
