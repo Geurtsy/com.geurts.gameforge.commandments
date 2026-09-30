@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.12.1 - 2026-10-01
+
+- Correct the God module-switch minimum to the published 0.25.0 release, retaining module behavior.
+
 ## 0.12.0 - 2026-10-01
 
 - Add visible module enable/disable checkboxes, retaining installed packages and saved settings.

@@ -125,4 +125,4 @@ Documentation commit lookup uses bounded Git HTTP reference discovery from the a
 
 ## Module switch
 
-Use Module enabled in this window, or Game Forge God 0.24.0 or later, to pause Documentation checks, content updates and setup tools for the current project. The package and installed documentation are retained. The preference is stored in per-project Editor preferences without a God dependency. Enabling does not start work; use an explicit action or reopen the window. Active operations must finish before changing the preference.
+Use Module enabled in this window, or Game Forge God 0.25.0 or later, to pause Documentation checks, content updates and setup tools for the current project. The package and installed documentation are retained. The preference is stored in per-project Editor preferences without a God dependency. Enabling does not start work; use an explicit action or reopen the window. Active operations must finish before changing the preference.
