@@ -125,4 +125,8 @@ Documentation commit lookup uses bounded Git HTTP reference discovery from the a
 
 ## Module switch
 
+### Embedded tools inside God
+
+Documentation **0.13.0** exposes `DocumentationIntegration.CreateEmbeddedWindow(Action<string> navigate)`. It returns an unshown, independently owned Editor window for God **0.26.0** or later to draw inside its panel. The embedded view hides package/content update cards and check actions, starts no opening update check, and uses the callback to navigate to Build Forge inside God. The host destroys only this view when leaving it. Standalone Documentation windows keep their existing tools and update controls; the companion has no God dependency.
+
 Use Module enabled in this window, or Game Forge God 0.25.0 or later, to pause Documentation checks, content updates and setup tools for the current project. The package and installed documentation are retained. The preference is stored in per-project Editor preferences without a God dependency. Enabling does not start work; use an explicit action or reopen the window. Active operations must finish before changing the preference.
