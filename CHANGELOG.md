@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0
+
+- Target Unity 6000.6.3f1 for the standalone Documentation Companion package.
+
 ## 0.10.3
 
 - Resolve the documentation main commit through bounded Git HTTP reference discovery, avoiding anonymous GitHub REST API rate limits.
