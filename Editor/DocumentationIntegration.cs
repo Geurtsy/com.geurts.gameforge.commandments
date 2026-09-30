@@ -85,6 +85,17 @@ namespace Geurts.GameForge.Documentation
         /// <summary>Opens the existing companion window without introducing another updater.</summary>
         public static void OpenWindow() => DocumentationUpdaterWindow.ShowWindow();
 
+        /// <summary>Creates an owned, hidden tools view for God. Opening it starts no checks and displays no update controls.</summary>
+        /// <param name="navigate">Host navigation for another installed brick; null retains standalone setup navigation.</param>
+        /// <returns>An unshown Editor window owned and disposed by the host. Existing standalone windows are unaffected.</returns>
+        public static EditorWindow CreateEmbeddedWindow(Action<string> navigate)
+        {
+            var window = UnityEngine.ScriptableObject.CreateInstance<DocumentationUpdaterWindow>();
+            window.EmbeddedInGod = true;
+            window.EmbeddedNavigation = navigate;
+            return window;
+        }
+
         /// <summary>Registers an optional host operation guard without a dependency on that host package.</summary>
         /// <param name="unavailableReason">Returns an actionable reason while a conflicting operation is active, otherwise null.</param>
         /// <returns>A token that the host must dispose when its integration is unloaded.</returns>

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.0 - 2026-10-01
+
+- Expose an independent embedded tools view for God without update controls or opening checks; preserve the standalone dashboard.
+
 ## 0.12.1 - 2026-10-01
 
 - Correct the God module-switch minimum to the published 0.25.0 release, retaining module behavior.

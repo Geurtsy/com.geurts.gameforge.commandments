@@ -21,6 +21,9 @@ namespace Geurts.GameForge.Documentation
     {
         private static bool _openingAfterCheck;
         internal static System.Func<System.Threading.Tasks.Task> OpenCheckForTests;
+        internal bool EmbeddedInGod;
+        internal System.Action<string> EmbeddedNavigation;
+        private bool ShowUpdateFeatures => !EmbeddedInGod;
 
         // Modal windows and package operations must start after the current Odin/IMGUI draw has finished.
         internal static void DeferAction(System.Action action, bool requiresEnabledModule = true)
@@ -144,7 +147,7 @@ namespace Geurts.GameForge.Documentation
                     EditorGUI.DrawRect(new Rect(header.rect.x, header.rect.y, 4f, header.rect.height), DocumentationEditorTheme.Green);
                 GUILayout.Label("GEURTS  /  GAME FORGE", _eyebrowStyle);
                 GUILayout.Label("DOCUMENTATION", _titleStyle);
-                GUILayout.Label("Installed versions and the latest from Git, in one place.", _bodyStyle);
+                GUILayout.Label(EmbeddedInGod ? "Documentation tools for this project." : "Installed versions and the latest from Git, in one place.", _bodyStyle);
                 string blocked = DocumentationIntegration.ModuleToggleUnavailableReason;
                 bool current = DocumentationIntegration.ModuleEnabled;
                 bool next;
@@ -161,7 +164,7 @@ namespace Geurts.GameForge.Documentation
             GUILayout.Space(12f);
         }
 
-        [BoxGroup("Check for updates", order: -10), OnInspectorGUI, PropertyOrder(0)]
+        [BoxGroup("Check for updates", order: -10, VisibleIf = nameof(ShowUpdateFeatures)), OnInspectorGUI, PropertyOrder(0)]
         private void DrawUpdateCheckDescription()
         {
             EnsureStyles();
@@ -170,7 +173,7 @@ namespace Geurts.GameForge.Documentation
             GUILayout.Space(6f);
         }
 
-        [BoxGroup("Check for updates", order: -10)]
+        [BoxGroup("Check for updates", order: -10, VisibleIf = nameof(ShowUpdateFeatures))]
         [Button("Check for updates", ButtonSizes.Large), PropertyOrder(1), DisableIf(nameof(ActionsBlocked))]
         private async void CheckForUpdates()
         {
@@ -180,6 +183,7 @@ namespace Geurts.GameForge.Documentation
         [OnInspectorGUI, PropertyOrder(0)]
         private void DrawDocumentationCard()
         {
+            if (EmbeddedInGod) return;
             DrawUpdateCard("Documentation update", DocumentationUpdaterController.Status,
                 DocumentationUpdaterController.IsInstalling,
                 "Checks the official documentation repository on main.",
@@ -191,6 +195,7 @@ namespace Geurts.GameForge.Documentation
         [OnInspectorGUI, PropertyOrder(10)]
         private void DrawPackageCard()
         {
+            if (EmbeddedInGod) return;
             PackageSelfUpdater updater = PackageSelfUpdater.instance;
             DrawUpdateCard("Package update", updater.Status, updater.IsInstalling,
                 updater.Installed?.source == UnityEditor.PackageManager.PackageSource.Git
@@ -359,7 +364,11 @@ namespace Geurts.GameForge.Documentation
         [Button("Open Build Forge", ButtonSizes.Large), DisableIf(nameof(ActionsBlocked))]
         private void OpenBuildForge()
         {
-            DeferAction(() => EditorApplication.ExecuteMenuItem("Tools/Geurts Game Forge/Build Forge"));
+            DeferAction(() =>
+            {
+                if (EmbeddedInGod && EmbeddedNavigation != null) EmbeddedNavigation("com.geurts.gameforge.god");
+                else EditorApplication.ExecuteMenuItem("Tools/Geurts Game Forge/Build Forge");
+            });
         }
 
         [OnInspectorGUI, PropertyOrder(25), HideIf(nameof(HasBuildForge))]
