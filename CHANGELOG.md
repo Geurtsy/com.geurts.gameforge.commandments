@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.0
+
+- Target Unity 6000.6.3f1 for the standalone Documentation Companion package.
+
 ## 0.10.2
 
 - Support the documentation-owned FMOD ignore template 1.0.1 alongside the original 1.0.0 template, each with its exact version, line count and SHA-256.
