@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.3
+
+- Resolve the documentation main commit through bounded Git HTTP reference discovery, avoiding anonymous GitHub REST API rate limits.
+- Validate the service, packet framing and unique main reference before downloading the exact commit; preserve confirmation and failure safeguards.
+
 ## 0.10.2
 
 - Support the documentation-owned FMOD ignore template 1.0.1 alongside the original 1.0.0 template, each with its exact version, line count and SHA-256.
