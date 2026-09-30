@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
+using System.Globalization;
 
 namespace Geurts.GameForge.Documentation
 {
@@ -26,31 +26,32 @@ namespace Geurts.GameForge.Documentation
 
     internal sealed class GitHubDocumentationTransport : IDocumentationTransport, IDisposable
     {
-        private readonly HttpClient client;
+        private readonly HttpClient _client;
 
-        internal GitHubDocumentationTransport()
+        internal GitHubDocumentationTransport(HttpMessageHandler handler = null)
         {
-            client = new HttpClient
-            {
-                Timeout = TimeSpan.FromSeconds(90)
-            };
-            client.DefaultRequestHeaders.UserAgent.ParseAdd(
-                DocumentationPackageConstants.PackageName + "/0.1.1");
-            client.DefaultRequestHeaders.Accept.ParseAdd("application/vnd.github+json");
-            client.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue { NoCache = true };
+            _client = handler == null ? new HttpClient() : new HttpClient(handler);
+            _client.Timeout = TimeSpan.FromSeconds(90);
+            _client.DefaultRequestHeaders.UserAgent.ParseAdd(
+                DocumentationPackageConstants.PackageName);
+            _client.DefaultRequestHeaders.Accept.ParseAdd("application/x-git-upload-pack-advertisement");
+            _client.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue { NoCache = true };
         }
 
+        /// <summary>Resolves main through bounded Git reference discovery without the GitHub REST API.</summary>
         public async Task<string> ResolveHeadCommitAsync(CancellationToken cancellationToken)
         {
             using (HttpRequestMessage request = new HttpRequestMessage(
                        HttpMethod.Get,
-                       DocumentationPackageConstants.HeadCommitApiUrl))
-            using (HttpResponseMessage response = await client.SendAsync(
+                       DocumentationPackageConstants.HeadCommitAdvertisementUrl))
+            using (HttpResponseMessage response = await _client.SendAsync(
                        request,
                        HttpCompletionOption.ResponseHeadersRead,
                        cancellationToken))
             {
                 response.EnsureSuccessStatusCode();
+                if (response.Content.Headers.ContentType?.MediaType != "application/x-git-upload-pack-advertisement")
+                    throw new InvalidDataException("The documentation source did not return a Git reference advertisement.");
                 byte[] bytes = await ReadBoundedAsync(
                     response,
                     DocumentationPackageConstants.MetadataLimitBytes,
@@ -92,7 +93,7 @@ namespace Geurts.GameForge.Documentation
                 Uri.EscapeDataString(commit));
 
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, archiveUrl))
-            using (HttpResponseMessage response = await client.SendAsync(
+            using (HttpResponseMessage response = await _client.SendAsync(
                        request,
                        HttpCompletionOption.ResponseHeadersRead,
                        cancellationToken))
@@ -136,7 +137,7 @@ namespace Geurts.GameForge.Documentation
 
         public void Dispose()
         {
-            client.Dispose();
+            _client.Dispose();
         }
 
         internal static string ParseHeadCommitMetadata(byte[] bytes)
@@ -146,18 +147,55 @@ namespace Geurts.GameForge.Documentation
                 throw new ArgumentNullException(nameof(bytes));
             }
 
-            ReferenceResponse payload = JsonUtility.FromJson<ReferenceResponse>(
-                Encoding.UTF8.GetString(bytes));
-            string sha = payload != null && payload.@object != null
-                ? payload.@object.sha
-                : null;
-            if (string.IsNullOrWhiteSpace(sha) ||
-                !Regex.IsMatch(sha, "^[0-9a-fA-F]{40}$", RegexOptions.CultureInvariant))
+            if (bytes.Length > DocumentationPackageConstants.MetadataLimitBytes)
+                throw new InvalidDataException("The Git advertisement exceeds the metadata limit.");
+            int offset = 0;
+            if (ReadGitPacket(bytes, ref offset)?.TrimEnd('\n') != "# service=git-upload-pack" ||
+                ReadGitPacket(bytes, ref offset) != null)
+                throw new InvalidDataException("The Git advertisement has an invalid service header.");
+            string commit = null;
+            bool firstReference = true;
+            while (true)
             {
-                throw new InvalidDataException("GitHub did not return a valid main commit identity.");
+                string packet = ReadGitPacket(bytes, ref offset);
+                if (packet == null) break;
+                if (!packet.EndsWith("\n", StringComparison.Ordinal))
+                    throw new InvalidDataException("The Git reference record is incomplete.");
+                string record = packet.Substring(0, packet.Length - 1);
+                int capabilities = record.IndexOf('\0');
+                if (firstReference != (capabilities >= 0))
+                    throw new InvalidDataException("The Git reference capabilities are misplaced.");
+                firstReference = false;
+                if (capabilities >= 0) record = record.Substring(0, capabilities);
+                if (record.Length < 42 || record[40] != ' ' ||
+                    !Regex.IsMatch(record.Substring(0, 40), "^[0-9a-fA-F]{40}$", RegexOptions.CultureInvariant) ||
+                    record.Substring(41).IndexOfAny(new[] { ' ', '\r', '\n', '\0' }) >= 0)
+                    throw new InvalidDataException("The Git reference record is invalid.");
+                if (record.Substring(41) == "refs/heads/" + DocumentationPackageConstants.RepositoryBranch)
+                {
+                    if (commit != null || record.Substring(0, 40) == new string('0', 40))
+                        throw new InvalidDataException("The documentation main reference is ambiguous or invalid.");
+                    commit = record.Substring(0, 40).ToLowerInvariant();
+                }
             }
+            if (offset != bytes.Length || commit == null)
+                throw new InvalidDataException("The Git advertisement has no unique main commit or contains trailing data.");
+            return commit;
+        }
 
-            return sha.ToLowerInvariant();
+        private static string ReadGitPacket(byte[] bytes, ref int offset)
+        {
+            if (bytes.Length - offset < 4 ||
+                !int.TryParse(Encoding.ASCII.GetString(bytes, offset, 4), NumberStyles.AllowHexSpecifier,
+                    CultureInfo.InvariantCulture, out int length))
+                throw new InvalidDataException("The Git packet length is invalid.");
+            offset += 4;
+            if (length == 0) return null;
+            if (length < 5 || length > 65520 || length - 4 > bytes.Length - offset)
+                throw new InvalidDataException("The Git packet is truncated or invalid.");
+            string packet = new UTF8Encoding(false, true).GetString(bytes, offset, length - 4);
+            offset += length - 4;
+            return packet;
         }
 
         internal static async Task<byte[]> ReadBoundedAsync(
@@ -302,16 +340,5 @@ namespace Geurts.GameForge.Documentation
             return unixMode == unixSymbolicLink;
         }
 
-        [Serializable]
-        private sealed class ReferenceResponse
-        {
-            public ReferenceObject @object;
-        }
-
-        [Serializable]
-        private sealed class ReferenceObject
-        {
-            public string sha;
-        }
     }
 }
