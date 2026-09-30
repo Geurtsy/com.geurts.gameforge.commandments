@@ -38,13 +38,18 @@ namespace Geurts.GameForge.Documentation.Tests
                     window.Repaint();
                     yield return null;
                     yield return null;
+                    LogAssert.NoUnexpectedReceived();
+                    Assert.That(window.titleContent.text, Is.EqualTo("Geurts Documentation Companion"),
+                        "Unity's normal enable lifecycle must initialize the current title.");
                     Rect restoredPosition = window.position;
                     Vector2 restoredMinimum = window.minSize;
                     Vector2 restoredMaximum = window.maxSize;
-                    var lifecycleFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
-                    windowType.GetMethod("OnDisable", lifecycleFlags).Invoke(window, null);
+                    // Exercise the title refresh directly; manually replaying Odin lifecycle callbacks
+                    // on a shown window tears down editor state while Unity still owns its GUI.
                     window.titleContent = new GUIContent("Geurts Documentation");
-                    windowType.GetMethod("OnEnable", lifecycleFlags).Invoke(window, null);
+                    windowType.GetMethod("RefreshTitle", System.Reflection.BindingFlags.Instance |
+                        System.Reflection.BindingFlags.NonPublic).Invoke(window, null);
+                    window.Repaint();
                     yield return null;
                     Assert.That(window.titleContent.text, Is.EqualTo("Geurts Documentation Companion"));
                     Assert.That(window.position, Is.EqualTo(restoredPosition), "Restoring the title must preserve window geometry.");
