@@ -20,7 +20,12 @@ namespace Geurts.GameForge.Documentation.Tests
         private const BindingFlags Instance = BindingFlags.Instance | BindingFlags.NonPublic;
 
         [UnityTest]
-        public IEnumerator DashboardClickAcceptInstallsOnceAndThenReportsCurrent()
+        public IEnumerator DashboardClickAcceptInstallsOnceAndThenReportsCurrent() => ConfirmDashboardUpdate(false);
+
+        [UnityTest]
+        public IEnumerator EmbeddedDashboardClickAcceptInstallsOnceAndThenReportsCurrent() => ConfirmDashboardUpdate(true);
+
+        private IEnumerator ConfirmDashboardUpdate(bool embedded)
         {
             string root = Path.Combine(Path.GetTempPath(), "GeurtsConfirmation-" + Guid.NewGuid().ToString("N"));
             string project = Path.Combine(root, "Project");
@@ -53,7 +58,8 @@ namespace Geurts.GameForge.Documentation.Tests
                         if (confirmation != null) confirmation.Close();
                     }).StartingIn(500); // Fail the assertions rather than leave a modal open if the click is broken.
                 };
-                window = (EditorWindow)ScriptableObject.CreateInstance(windowType);
+                window = embedded ? DocumentationIntegration.CreateEmbeddedWindow(_ => {})
+                    : (EditorWindow)ScriptableObject.CreateInstance(windowType);
                 window.ShowUtility();
                 window.position = new Rect(100, 100, 650, 900);
                 double deadline = EditorApplication.timeSinceStartup + 5;

@@ -23,7 +23,6 @@ namespace Geurts.GameForge.Documentation
         internal static System.Func<System.Threading.Tasks.Task> OpenCheckForTests;
         internal bool EmbeddedInGod;
         internal System.Action<string> EmbeddedNavigation;
-        private bool ShowUpdateFeatures => !EmbeddedInGod;
 
         // Modal windows and package operations must start after the current Odin/IMGUI draw has finished.
         internal static void DeferAction(System.Action action, bool requiresEnabledModule = true)
@@ -85,6 +84,7 @@ namespace Geurts.GameForge.Documentation
         private DocumentationEditorTheme _theme;
         private bool _dependencyCheckWasBusy;
         internal Rect DocumentationUpdateButtonRect { get; private set; }
+        internal Rect PackageUpdateButtonRect { get; private set; }
 
         private bool IsBusy => DocumentationUpdaterController.IsBusy || PackageSelfUpdater.instance.IsBusy || PackageSelfUpdater.EditorBusy;
         private bool ActionsBlocked => IsBusy || !DocumentationIntegration.ModuleEnabled;
@@ -155,7 +155,7 @@ namespace Geurts.GameForge.Documentation
                     EditorGUI.DrawRect(new Rect(header.rect.x, header.rect.y, 4f, header.rect.height), DocumentationEditorTheme.Green);
                 GUILayout.Label("GEURTS  /  GAME FORGE", _eyebrowStyle);
                 GUILayout.Label("DOCUMENTATION COMPANION", _titleStyle);
-                GUILayout.Label(EmbeddedInGod ? "Documentation tools for this project." : "Installed versions and the latest from Git, in one place.", _bodyStyle);
+                GUILayout.Label("Installed versions and the latest from Git, in one place.", _bodyStyle);
                 string blocked = DocumentationIntegration.ModuleToggleUnavailableReason;
                 bool current = DocumentationIntegration.ModuleEnabled;
                 bool next;
@@ -172,16 +172,18 @@ namespace Geurts.GameForge.Documentation
             GUILayout.Space(12f);
         }
 
-        [BoxGroup("Check for updates", order: -10, VisibleIf = nameof(ShowUpdateFeatures)), OnInspectorGUI, PropertyOrder(0)]
+        [BoxGroup("Check for updates", order: -10), OnInspectorGUI, PropertyOrder(0)]
         private void DrawUpdateCheckDescription()
         {
             EnsureStyles();
             GUILayout.Label("Refresh the package and documentation versions from Git.", _bodyStyle);
-            GUILayout.Label("While the module is enabled, both sources are checked when this window opens.", _bodyStyle);
+            GUILayout.Label(EmbeddedInGod
+                ? "Opening this panel starts no check. Use Check for updates to refresh both sources."
+                : "While the module is enabled, both sources are checked when this window opens.", _bodyStyle);
             GUILayout.Space(6f);
         }
 
-        [BoxGroup("Check for updates", order: -10, VisibleIf = nameof(ShowUpdateFeatures))]
+        [BoxGroup("Check for updates", order: -10)]
         [Button("Check for updates", ButtonSizes.Large), PropertyOrder(1), DisableIf(nameof(ActionsBlocked))]
         private async void CheckForUpdates()
         {
@@ -191,7 +193,6 @@ namespace Geurts.GameForge.Documentation
         [OnInspectorGUI, PropertyOrder(0)]
         private void DrawDocumentationCard()
         {
-            if (EmbeddedInGod) return;
             DrawUpdateCard("Documentation update", DocumentationUpdaterController.Status,
                 DocumentationUpdaterController.IsInstalling,
                 "Checks the official documentation repository on main.",
@@ -203,7 +204,6 @@ namespace Geurts.GameForge.Documentation
         [OnInspectorGUI, PropertyOrder(10)]
         private void DrawPackageCard()
         {
-            if (EmbeddedInGod) return;
             PackageSelfUpdater updater = PackageSelfUpdater.instance;
             DrawUpdateCard("Package update", updater.Status, updater.IsInstalling,
                 updater.Installed?.source == UnityEditor.PackageManager.PackageSource.Git
@@ -265,6 +265,8 @@ namespace Geurts.GameForge.Documentation
                 if (GUILayout.Button(actionLabel, _theme.Button, GUILayout.Height(34f))) DeferAction(action);
                 if (Event.current.type == EventType.Repaint && actionLabel == DocumentationPackageConstants.UpdateActionLabel)
                     DocumentationUpdateButtonRect = GUILayoutUtility.GetLastRect();
+                if (Event.current.type == EventType.Repaint && actionLabel == PackageSelfUpdater.ActionLabel)
+                    PackageUpdateButtonRect = GUILayoutUtility.GetLastRect();
             }
             EditorGUILayout.EndVertical();
             GUILayout.Space(10f);
