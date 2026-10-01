@@ -47,11 +47,13 @@ $productionAssembly = Get-Content -LiteralPath (Join-Path $repositoryRoot "Edito
 if (@($productionAssembly.includePlatforms).Count -ne 1 -or $productionAssembly.includePlatforms[0] -ne "Editor") {
     throw "The production assembly must be Editor-only."
 }
-if (@($productionAssembly.references).Count -ne 1 -or $productionAssembly.references[0] -ne "QFSW.QC") {
-    throw "The production assembly must reference the required Quantum Console assembly."
+if (@($productionAssembly.references).Count -ne 0 -or @($productionAssembly.precompiledReferences).Count -ne 0) {
+    throw "The passive adapter must not acquire God or vendor assembly references."
 }
-if (-not $productionAssembly.overrideReferences -or $productionAssembly.precompiledReferences -notcontains "Sirenix.OdinInspector.Editor.dll") {
-    throw "The production assembly must reference the required Odin Inspector editor library."
+foreach ($source in Get-ChildItem -LiteralPath (Join-Path $repositoryRoot 'Editor') -File -Filter '*.cs') {
+    if ([IO.File]::ReadAllText($source.FullName) -match '\[(?:MenuItem|InitializeOnLoad|InitializeOnLoadMethod|Command)(?:\(|\])') {
+        throw "The passive adapter must not register menus, commands or automatic work."
+    }
 }
 if (@($productionAssembly.defineConstraints).Count -ne 1 -or $productionAssembly.defineConstraints[0] -ne "UNITY_EDITOR_WIN") {
     throw "The production assembly must be limited to Windows Editor hosts."
@@ -98,13 +100,6 @@ if ([string]::IsNullOrWhiteSpace($PackageReference) -or
 if (-not (Test-Path -LiteralPath $UnityPath -PathType Leaf)) {
     throw "Unity Editor was not found at: $UnityPath"
 }
-if ([string]::IsNullOrWhiteSpace($OdinPath) -or [string]::IsNullOrWhiteSpace($QuantumConsolePath)) {
-    throw "Provide locally licensed OdinPath and QuantumConsolePath for Unity integration validation."
-}
-if (-not (Test-Path -LiteralPath (Join-Path $QuantumConsolePath 'Source') -PathType Container)) {
-    throw "QuantumConsolePath must point to the installed Quantum Console asset folder."
-}
-
 if (Test-Path -LiteralPath $ProjectPath) {
     Remove-Item -LiteralPath $ProjectPath -Recurse -Force
 }
@@ -115,9 +110,9 @@ New-Item -ItemType Directory -Path (Join-Path $ProjectPath "ProjectSettings") -F
 $manifest = [ordered]@{
     dependencies = [ordered]@{
         "com.geurts.gameforge.documentation" = $PackageReference
-        "com.unity.test-framework" = "1.6.0"
+        "com.unity.test-framework" = "1.8.0"
         "com.unity.inputsystem" = "1.20.0"
-        "com.unity.ugui" = "2.0.0"
+        "com.unity.ugui" = "2.6.0"
         "com.unity.modules.audio" = "1.0.0"
         "com.unity.modules.animation" = "1.0.0"
         "com.unity.modules.screencapture" = "1.0.0"
@@ -133,9 +128,11 @@ $manifest = [ordered]@{
 }
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $ProjectPath "Packages\manifest.json") -Encoding UTF8
 
-$quantumDestination = Join-Path $ProjectPath "Assets\Plugins\QFSW\Quantum Console"
-New-Item -ItemType Directory -Path $quantumDestination -Force | Out-Null
-Copy-Item -LiteralPath (Join-Path $QuantumConsolePath 'Source') -Destination $quantumDestination -Recurse
+$quantumDestination = Join-Path $ProjectPath "Assets/Plugins/QFSW/Quantum Console"
+if (-not [string]::IsNullOrWhiteSpace($QuantumConsolePath)) {
+    New-Item -ItemType Directory -Path $quantumDestination -Force | Out-Null
+    Copy-Item -LiteralPath (Join-Path $QuantumConsolePath 'Source') -Destination $quantumDestination -Recurse
+}
 
 # Use a locally licensed Odin installation only in the disposable test project.
 if (-not [string]::IsNullOrWhiteSpace($OdinPath)) {

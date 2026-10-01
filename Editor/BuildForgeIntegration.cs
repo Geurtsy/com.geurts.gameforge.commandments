@@ -1,80 +1,36 @@
 // IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
-
-using System;
-using System.IO;
-using System.Linq;
-using UnityEditor;
-
 namespace Geurts.GameForge.Documentation
 {
-    /// <summary>Shares documentation-owned setup validation and installers with Build Forge without depending on God.</summary>
+    /// <summary>Compatibility forwarding for the separate, explicitly selected God setup helpers.</summary>
     public static class BuildForgeIntegration
     {
-        /// <summary>Whether active work, compilation errors or missing required tools prevent setup writes.</summary>
-        public static bool IsBusy => DocumentationUpdaterController.IsBusy || PackageSelfUpdater.instance.IsBusy ||
-                                     PackageSelfUpdater.EditorBusy || DependencyInstallation.IsBusy || EditorUtility.scriptCompilationFailed ||
-                                     !DocumentationDependencies.RequiredToolsAvailable || DocumentationIntegration.ExternalOperationUnavailableReason != null;
-
-        /// <summary>Loads and validates the approved Git ignore bytes from installed documentation; writes nothing.</summary>
-        /// <param name="projectRoot">The absolute Unity project root.</param>
-        /// <returns>The exact approved UTF-8 payload.</returns>
-        public static byte[] LoadGitIgnore(string projectRoot) => GitIgnoreTemplateReader.Load(projectRoot);
-
-        /// <summary>Loads the registered Codex guide and renders its exact project documentation entry point; writes nothing.</summary>
-        /// <param name="projectRoot">The absolute Unity project root.</param>
-        /// <returns>The rendered UTF-8 guide payload.</returns>
-        public static byte[] LoadCodexGuide(string projectRoot) => CodexGuideInstaller.Load(projectRoot);
-
-        /// <summary>Checks a user-selected guide against the installed template after validating its destination.</summary>
-        /// <param name="projectRoot">The absolute Unity project root supplying the documentation.</param>
-        /// <param name="target">The user-selected absolute AGENTS.md path, in an existing folder.</param>
-        /// <returns>True only for matching bytes; false for no selection, a missing guide or different contents.</returns>
-        public static bool IsCodexGuideInstalled(string projectRoot, string target)
-        {
-            if (string.IsNullOrWhiteSpace(target)) return false;
-            target = CodexGuideInstaller.ValidateDestination(projectRoot, target);
-            byte[] payload = LoadCodexGuide(projectRoot);
-            return File.Exists(target) && File.ReadAllBytes(target).SequenceEqual(payload);
-        }
-
-        /// <summary>Checks the Git ignore file's approved text after newline normalization, without modifying it.</summary>
-        /// <param name="projectRoot">The absolute Unity project root.</param>
-        /// <returns>True only for an existing regular UTF-8 file whose text matches after CRLF or CR newlines become LF.</returns>
-        public static bool IsGitIgnoreInstalled(string projectRoot)
-        {
-            GitIgnoreInstaller.ValidateDestination(projectRoot);
-            byte[] payload = LoadGitIgnore(projectRoot);
-            string target = Path.Combine(projectRoot, ".gitignore");
-            return File.Exists(target) && GitIgnoreTemplateReader.MatchesApprovedPayload(File.ReadAllBytes(target), payload);
-        }
-
-        /// <summary>Installs only the selected Codex guide after the existing cancel-default confirmation.</summary>
-        /// <param name="projectRoot">The absolute Unity project root supplying the documentation.</param>
-        /// <param name="target">The AGENTS.md path explicitly selected through the caller's folder picker.</param>
-        /// <returns>True after verified installation; false when no path is selected or the user cancels.</returns>
-        public static bool InstallCodexGuide(string projectRoot, string target)
-        {
-            EnsureReady();
-            return CodexGuideInstaller.Install(projectRoot, target, CodexGuideConfirmation.Confirm);
-        }
-
-        /// <summary>Creates a missing Git ignore file after confirmation, preserving every existing file unchanged.</summary>
-        /// <param name="projectRoot">The absolute Unity project root.</param>
-        /// <returns>True for a verified creation or equivalent existing text; false for cancellation or differing content.</returns>
-        public static bool InstallGitIgnore(string projectRoot)
-        {
-            EnsureReady();
-            return GitIgnoreInstaller.InstallWithConfirmation(projectRoot, GitIgnoreInstallConfirmation.Confirm);
-        }
-
-        private static void EnsureReady()
-        {
-            if (!DocumentationIntegration.ModuleEnabled)
-                throw new InvalidOperationException("Enable the Commandments Companion module before using its setup tools.");
-            if (!DocumentationDependencies.RequiredToolsAvailable)
-                throw new InvalidOperationException("Odin Inspector and Quantum Console are required before project setup.");
-            if (IsBusy)
-                throw new InvalidOperationException("Wait for documentation, package and Unity operations to finish, then retry setup.");
-        }
+        /// <summary>Reports whether the God setup owner is unavailable or busy.</summary>
+        public static bool IsBusy => GodForwarder.Content == null || DocumentationIntegration.ActionUnavailableReason != null;
+        /// <summary>Delegates LoadGitIgnore to God with the same validation and side effects.</summary>
+        /// <param name="projectRoot">The selected Unity project root.</param>
+        /// <returns>The existing God helper result.</returns>
+        public static byte[] LoadGitIgnore(string projectRoot) => (byte[])GodForwarder.Invoke(true, "LoadGitIgnore", projectRoot);
+        /// <summary>Delegates LoadCodexGuide to God with the same validation and side effects.</summary>
+        /// <param name="projectRoot">The selected Unity project root.</param>
+        /// <returns>The existing God helper result.</returns>
+        public static byte[] LoadCodexGuide(string projectRoot) => (byte[])GodForwarder.Invoke(true, "LoadCodexGuide", projectRoot);
+        /// <summary>Delegates IsCodexGuideInstalled to God with the same validation and side effects.</summary>
+        /// <param name="projectRoot">The selected Unity project root.</param>
+        /// <param name="target">The explicitly selected guide path.</param>
+        /// <returns>The existing God helper result.</returns>
+        public static bool IsCodexGuideInstalled(string projectRoot, string target) => (bool)GodForwarder.Invoke(true, "IsCodexGuideInstalled", projectRoot, target);
+        /// <summary>Delegates IsGitIgnoreInstalled to God with the same validation and side effects.</summary>
+        /// <param name="projectRoot">The selected Unity project root.</param>
+        /// <returns>The existing God helper result.</returns>
+        public static bool IsGitIgnoreInstalled(string projectRoot) => (bool)GodForwarder.Invoke(true, "IsGitIgnoreInstalled", projectRoot);
+        /// <summary>Delegates InstallCodexGuide to God with the same validation and side effects.</summary>
+        /// <param name="projectRoot">The selected Unity project root.</param>
+        /// <param name="target">The explicitly selected guide path.</param>
+        /// <returns>The existing God helper result.</returns>
+        public static bool InstallCodexGuide(string projectRoot, string target) => (bool)GodForwarder.Invoke(true, "InstallCodexGuide", projectRoot, target);
+        /// <summary>Delegates InstallGitIgnore to God with the same validation and side effects.</summary>
+        /// <param name="projectRoot">The selected Unity project root.</param>
+        /// <returns>The existing God helper result.</returns>
+        public static bool InstallGitIgnore(string projectRoot) => (bool)GodForwarder.Invoke(true, "InstallGitIgnore", projectRoot);
     }
 }

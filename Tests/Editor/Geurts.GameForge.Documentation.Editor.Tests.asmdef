@@ -2,8 +2,7 @@
   "name": "Geurts.GameForge.Documentation.Editor.Tests",
   "rootNamespace": "Geurts.GameForge.Documentation.Tests",
   "references": [
-    "Geurts.GameForge.Documentation.Editor",
-    "QFSW.QC"
+    "Geurts.GameForge.Documentation.Editor"
   ],
   "includePlatforms": [
     "Editor"
