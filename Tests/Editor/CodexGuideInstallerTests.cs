@@ -190,7 +190,7 @@ namespace Geurts.GameForge.Documentation.Tests
                             root.SendEvent(key);
                         }
                     }
-                    if (action == "close") root.schedule.Execute(window.Close);
+                    root.schedule.Execute(window.Close);
                 };
                 Assert.That(CodexGuideInstaller.Install(_project, _destination, CodexGuideConfirmation.Confirm),
                     Is.EqualTo(action == "install"));
