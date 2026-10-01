@@ -99,6 +99,11 @@ namespace Geurts.GameForge.Documentation.Tests
                 if (!string.IsNullOrEmpty(evidence))
                 {
                     Directory.CreateDirectory(evidence);
+                    // GrabPixels uses a top-origin render target; PNG encoding expects bottom-origin texture rows.
+                    var upright = new Color32[colors.Length];
+                    for (int y = 0; y < render.height; y++)
+                        System.Array.Copy(colors, y * render.width, upright, (render.height - 1 - y) * render.width, render.width);
+                    pixels.SetPixels32(upright); pixels.Apply();
                     File.WriteAllBytes(Path.Combine(evidence, name + ".png"), pixels.EncodeToPNG());
                 }
             }
