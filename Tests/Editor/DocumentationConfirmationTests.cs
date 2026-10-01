@@ -128,7 +128,7 @@ namespace Geurts.GameForge.Documentation.Tests
                             window.rootVisualElement.SendEvent(key);
                         }
                     }
-                    if (window != null) window.Close();
+                    window.rootVisualElement.schedule.Execute(window.Close);
                 };
                 Assert.That(DocumentationUpdateConfirmation.Confirm(), Is.False);
             }

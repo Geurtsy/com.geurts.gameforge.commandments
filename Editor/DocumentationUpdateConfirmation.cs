@@ -47,8 +47,8 @@ namespace Geurts.GameForge.Documentation
             buttons.style.justifyContent = Justify.FlexEnd;
             buttons.style.marginTop = 12f;
             buttons.style.flexShrink = 0f;
-            Button cancel = new Button(Close) { text = "Cancel", name = "cancel-update" };
-            Button accept = new Button(() => { _confirmed = true; Close(); })
+            Button cancel = new Button(() => root.schedule.Execute(Close)) { text = "Cancel", name = "cancel-update" };
+            Button accept = new Button(() => { _confirmed = true; root.schedule.Execute(Close); })
             {
                 text = DocumentationPackageConstants.UpdateActionLabel, name = "confirm-update"
             };
@@ -64,7 +64,7 @@ namespace Geurts.GameForge.Documentation
                 if (evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter || evt.keyCode == KeyCode.Escape)
                 {
                     evt.StopImmediatePropagation();
-                    Close();
+                    root.schedule.Execute(Close);
                 }
             }, TrickleDown.TrickleDown);
             cancel.schedule.Execute(cancel.Focus);

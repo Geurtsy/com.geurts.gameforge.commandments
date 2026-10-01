@@ -12,6 +12,7 @@ namespace Geurts.GameForge.Documentation.Tests
 {
     internal sealed class DocumentationIntegrationTests
     {
+        /// <summary>Legacy automatic consent declines without work; both public APIs share status and preferences.</summary>
         [Test] public void LegacyAutomaticConsentCannotMutateCommandments()
         {
             Assert.Throws<InvalidOperationException>(() => DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true));

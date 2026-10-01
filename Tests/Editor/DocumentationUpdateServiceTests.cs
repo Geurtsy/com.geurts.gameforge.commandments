@@ -44,6 +44,7 @@ namespace Geurts.GameForge.Documentation.Tests
             DocumentationFileOperations.DeleteDirectoryBestEffort(temporaryRoot);
         }
 
+        /// <summary>Renamed acquisition preserves legacy notes and the user-owned guide byte-for-byte.</summary>
         [Test]
         public async Task RenamePreservesLegacyContentAndUserGuide()
         {
@@ -62,6 +63,7 @@ namespace Geurts.GameForge.Documentation.Tests
             Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.True);
         }
 
+        /// <summary>Acquires the selected real immutable archive, validates routing and preserves unlisted user content.</summary>
         [Test]
         public async Task ExactPublishedGitCandidateAcquisitionRoutesAiAndPreservesUserContent()
         {
