@@ -14,7 +14,7 @@ In Unity, open **Window > Package Manager**, choose **Install package from git U
 https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#main
 ```
 
-Package version 0.13.1 targets **Unity 6000.6.3f1 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
+Package version 0.13.2 targets **Unity 6000.6.3f1 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
 
 Select **Geurts Game Forge Documentation Companion** in Unity Package Manager to see **Required external dependencies**, with separate **Required** labels for Odin Inspector and Quantum Console. The package description also includes these labels before the scripts compile. These are separately imported assets, so the native resolver's Dependencies list remains reserved for Unity package dependencies.
 
@@ -109,7 +109,7 @@ These methods never update documentation, run scripts, create the folder structu
 
 ## Optional Game Forge God interface
 
-God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.13.1 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
+God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.13.2 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
 
 ## Shared Editor appearance
 
@@ -129,6 +129,6 @@ Documentation commit lookup uses bounded Git HTTP reference discovery from the a
 
 ### Embedded tools inside God
 
-Documentation Companion **0.13.0** exposes `DocumentationIntegration.CreateEmbeddedWindow(Action<string> navigate)`. It returns an unshown, independently owned Editor window for God **0.26.0** or later to draw inside its panel. The embedded view hides package/content update cards and check actions, starts no opening update check, and uses the callback to navigate to Build Forge inside God. The host destroys only this view when leaving it. Standalone Documentation Companion windows keep their existing tools and update controls; the companion has no God dependency.
+Documentation Companion **0.13.2** exposes `DocumentationIntegration.CreateEmbeddedWindow(Action<string> navigate)`. It returns an unshown, independently owned Editor window for God **0.26.0** or later to draw inside its panel. The embedded view shows the full dashboard, including both version/update cards, dependencies, source details and the explicit Check for updates action. Opening the panel starts no check or update. Content updates retain the same cancel-default confirmation; package updates retain their configured Git source and busy/module guards. The callback navigates to Build Forge inside God. The host destroys only this view when leaving it. Standalone Documentation Companion windows keep their existing tools and update controls; the companion has no God dependency.
 
 Use Module enabled in this window, or Game Forge God 0.25.0 or later, to pause Documentation Companion checks, content updates and setup tools for the current project. The package and installed documentation are retained. The preference is stored in per-project Editor preferences without a God dependency. Enabling does not start work; use an explicit action or reopen the window. Active operations must finish before changing the preference.

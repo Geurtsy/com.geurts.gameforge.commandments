@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.13.2 - 2026-10-01
+
+- Restore the full Documentation Companion dashboard inside God, including manual checks and documentation/package version and update cards. Opening the embedded panel remains offline.
+- Retain independent view ownership, module and operation guards, existing update confirmations and standalone opening checks. Add rendered embedded-card and confirmed-update regression coverage.
+
 ## 0.13.1 - 2026-10-01
 
 - Rename the package display, menu, dashboard and module status to Geurts Game Forge Documentation Companion, keeping the documentation content name and update action distinct.

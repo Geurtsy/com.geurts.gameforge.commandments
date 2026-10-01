@@ -6,6 +6,8 @@ Dark dependency cards have green accents and are marked **Installed and ready** 
 
 Open **Tools > Geurts Game Forge > Documentation Companion** in the Unity Editor to view installed and available Git versions or run a confirmed update. A deliberate menu opening checks both the package and documentation while the module is enabled; **Check for updates** refreshes both manually. Restored windows refresh their title without starting a check or changing their layout.
 
+Inside God 0.26.0 or later, Companion 0.13.2 shows the same full dashboard, including checks and both version/update cards. Opening the panel remains offline; actions are explicit and retain the existing confirmations and operation guards. Back to God stays above the scrolling content. Standalone windows remain independent.
+
 The companion package retains its `com.geurts.gameforge.documentation` identity and existing APIs and preferences. Actual documentation remains in `GeurtsGameForgeDocumentation/`; **Update Geurts Game Forge Documentation** continues to update that content and the three managed AI routes.
 
 New Documentation Companion windows target a larger 1000 × 760 Editor-point size, reduced to fit the main Editor area where space permits. The supported 540 × 560 minimum stays in force; a smaller main Editor area may not fully contain the window. They remain resizable and dockable. Opening an existing window preserves its size, position and docking layout.
