@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using UnityEditor;
 using UnityEngine;
@@ -55,8 +55,8 @@ namespace Geurts.GameForge.Documentation
                 EditorApplication.delayCall += CheckOnOpen;
         }
 
-        private const string MenuPath = "Tools/Geurts Game Forge/Documentation Companion";
-        private const string WindowTitle = "Geurts Documentation Companion";
+        private const string MenuPath = "Tools/Geurts Game Forge/Commandments Companion";
+        private const string WindowTitle = "Geurts Commandments Companion";
 
         // Restored windows keep their geometry and remain offline while adopting the current title.
         private void RefreshTitle()
@@ -64,6 +64,8 @@ namespace Geurts.GameForge.Documentation
             titleContent = new GUIContent(WindowTitle, EditorGUIUtility.IconContent("TextAsset Icon").image);
         }
 
+        [MenuItem("Tools/Geurts Game Forge/Documentation Companion")]
+        [MenuItem("Tools/Geurts Game Forge/Documentation")]
         [MenuItem(MenuPath)]
         internal static void ShowWindow()
         {
@@ -160,7 +162,7 @@ namespace Geurts.GameForge.Documentation
                 bool current = DocumentationIntegration.ModuleEnabled;
                 bool next;
                 using (new EditorGUI.DisabledScope(blocked != null))
-                    next = EditorGUILayout.ToggleLeft(new GUIContent("Module enabled", "Pause Documentation Companion tools for this project without removing its package or content."), current);
+                    next = EditorGUILayout.ToggleLeft(new GUIContent("Module enabled", "Pause Commandments Companion tools for this project without removing its package or content."), current);
                 if (next != current) DeferAction(() =>
                 {
                     try { DocumentationIntegration.SetModuleEnabled(next); }

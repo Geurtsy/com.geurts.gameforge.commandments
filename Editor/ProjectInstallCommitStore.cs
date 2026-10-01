@@ -30,7 +30,7 @@ namespace Geurts.GameForge.Documentation
                 normalizedRoot = normalizedRoot.ToUpperInvariant();
             }
 
-            key = DocumentationPackageConstants.PackageName + ".last-successful-commit." +
+            key = DocumentationPackageConstants.PackageName + ".commandments.last-successful-commit." +
                   ComputeSha256(normalizedRoot);
         }
 

@@ -66,7 +66,7 @@ if ($batchFiles.Count -ne 0) {
 if (Test-Path -LiteralPath (Join-Path $repositoryRoot "GeurtsTechniques")) {
     throw "The Unity package must not embed the authoritative documentation payload."
 }
-if (Test-Path -LiteralPath (Join-Path $repositoryRoot "GeurtsGameForgeDocumentation")) {
+if (Test-Path -LiteralPath (Join-Path $repositoryRoot "GeurtsGameForgeCommandments")) {
     throw "The Unity package must not embed an installed documentation copy."
 }
 
@@ -92,7 +92,7 @@ if ($StaticOnly) {
 
 if ([string]::IsNullOrWhiteSpace($PackageReference) -or
     $PackageReference -notmatch '^(?:https://|ssh://|git://|git@)[^\s]+\.git(?:\?path=[^#\s]+)?#[^#\s]+$') {
-    throw "Provide an explicit Git PackageReference with a pushed revision, for example https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#<commit>. Local file or embedded packages are not supported."
+    throw "Provide an explicit Git PackageReference with a pushed revision, for example https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#<commit>. Local file or embedded packages are not supported."
 }
 
 if (-not (Test-Path -LiteralPath $UnityPath -PathType Leaf)) {
@@ -160,7 +160,7 @@ if (-not [string]::IsNullOrWhiteSpace($OdinPath)) {
 
 # Use real documentation as an external integration fixture, never as a bundled template.
 if (-not [string]::IsNullOrWhiteSpace($DocumentationPath)) {
-    $fixtureRoot = Join-Path $ProjectPath "GeurtsGameForgeDocumentation"
+    $fixtureRoot = Join-Path $ProjectPath "GeurtsGameForgeCommandments"
     foreach ($relativePath in @("GeurtsTechniqueManifest.md", "AI_READ_FIRST.md", "GeurtsTechniques/GeurtsGitIgnoreTechnique.md", "GeurtsTechniques/GeurtsAgentTechnique.md")) {
         $sourcePath = Join-Path $DocumentationPath $relativePath
         $fixturePath = Join-Path $fixtureRoot $relativePath

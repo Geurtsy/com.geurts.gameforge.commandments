@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -70,7 +70,7 @@ namespace Geurts.GameForge.Documentation
         private static void EnsureReady()
         {
             if (!DocumentationIntegration.ModuleEnabled)
-                throw new InvalidOperationException("Enable the Documentation Companion module before using its setup tools.");
+                throw new InvalidOperationException("Enable the Commandments Companion module before using its setup tools.");
             if (!DocumentationDependencies.RequiredToolsAvailable)
                 throw new InvalidOperationException("Odin Inspector and Quantum Console are required before project setup.");
             if (IsBusy)

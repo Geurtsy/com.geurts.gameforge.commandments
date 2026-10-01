@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.Collections.Generic;
@@ -45,11 +45,61 @@ namespace Geurts.GameForge.Documentation.Tests
         }
 
         [Test]
+        public async Task RenamePreservesLegacyContentAndUserGuide()
+        {
+            string legacy = Path.Combine(projectRoot, "GeurtsGameForgeDocumentation");
+            Directory.CreateDirectory(legacy);
+            string notes = Path.Combine(legacy, "PersonalNotes.md");
+            string guide = Path.Combine(projectRoot, "AGENTS.md");
+            File.WriteAllText(notes, "User notes in the old snapshot");
+            File.WriteAllText(guide, "User guide pointing to the old entry");
+            byte[] originalNotes = File.ReadAllBytes(notes), originalGuide = File.ReadAllBytes(guide);
+            DateTime stamp = File.GetLastWriteTimeUtc(notes);
+            await InstallAsync(service);
+            Assert.That(File.ReadAllBytes(notes), Is.EqualTo(originalNotes));
+            Assert.That(File.GetLastWriteTimeUtc(notes), Is.EqualTo(stamp));
+            Assert.That(File.ReadAllBytes(guide), Is.EqualTo(originalGuide));
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.True);
+        }
+
+        [Test]
+        public async Task ExactPublishedGitCandidateAcquisitionRoutesAiAndPreservesUserContent()
+        {
+            string commit = Environment.GetEnvironmentVariable("GGF_COMMANDMENTS_CANDIDATE");
+            if (string.IsNullOrEmpty(commit)) Assert.Ignore("Set GGF_COMMANDMENTS_CANDIDATE to a pushed exact Git candidate for acquisition validation.");
+            string legacy = Path.Combine(projectRoot, "GeurtsGameForgeDocumentation");
+            Directory.CreateDirectory(legacy);
+            File.WriteAllText(Path.Combine(legacy, "User.md"), "preserve legacy content");
+            Directory.CreateDirectory(Path.Combine(projectRoot, "Docs", "GameDesign"));
+            string design = Path.Combine(projectRoot, "Docs", "GameDesign", "Game.md");
+            File.WriteAllText(design, "preserve design content");
+            File.WriteAllText(Path.Combine(projectRoot, "AGENTS.md"), "preserve user guide");
+            using (var realTransport = new GitHubDocumentationTransport())
+            {
+                var download = await realTransport.DownloadCommitAsync(commit, Path.Combine(temporaryRoot, "RealCandidate"), CancellationToken.None);
+                var contract = DocumentationContractReader.LoadAndValidate(download.CandidateRoot);
+                var prepared = new PreparedDocumentationUpdate(commit, download, contract);
+                service.Apply(prepared);
+                foreach (ManagedAiRoute route in DocumentationPackageConstants.ExpectedManagedAiRoutes)
+                {
+                    string target = DocumentationFileOperations.GetSafeFullPath(projectRoot, route.Destination);
+                    Assert.That(File.ReadAllText(target), Does.Contain("GeurtsGameForgeCommandments/AI_READ_FIRST.md"));
+                    Assert.That(DocumentationFileOperations.FilesEqual(target, DocumentationFileOperations.GetSafeFullPath(download.CandidateRoot, route.Source)), Is.True);
+                }
+                Assert.That(DocumentationContractReader.LoadAndValidate(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")).PackageVersion, Is.EqualTo(contract.PackageVersion));
+                Assert.That(ReadInstalledCommit(), Is.EqualTo(commit));
+                Assert.That(File.ReadAllText(design), Is.EqualTo("preserve design content"));
+                Assert.That(File.ReadAllText(Path.Combine(legacy, "User.md")), Is.EqualTo("preserve legacy content"));
+                Assert.That(File.ReadAllText(Path.Combine(projectRoot, "AGENTS.md")), Is.EqualTo("preserve user guide"));
+            }
+        }
+
+        [Test]
         public async Task BareProjectInstallCreatesDocumentationAndEveryDeclaredRoute()
         {
             await InstallAsync(service);
 
-            string documentation = Path.Combine(projectRoot, "GeurtsGameForgeDocumentation");
+            string documentation = Path.Combine(projectRoot, "GeurtsGameForgeCommandments");
             Assert.That(File.ReadAllText(Path.Combine(documentation, "Guide.md")), Is.EqualTo("new documentation"));
 
             foreach (ManagedAiRoute route in DocumentationPackageConstants.ExpectedManagedAiRoutes)
@@ -68,7 +118,7 @@ namespace Geurts.GameForge.Documentation.Tests
         [Test]
         public async Task ConfirmedUpdateReplacesOnlyDocumentationAndDeclaredAiRoutes()
         {
-            string documentation = Path.Combine(projectRoot, "GeurtsGameForgeDocumentation");
+            string documentation = Path.Combine(projectRoot, "GeurtsGameForgeCommandments");
             Directory.CreateDirectory(documentation);
             File.WriteAllText(Path.Combine(documentation, "obsolete.txt"), "remove me");
             File.WriteAllText(Path.Combine(documentation, "Guide.md"), "old documentation");
@@ -110,13 +160,13 @@ namespace Geurts.GameForge.Documentation.Tests
             await InstallAsync(service);
             Assert.That(File.ReadAllText(guide), Is.EqualTo("user guide"));
             Assert.That(File.Exists(Path.Combine(projectRoot, "AGENT.md")), Is.False);
-            Assert.That(File.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation", "AGENTS.md")), Is.False);
+            Assert.That(File.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments", "AGENTS.md")), Is.False);
         }
 
         [Test]
         public async Task StartupMetadataCheckDoesNotDownloadOrMutateProjectFiles()
         {
-            string documentation = Path.Combine(projectRoot, "GeurtsGameForgeDocumentation");
+            string documentation = Path.Combine(projectRoot, "GeurtsGameForgeCommandments");
             Directory.CreateDirectory(documentation);
             string existing = Path.Combine(documentation, "existing.md");
             File.WriteAllText(existing, "existing docs");
@@ -146,7 +196,7 @@ namespace Geurts.GameForge.Documentation.Tests
             await InstallAsync(service);
             string installedGuide = Path.Combine(
                 projectRoot,
-                "GeurtsGameForgeDocumentation",
+                "GeurtsGameForgeCommandments",
                 "Guide.md");
             string installedAgents = Path.Combine(projectRoot, ".github/copilot-instructions.md");
             File.WriteAllText(installedGuide, "local drift remains uninspected");
@@ -236,9 +286,9 @@ namespace Geurts.GameForge.Documentation.Tests
             string contract = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             File.WriteAllText(contract, File.ReadAllText(contract).Replace(
-                "\"schemaVersion\": \"2.0.0\"",
+                "\"schemaVersion\": \"3.0.0\"",
                 "\"schemaVersion\": \"9.0.0\""));
 
             string existingAgents = Path.Combine(projectRoot, ".github/copilot-instructions.md");
@@ -249,7 +299,7 @@ namespace Geurts.GameForge.Documentation.Tests
 
             Assert.That(exception.Message, Does.Contain("Unsupported documentation contract value for schemaVersion"));
             Assert.That(File.ReadAllText(existingAgents), Is.EqualTo("untouched"));
-            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.False);
             Assert.That(ReadInstalledCommit(), Is.Null);
         }
 
@@ -259,7 +309,7 @@ namespace Geurts.GameForge.Documentation.Tests
             string contract = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             File.WriteAllText(contract, File.ReadAllText(contract).Replace(
                 "\"target\": \".github/copilot-instructions.md\"",
                 "\"target\": \".github/unlisted.md\""));
@@ -271,7 +321,7 @@ namespace Geurts.GameForge.Documentation.Tests
                 await service.PrepareLatestAsync(CancellationToken.None));
 
             Assert.That(File.ReadAllText(existingAgents), Is.EqualTo("still untouched"));
-            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.False);
             Assert.That(ReadInstalledCommit(), Is.Null);
         }
 
@@ -281,14 +331,14 @@ namespace Geurts.GameForge.Documentation.Tests
             string contract = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             File.WriteAllText(contract, File.ReadAllText(contract).Replace(
                 "{ \"path\": \".github/copilot-instructions.md\", \"effect\": \"replace-complete-file\" }",
                 "{ \"path\": \".github/unlisted.md\", \"effect\": \"replace-complete-file\" }"));
 
             Assert.ThrowsAsync<InvalidDataException>(async () =>
                 await service.PrepareLatestAsync(CancellationToken.None));
-            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.False);
         }
 
         [Test]
@@ -297,14 +347,14 @@ namespace Geurts.GameForge.Documentation.Tests
             string contract = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             File.WriteAllText(contract, File.ReadAllText(contract).Replace(
                 "\"packageVersion\": \"0.11.0\"",
                 "\"packageVersion\": \"0.12.0\""));
 
             Assert.ThrowsAsync<InvalidDataException>(async () =>
                 await service.PrepareLatestAsync(CancellationToken.None));
-            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.False);
         }
 
         [Test]
@@ -327,7 +377,7 @@ namespace Geurts.GameForge.Documentation.Tests
             Assert.That(result.Warning, Does.Contain("updated successfully"));
             Assert.That(result.Warning, Does.Contain("may offer the same update again"));
             Assert.That(
-                File.ReadAllText(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation", "Guide.md")),
+                File.ReadAllText(Path.Combine(projectRoot, "GeurtsGameForgeCommandments", "Guide.md")),
                 Is.EqualTo("new documentation"));
             Assert.That(File.ReadAllText(Path.Combine(projectRoot, ".github/copilot-instructions.md")), Is.EqualTo("new route: copilot-instructions.md"));
         }
@@ -350,7 +400,7 @@ namespace Geurts.GameForge.Documentation.Tests
             string contractPath = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             string contract = File.ReadAllText(contractPath)
                 .Replace("\"packageVersion\": \"0.11.0\"", "\"packageVersion\": \"0.12.0\"")
                 .Replace(
@@ -368,7 +418,7 @@ namespace Geurts.GameForge.Documentation.Tests
             await InstallAsync(service);
 
             Assert.That(
-                File.ReadAllText(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation", "Guide.md")),
+                File.ReadAllText(Path.Combine(projectRoot, "GeurtsGameForgeCommandments", "Guide.md")),
                 Is.EqualTo("new documentation"));
         }
 
@@ -378,17 +428,17 @@ namespace Geurts.GameForge.Documentation.Tests
             string contractPath = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             File.WriteAllText(
                 contractPath,
                 File.ReadAllText(contractPath).Replace(
-                    "\"GeurtsTechniques/GeurtsDocumentationCompanionTechnique.md\"",
+                    "\"GeurtsTechniques/GeurtsCommandmentsCompanionTechnique.md\"",
                     "\"Guide.md\""));
 
             await InstallAsync(service);
 
             Assert.That(
-                File.ReadAllText(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation", "Guide.md")),
+                File.ReadAllText(Path.Combine(projectRoot, "GeurtsGameForgeCommandments", "Guide.md")),
                 Is.EqualTo("new documentation"));
         }
 
@@ -398,7 +448,7 @@ namespace Geurts.GameForge.Documentation.Tests
             string contractPath = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             File.WriteAllText(
                 contractPath,
                 File.ReadAllText(contractPath).Replace("\r\n", "\n").Replace(
@@ -413,7 +463,7 @@ namespace Geurts.GameForge.Documentation.Tests
 
             Assert.That(exception.Message, Does.Contain("Unknown contract field"));
             Assert.That(File.ReadAllText(existingAgents), Is.EqualTo("untouched"));
-            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.False);
         }
 
         [Test]
@@ -422,17 +472,17 @@ namespace Geurts.GameForge.Documentation.Tests
             string contractPath = Path.Combine(
                 candidateTemplate,
                 "GeurtsTechniques",
-                "GeurtsDocumentationCompanionContract.json");
+                "GeurtsCommandmentsCompanionContract.json");
             File.WriteAllText(
                 contractPath,
                 File.ReadAllText(contractPath).Replace(
-                    "GeurtsTechniques/GeurtsDocumentationCompanionTechnique.md",
-                    "GeurtsTechniques\\\\GeurtsDocumentationCompanionTechnique.md"));
+                    "GeurtsTechniques/GeurtsCommandmentsCompanionTechnique.md",
+                    "GeurtsTechniques\\\\GeurtsCommandmentsCompanionTechnique.md"));
 
             InvalidDataException exception = Assert.ThrowsAsync<InvalidDataException>(async () =>
                 await service.PrepareLatestAsync(CancellationToken.None));
             Assert.That(exception.Message, Does.Contain("use '/' separators"));
-            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.False);
         }
 
         [Test]
@@ -443,7 +493,7 @@ namespace Geurts.GameForge.Documentation.Tests
             InvalidDataException exception = Assert.ThrowsAsync<InvalidDataException>(async () =>
                 await service.PrepareLatestAsync(CancellationToken.None));
             Assert.That(exception.Message, Does.Contain("Git metadata"));
-            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(projectRoot, "GeurtsGameForgeCommandments")), Is.False);
         }
 
         [Test]
@@ -475,12 +525,12 @@ namespace Geurts.GameForge.Documentation.Tests
             DocumentationUpdaterController.ConfirmForTests = () => throw new Exception("Saved opt-in must not open the manual confirmation.");
             try
             {
-                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true);
+                await DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => true);
                 Assert.That(transport.DownloadCalls, Is.EqualTo(1));
                 Assert.That(ReadInstalledCommit(), Is.EqualTo(Commit('a')));
                 Assert.That(DocumentationIntegration.Failed, Is.False);
                 var before = CaptureManagedFiles(projectRoot);
-                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true);
+                await DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => true);
                 Assert.That(transport.DownloadCalls, Is.EqualTo(1));
                 AssertSnapshotsEqual(before, CaptureManagedFiles(projectRoot));
             }
@@ -493,7 +543,7 @@ namespace Geurts.GameForge.Documentation.Tests
             DocumentationUpdaterController.Service = service;
             try
             {
-                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => false);
+                await DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => false);
                 Assert.That(transport.ResolveCalls, Is.Zero);
                 Assert.That(transport.DownloadCalls, Is.Zero);
                 Assert.That(ReadInstalledCommit(), Is.Null.Or.Empty);
@@ -512,7 +562,7 @@ namespace Geurts.GameForge.Documentation.Tests
             DocumentationUpdaterController.Service = service;
             try
             {
-                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => authorized);
+                await DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => authorized);
                 AssertSnapshotsEqual(before, CaptureManagedFiles(projectRoot));
                 Assert.That(ReadInstalledCommit(), Is.EqualTo(Commit('a')));
                 Assert.That(DocumentationIntegration.StatusMessage, Does.Contain("stopped before replacement"));
@@ -529,7 +579,7 @@ namespace Geurts.GameForge.Documentation.Tests
             DocumentationUpdaterController.Service = service;
             try
             {
-                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true);
+                await DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => true);
                 Assert.That(transport.DownloadCalls, Is.Zero);
                 Assert.That(DocumentationIntegration.Failed, Is.True);
                 AssertSnapshotsEqual(before, CaptureManagedFiles(projectRoot));
@@ -561,7 +611,7 @@ namespace Geurts.GameForge.Documentation.Tests
         {
             List<string> paths = new List<string>
             {
-                "GeurtsGameForgeDocumentation/Guide.md"
+                "GeurtsGameForgeCommandments/Guide.md"
             };
             paths.AddRange(DocumentationPackageConstants.ExpectedManagedAiRoutes.Select(route => route.Destination));
 
@@ -696,8 +746,8 @@ namespace Geurts.GameForge.Documentation.Tests
                     [CodexGuideInstaller.TechniquePath] = "# Codex guide technique",
                     ["README.md"] = "**Version:** 0.11.0",
                     ["Guide.md"] = guideText,
-                    ["GeurtsTechniques/GeurtsDocumentationCompanionTechnique.md"] = "# Companion technique",
-                    ["GeurtsTechniques/GeurtsDocumentationCompanionContract.json"] = ContractJson,
+                    ["GeurtsTechniques/GeurtsCommandmentsCompanionTechnique.md"] = "# Companion technique",
+                    ["GeurtsTechniques/GeurtsCommandmentsCompanionContract.json"] = ContractJson,
                     ["Tools/AIAgentInstructionTemplates/copilot-instructions.md"] = routePrefix + ": copilot-instructions.md",
                     ["Tools/AIAgentInstructionTemplates/instructions/geurts-unity.instructions.md"] = routePrefix + ": geurts-unity.instructions.md",
                     ["Tools/AIAgentInstructionTemplates/instructions/geurts-game-design.instructions.md"] = routePrefix + ": geurts-game-design.instructions.md"
@@ -732,33 +782,33 @@ namespace Geurts.GameForge.Documentation.Tests
             }
 
             private const string ContractJson = @"{
-  ""schemaVersion"": ""2.0.0"",
+  ""schemaVersion"": ""3.0.0"",
   ""packageVersion"": ""0.11.0"",
   ""source"": {
-    ""repository"": ""https://github.com/Geurtsy/GeurtsGameForge_Documentation.git"",
+    ""repository"": ""https://github.com/Geurtsy/GeurtsGameForge_Commandments.git"",
     ""branch"": ""main"",
     ""selection"": ""exact-resolved-head-commit-archive""
   },
   ""destination"": {
-    ""projectRelativePath"": ""GeurtsGameForgeDocumentation"",
+    ""projectRelativePath"": ""GeurtsGameForgeCommandments"",
     ""replacement"": ""complete-directory"",
     ""access"": ""logically-read-only""
   },
   ""validationEntries"": [
     ""AI_READ_FIRST.md"",
     ""GeurtsTechniqueManifest.md"",
-    ""GeurtsTechniques/GeurtsDocumentationCompanionTechnique.md"",
-    ""GeurtsTechniques/GeurtsDocumentationCompanionContract.json"",
+    ""GeurtsTechniques/GeurtsCommandmentsCompanionTechnique.md"",
+    ""GeurtsTechniques/GeurtsCommandmentsCompanionContract.json"",
     ""Tools/AIAgentInstructionTemplates/copilot-instructions.md"",
     ""Tools/AIAgentInstructionTemplates/instructions/geurts-unity.instructions.md"",
     ""Tools/AIAgentInstructionTemplates/instructions/geurts-game-design.instructions.md""
   ],
   ""updateUi"": {
-    ""actionLabel"": ""Update Geurts Game Forge Documentation"",
+    ""actionLabel"": ""Update Geurts Game Forge Commandments"",
     ""confirmationDefault"": ""cancel"",
     ""cancelResult"": ""no-network-or-filesystem-change"",
     ""confirmationTargets"": [
-      { ""path"": ""GeurtsGameForgeDocumentation"", ""effect"": ""replace-complete-directory"" },
+      { ""path"": ""GeurtsGameForgeCommandments"", ""effect"": ""replace-complete-directory"" },
       { ""path"": "".github/copilot-instructions.md"", ""effect"": ""replace-complete-file"" },
       { ""path"": "".github/instructions/geurts-unity.instructions.md"", ""effect"": ""replace-complete-file"" },
       { ""path"": "".github/instructions/geurts-game-design.instructions.md"", ""effect"": ""replace-complete-file"" }

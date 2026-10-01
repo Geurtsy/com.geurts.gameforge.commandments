@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -30,12 +30,12 @@ namespace Geurts.GameForge.Documentation
                 if (!Install(projectRoot, target, CodexGuideConfirmation.Confirm)) return;
                 string message = "Installed the Codex guide at:\n" + target + "\n\nDocumentation entry point:\n" +
                                  GetEntryPoint(projectRoot) + "\n\n" + DiscoveryNotice();
-                Debug.Log("[Geurts Documentation Companion] " + message);
+                Debug.Log("[Geurts Commandments Companion] " + message);
                 EditorUtility.DisplayDialog("Codex Guide Installed", message, "Close");
             }
             catch (Exception exception)
             {
-                Debug.LogError("[Geurts Documentation Companion] Codex guide installation failed: " + exception.Message);
+                Debug.LogError("[Geurts Commandments Companion] Codex guide installation failed: " + exception.Message);
                 EditorUtility.DisplayDialog("Codex Guide Installation Failed", exception.Message, "Close");
             }
         }
@@ -99,14 +99,14 @@ namespace Geurts.GameForge.Documentation
             Match registryBlock = Regex.Match(manifest,
                 @"(?s)<!-- GEURTS-PACKAGE-FILES:BEGIN -->(?<body>.*?)<!-- GEURTS-PACKAGE-FILES:END -->");
             MatchCollection registry = Regex.Matches(registryBlock.Groups["body"].Value,
-                @"(?m)^\|[ \t]*`" + Regex.Escape(TechniquePath) + @"`[ \t]*\|[ \t]*1\.0\.0[ \t]*\|");
+                @"(?m)^\|[ \t]*`" + Regex.Escape(TechniquePath) + @"`[ \t]*\|[ \t]*1\.1\.0[ \t]*\|");
             MatchCollection templates = Regex.Matches(technique,
-                @"(?m)^<!-- GEURTS-CODEX-GUIDE-BEGIN version=""1\.0\.0"" -->\n```markdown\n(?<body>[\s\S]*?)^```\n<!-- GEURTS-CODEX-GUIDE-END -->$");
+                @"(?m)^<!-- GEURTS-CODEX-GUIDE-BEGIN version=""1\.1\.0"" -->\n```markdown\n(?<body>[\s\S]*?)^```\n<!-- GEURTS-CODEX-GUIDE-END -->$");
             if (registry.Count != 1 || templates.Count != 1 ||
                 Regex.Matches(technique, "GEURTS-CODEX-GUIDE-BEGIN").Count != 1 ||
                 Regex.Matches(technique, "GEURTS-CODEX-GUIDE-END").Count != 1 ||
-                !Regex.IsMatch(technique, @"(?m)^\*\*Version:\*\* 1\.0\.0$"))
-                throw new InvalidDataException("The installed documentation must contain the registered Codex guide technique v1.0.0. Update documentation and try again.");
+                !Regex.IsMatch(technique, @"(?m)^\*\*Version:\*\* 1\.1\.0$"))
+                throw new InvalidDataException("The installed documentation must contain the registered Codex guide technique v1.1.0. Update documentation and try again.");
             string body = templates[0].Groups["body"].Value;
             if (Regex.Matches(body, Regex.Escape(EntryPlaceholder)).Count != 1)
                 throw new InvalidDataException("The Codex guide template must contain exactly one documentation entry point placeholder.");
@@ -121,7 +121,7 @@ namespace Geurts.GameForge.Documentation
             string relative = DocumentationPackageConstants.ManagedDocumentationDirectory + "/" + relativePath;
             DocumentationFileOperations.EnsureManagedTargetIsRegular(projectRoot, relative, false);
             string path = DocumentationFileOperations.GetSafeFullPath(projectRoot, relative);
-            if (!File.Exists(path)) throw new FileNotFoundException("Update Geurts Game Forge Documentation first. Missing " + relative);
+            if (!File.Exists(path)) throw new FileNotFoundException("Update Geurts Game Forge Commandments first. Missing " + relative);
             return _utf8.GetString(File.ReadAllBytes(path)).TrimStart('\uFEFF').Replace("\r\n", "\n").Replace('\r', '\n');
         }
 

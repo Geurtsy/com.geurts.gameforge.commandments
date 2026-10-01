@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.14.0] - 2026-10-01
+
+- Adopt Commandments guidance names and canonical links; preserve package/API identities, Unity metadata GUIDs and existing consumer content.
+
 ## 0.13.2 - 2026-10-01
 
 - Restore the full Documentation Companion dashboard inside God, including manual checks and documentation/package version and update cards. Opening the embedded panel remains offline.

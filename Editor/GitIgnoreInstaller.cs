@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -29,14 +29,14 @@ namespace Geurts.GameForge.Documentation
                     return;
                 }
 
-                string message = "Installed the GeurtsGameForgeDocumentation template at:\n" +
+                string message = "Installed the GeurtsGameForgeCommandments template at:\n" +
                                  Path.Combine(projectRoot, ".gitignore");
-                Debug.Log("[Geurts Documentation Companion] " + message);
+                Debug.Log("[Geurts Commandments Companion] " + message);
                 EditorUtility.DisplayDialog("Geurts .gitignore Installed", message, "Close");
             }
             catch (Exception exception)
             {
-                Debug.LogError("[Geurts Documentation Companion] .gitignore installation failed: " + exception.Message);
+                Debug.LogError("[Geurts Commandments Companion] .gitignore installation failed: " + exception.Message);
                 EditorUtility.DisplayDialog("Geurts .gitignore Installation Failed", exception.Message, "Close");
             }
         }
@@ -54,7 +54,7 @@ namespace Geurts.GameForge.Documentation
             ValidateDestination(fullRoot);
             if (File.Exists(target))
                 return GitIgnoreTemplateReader.MatchesApprovedPayload(File.ReadAllBytes(target), GitIgnoreTemplateReader.Load(fullRoot));
-            string message = "This installs the .gitignore template from GeurtsGameForgeDocumentation at:\n\n" +
+            string message = "This installs the .gitignore template from GeurtsGameForgeCommandments at:\n\n" +
                              target + "\n\n" +
                              "The file is created only when missing. Existing ignore rules are preserved unchanged. " +
                              "Git tracking state will not be changed.";

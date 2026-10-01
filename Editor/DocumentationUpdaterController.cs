@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.Threading;
@@ -126,13 +126,13 @@ namespace Geurts.GameForge.Documentation
                     : applyResult.Warning;
                 if (applyResult.CommitPersisted)
                 {
-                    Debug.Log("[Geurts Documentation Companion] Update completed at commit " + prepared.Commit + ".");
+                    Debug.Log("[Geurts Commandments Companion] Update completed at commit " + prepared.Commit + ".");
                 }
                 else
                 {
-                    Debug.LogWarning("[Geurts Documentation Companion] " + applyResult.Warning);
+                    Debug.LogWarning("[Geurts Commandments Companion] " + applyResult.Warning);
                     if (stillAuthorized == null) EditorUtility.DisplayDialog(
-                        "Geurts Documentation Updated With Warning",
+                        "Geurts Commandments Updated With Warning",
                         applyResult.Warning + "\n\nThe content update succeeded and will not be undone.",
                         "Close");
                 }
@@ -143,9 +143,9 @@ namespace Geurts.GameForge.Documentation
                 Status.Failed = true;
                 Status.InstalledVersion = Service.ReadInstalledVersion();
                 Status.Message = "Update failed: " + exception.Message;
-                Debug.LogError("[Geurts Documentation Companion] " + Status.Message);
+                Debug.LogError("[Geurts Commandments Companion] " + Status.Message);
                 if (stillAuthorized == null) EditorUtility.DisplayDialog(
-                    "Geurts Documentation Update Failed",
+                    "Geurts Commandments Update Failed",
                     Status.Message +
                     "\n\nNo successful installed-commit value was written. Failures before replacement leave the existing managed targets unchanged.",
                     "Close");
@@ -183,7 +183,7 @@ namespace Geurts.GameForge.Documentation
 
         private static bool CanStartUpdate()
         {
-            string reason = !DocumentationIntegration.ModuleEnabled ? "Enable the Documentation Companion module first." : DocumentationIntegration.ExternalOperationUnavailableReason ?? (!DocumentationDependencies.RequiredToolsAvailable ? "Odin Inspector and Quantum Console are required."
+            string reason = !DocumentationIntegration.ModuleEnabled ? "Enable the Commandments Companion module first." : DocumentationIntegration.ExternalOperationUnavailableReason ?? (!DocumentationDependencies.RequiredToolsAvailable ? "Odin Inspector and Quantum Console are required."
                 : IsBusy || PackageSelfUpdater.instance.IsBusy ? "Another documentation or package operation is still running."
                 : EditorUtility.scriptCompilationFailed ? "Unity has script compilation errors."
                 : PackageSelfUpdater.EditorBusy ? "Unity is compiling, importing assets, or in Play mode." : null);
@@ -196,7 +196,7 @@ namespace Geurts.GameForge.Documentation
                 Status.Failed = true;
                 NotifyChanged();
             }
-            Debug.LogWarning("[Geurts Documentation Companion] " + message);
+            Debug.LogWarning("[Geurts Commandments Companion] " + message);
             return false;
         }
 

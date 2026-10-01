@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -73,7 +73,7 @@ namespace Geurts.GameForge.Documentation
                     break;
                 default:
                     throw InvalidTemplate("Unsupported template version " + version +
-                        ". Update the Documentation Companion package before provisioning a newer template.");
+                        ". Update the Commandments Companion package before provisioning a newer template.");
             }
 
             string region = ExtractRegion(document, BeginMarker, EndMarker);
@@ -149,7 +149,7 @@ namespace Geurts.GameForge.Documentation
 
         private static InvalidDataException InvalidTemplate(string detail)
         {
-            return new InvalidDataException(detail + " Run Update Geurts Game Forge Documentation and try again. " +
+            return new InvalidDataException(detail + " Run Update Geurts Game Forge Commandments and try again. " +
                                             "The project .gitignore has not been changed.");
         }
     }
