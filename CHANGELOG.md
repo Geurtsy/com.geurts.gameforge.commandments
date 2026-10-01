@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.1 - 2026-10-01
+
+- Align current package guide version and supported immutable installation example with the coordinated Commandments release. No behavior, API or Unity GUID changes.
+
 ## [0.14.0] - 2026-10-01
 
 - Adopt Commandments guidance names and canonical links; preserve package/API identities, Unity metadata GUIDs and existing consumer content.
