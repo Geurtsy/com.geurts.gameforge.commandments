@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -134,7 +134,7 @@ namespace Geurts.GameForge.Documentation.Tests
             }
 
             Assert.That(() => GitIgnoreInstaller.InstallWithConfirmation(_projectRoot, _ => true),
-                Throws.TypeOf<InvalidDataException>().With.Message.Contains("Update Geurts Game Forge Documentation"));
+                Throws.TypeOf<InvalidDataException>().With.Message.Contains("Update Geurts Game Forge Commandments"));
             Assert.That(File.Exists(_target), Is.EqualTo(existing));
             if (existing)
             {
@@ -378,7 +378,7 @@ namespace Geurts.GameForge.Documentation.Tests
             if (!File.Exists(Path.Combine(source, GitIgnoreTemplateReader.TechniquePath)))
             {
                 Assert.Ignore("The integration fixture requires installed documentation. " +
-                              "Run Tools/ValidatePackage.ps1 with -DocumentationPath pointing to GeurtsGameForgeDocumentation.");
+                              "Run Tools/ValidatePackage.ps1 with -DocumentationPath pointing to GeurtsGameForgeCommandments.");
             }
 
             Directory.CreateDirectory(Path.GetDirectoryName(_documentPath));

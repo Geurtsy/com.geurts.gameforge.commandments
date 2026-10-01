@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -67,7 +67,7 @@ namespace Geurts.GameForge.Documentation.Tests
         public void SelectedProjectRootCanReplaceTheDeprecatedGuide()
         {
             string target = Path.Combine(_project, "AGENTS.md");
-            File.WriteAllText(target, "Read GeurtsGameForgeDocumentation/AGENTS.md");
+            File.WriteAllText(target, "Read GeurtsGameForgeCommandments/AGENTS.md");
             Assert.That(CodexGuideInstaller.Install(_project, target, _ => true), Is.True);
             Assert.That(File.ReadAllText(target), Does.Contain(CodexGuideInstaller.GetEntryPoint(_project)));
             Assert.That(File.ReadAllText(target), Does.Not.Contain("Documentation/AGENTS.md"));
@@ -113,6 +113,7 @@ namespace Geurts.GameForge.Documentation.Tests
         }
 
         /// <summary>The guide must remain outside documentation replacement and project-authored design paths.</summary>
+        [TestCase("GeurtsGameForgeCommandments")]
         [TestCase("GeurtsGameForgeDocumentation")]
         [TestCase("Docs/GameDesign")]
         public void ProtectedDestinationsAreRejected(string relative)
@@ -189,7 +190,7 @@ namespace Geurts.GameForge.Documentation.Tests
                             root.SendEvent(key);
                         }
                     }
-                    if (window != null) window.Close();
+                    root.schedule.Execute(window.Close);
                 };
                 Assert.That(CodexGuideInstaller.Install(_project, _destination, CodexGuideConfirmation.Confirm),
                     Is.EqualTo(action == "install"));

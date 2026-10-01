@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using UnityEditor;
@@ -15,7 +15,7 @@ namespace Geurts.GameForge.Documentation
         internal static bool Confirm()
         {
             DocumentationUpdateConfirmation window = CreateInstance<DocumentationUpdateConfirmation>();
-            window.titleContent = new GUIContent("Confirm Documentation Update");
+            window.titleContent = new GUIContent("Confirm Commandments Update");
             window.minSize = new Vector2(620f, 350f);
             // Only capture the choice here. The caller starts work after the modal event loop returns.
             window.ShowModalUtility();

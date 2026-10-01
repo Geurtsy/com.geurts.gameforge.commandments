@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -14,7 +14,7 @@ namespace Geurts.GameForge.Documentation
     /// <summary>Bounded, read-only version metadata pinned to a resolved Git commit.</summary>
     internal sealed class GitVersionMetadata : IDisposable
     {
-        internal const string OfficialPackageUrl = "https://github.com/Geurtsy/com.geurts.gameforge.documentation.git";
+        internal const string OfficialPackageUrl = "https://github.com/Geurtsy/com.geurts.gameforge.commandments.git";
         internal const string ManifestPath = "GeurtsTechniqueManifest.md";
         private readonly HttpClient _client;
 

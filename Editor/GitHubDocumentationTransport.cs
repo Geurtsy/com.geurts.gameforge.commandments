@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -66,7 +66,7 @@ namespace Geurts.GameForge.Documentation
             using (var metadata = new GitVersionMetadata())
             {
                 string manifest = await metadata.ReadTextAsync(
-                    "https://raw.githubusercontent.com/Geurtsy/GeurtsGameForge_Documentation/" +
+                    "https://raw.githubusercontent.com/Geurtsy/GeurtsGameForge_Commandments/" +
                     Uri.EscapeDataString(commit) + "/" + GitVersionMetadata.ManifestPath, cancellationToken);
                 return GitVersionMetadata.ParseDocumentationVersion(manifest);
             }
@@ -246,7 +246,7 @@ namespace Geurts.GameForge.Documentation
 
         internal static string ExtractCommitArchive(string archivePath, string extractionRoot, string commit)
         {
-            string expectedWrapper = "GeurtsGameForge_Documentation-" + commit;
+            string expectedWrapper = "GeurtsGameForge_Commandments-" + commit;
             long extractedBytes = 0;
             bool foundFile = false;
 

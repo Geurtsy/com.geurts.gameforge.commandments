@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 using System;
 using System.IO;
 using System.Threading;
@@ -12,6 +12,13 @@ namespace Geurts.GameForge.Documentation.Tests
 {
     internal sealed class DocumentationIntegrationTests
     {
+        [Test] public void LegacyAutomaticConsentCannotMutateCommandments()
+        {
+            Assert.Throws<InvalidOperationException>(() => DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true));
+            Assert.That(Geurts.GameForge.Commandments.CommandmentsIntegration.ModuleEnabled, Is.EqualTo(DocumentationIntegration.ModuleEnabled));
+            Assert.That(Geurts.GameForge.Commandments.CommandmentsIntegration.StatusMessage, Is.EqualTo(DocumentationIntegration.StatusMessage));
+        }
+
         /// <summary>Public checks use the existing controller, emit status events and never download content.</summary>
         [Test] public async Task PublicCheckReusesControllerWithoutAcquisitionOrProjectWrites()
         {
@@ -76,7 +83,7 @@ namespace Geurts.GameForge.Documentation.Tests
                     EditorApplication.delayCall -= DocumentationUpdaterController.BeginConfirmedUpdate;
                     blocked = true;
                     Assert.That(DocumentationIntegration.ActionUnavailableReason, Is.EqualTo("Test host operation is active."));
-                    LogAssert.Expect(LogType.Warning, "[Geurts Documentation Companion] Documentation update could not start: Test host operation is active. Try Update again when Unity is ready.");
+                    LogAssert.Expect(LogType.Warning, "[Geurts Commandments Companion] Commandments update could not start: Test host operation is active. Try Update again when Unity is ready.");
                     DocumentationUpdaterController.BeginConfirmedUpdate();
                     Assert.That(DocumentationIntegration.IsBusy, Is.False);
                     Assert.That(DocumentationIntegration.Failed, Is.True);

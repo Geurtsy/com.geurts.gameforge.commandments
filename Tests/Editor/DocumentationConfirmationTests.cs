@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.Collections;
@@ -71,7 +71,7 @@ namespace Geurts.GameForge.Documentation.Tests
                     button = (Rect)windowType.GetProperty("DocumentationUpdateButtonRect", Instance).GetValue(window);
                 }
                 Assert.That(button.width, Is.GreaterThan(0), "The documentation update button must be drawn.");
-                LogAssert.Expect(LogType.Log, "[Geurts Documentation Companion] Update completed at commit " + ConfirmationTransport.Commit + ".");
+                LogAssert.Expect(LogType.Log, "[Geurts Commandments Companion] Update completed at commit " + ConfirmationTransport.Commit + ".");
                 window.SendEvent(new Event { type = EventType.MouseDown, button = 0, mousePosition = button.center });
                 window.SendEvent(new Event { type = EventType.MouseUp, button = 0, mousePosition = button.center });
                 Assert.That(confirmations, Is.Zero, "Opening a modal inside the dashboard draw corrupts Odin's layout stack.");
@@ -84,7 +84,7 @@ namespace Geurts.GameForge.Documentation.Tests
                 Assert.That(transport.Downloads, Is.EqualTo(1), DocumentationUpdaterController.StatusMessage);
                 Assert.That(confirmedOutsideGui, Is.True, "The accepted update must run after the modal event loop and GUI callback.");
                 Assert.That(DocumentationUpdaterController.Availability, Is.EqualTo(DocumentationAvailability.Current));
-                Assert.That(File.ReadAllText(Path.Combine(project, "GeurtsGameForgeDocumentation", "Guide.md")), Is.EqualTo("confirmed documentation"));
+                Assert.That(File.ReadAllText(Path.Combine(project, "GeurtsGameForgeCommandments", "Guide.md")), Is.EqualTo("confirmed documentation"));
                 foreach (ManagedAiRoute route in DocumentationPackageConstants.ExpectedManagedAiRoutes)
                     Assert.That(File.ReadAllText(Path.Combine(project, route.Destination)),
                         Is.EqualTo(File.ReadAllText(Path.Combine(candidate, route.Source))));

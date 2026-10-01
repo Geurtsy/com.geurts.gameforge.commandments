@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using UnityEditor;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
@@ -21,8 +21,8 @@ namespace Geurts.GameForge.Documentation
             PackageManagerExtensions.RegisterExtension(new DocumentationPackageManagerExtension());
         }
 
-        /// <summary>Creates the required external dependency labels for the Documentation Companion package.</summary>
-        /// <returns>The panel shown only while Geurts Documentation Companion is selected.</returns>
+        /// <summary>Creates the required external dependency labels for the Commandments Companion package.</summary>
+        /// <returns>The panel shown only while Geurts Commandments Companion is selected.</returns>
         public VisualElement CreateExtensionUI()
         {
             _root = new VisualElement { name = "geurts-documentation-required-dependencies" };
@@ -92,7 +92,7 @@ namespace Geurts.GameForge.Documentation
             }
         }
 
-        /// <summary>Shows the labels only for the selected Geurts Documentation Companion package.</summary>
+        /// <summary>Shows the labels only for the selected Geurts Commandments Companion package.</summary>
         /// <param name="packageInfo">The selected package, or null when selection is cleared.</param>
         public void OnPackageSelectionChange(PackageInfo packageInfo)
         {

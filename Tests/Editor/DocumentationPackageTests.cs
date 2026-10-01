@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System.IO;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace Geurts.GameForge.Documentation.Tests
             Assert.That(package.name, Is.EqualTo(DocumentationPackageConstants.PackageName));
             Assert.That(package.dependencies, Is.Empty);
             Assert.That(Directory.Exists(Path.Combine(package.resolvedPath, "GeurtsTechniques")), Is.False);
-            Assert.That(Directory.Exists(Path.Combine(package.resolvedPath, "GeurtsGameForgeDocumentation")), Is.False);
+            Assert.That(Directory.Exists(Path.Combine(package.resolvedPath, "GeurtsGameForgeCommandments")), Is.False);
             Assert.That(
                 Directory.EnumerateFiles(package.resolvedPath, "*.bat", SearchOption.AllDirectories)
                     // Local file: installs can see ignored test projects, including downloaded documentation fixtures.
@@ -53,7 +53,7 @@ namespace Geurts.GameForge.Documentation.Tests
 
             Assert.That(managedBullets, Is.EqualTo(new[]
             {
-                "- GeurtsGameForgeDocumentation/",
+                "- GeurtsGameForgeCommandments/",
                 "- .github/copilot-instructions.md",
                 "- .github/instructions/geurts-unity.instructions.md",
                 "- .github/instructions/geurts-game-design.instructions.md"

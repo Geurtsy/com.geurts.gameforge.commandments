@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using UnityEditor;
@@ -45,11 +45,11 @@ namespace Geurts.GameForge.Documentation
             buttons.style.justifyContent = Justify.FlexEnd;
             buttons.style.marginTop = 12f;
             buttons.style.flexShrink = 0f;
-            Button cancel = new Button(Close) { text = "Cancel", name = "cancel-install" };
+            Button cancel = new Button(() => root.schedule.Execute(Close)) { text = "Cancel", name = "cancel-install" };
             Button install = new Button(() =>
             {
                 _confirmed = true;
-                Close();
+                root.schedule.Execute(Close);
             }) { text = "Install and Overwrite", name = "confirm-install" };
             install.AddToClassList("forge-danger");
             cancel.style.minWidth = 100f;
@@ -65,7 +65,7 @@ namespace Geurts.GameForge.Documentation
                     evt.keyCode == KeyCode.KeypadEnter)
                 {
                     evt.StopImmediatePropagation();
-                    Close();
+                    root.schedule.Execute(Close);
                 }
             }, TrickleDown.TrickleDown);
             cancel.schedule.Execute(cancel.Focus);

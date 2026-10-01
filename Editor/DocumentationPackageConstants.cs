@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.Collections.Generic;
@@ -9,15 +9,15 @@ namespace Geurts.GameForge.Documentation
     internal static class DocumentationPackageConstants
     {
         internal const string PackageName = "com.geurts.gameforge.documentation";
-        internal const string DisplayName = "Geurts Game Forge Documentation Companion";
-        internal const string RepositoryUrl = "https://github.com/Geurtsy/GeurtsGameForge_Documentation.git";
+        internal const string DisplayName = "Geurts Game Forge Commandments Companion";
+        internal const string RepositoryUrl = "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git";
         internal const string RepositoryBranch = "main";
         internal const string HeadCommitAdvertisementUrl = RepositoryUrl + "/info/refs?service=git-upload-pack";
-        internal const string ArchiveUrlFormat = "https://codeload.github.com/Geurtsy/GeurtsGameForge_Documentation/zip/{0}";
-        internal const string ContractRelativePath = "GeurtsTechniques/GeurtsDocumentationCompanionContract.json";
-        internal const string ManagedDocumentationDirectory = "GeurtsGameForgeDocumentation";
-        internal const string ExpectedSchemaVersion = "2.0.0";
-        internal const string UpdateActionLabel = "Update Geurts Game Forge Documentation";
+        internal const string ArchiveUrlFormat = "https://codeload.github.com/Geurtsy/GeurtsGameForge_Commandments/zip/{0}";
+        internal const string ContractRelativePath = "GeurtsTechniques/GeurtsCommandmentsCompanionContract.json";
+        internal const string ManagedDocumentationDirectory = "GeurtsGameForgeCommandments";
+        internal const string ExpectedSchemaVersion = "3.0.0";
+        internal const string UpdateActionLabel = "Update Geurts Game Forge Commandments";
         internal const int MetadataLimitBytes = 128 * 1024;
         internal const long ArchiveLimitBytes = 64L * 1024L * 1024L;
         internal const long ExtractedLimitBytes = 128L * 1024L * 1024L;
@@ -64,7 +64,7 @@ namespace Geurts.GameForge.Documentation
         {
             return
                 "This update will directly replace the managed documentation folder and these system-managed project AI instruction files:\n\n" +
-                "- GeurtsGameForgeDocumentation/\n" +
+                "- GeurtsGameForgeCommandments/\n" +
                 "- .github/copilot-instructions.md\n" +
                 "- .github/instructions/geurts-unity.instructions.md\n" +
                 "- .github/instructions/geurts-game-design.instructions.md\n\n" +

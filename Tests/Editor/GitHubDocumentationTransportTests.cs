@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.IO;
@@ -130,7 +130,7 @@ namespace Geurts.GameForge.Documentation.Tests
         public void ExtractCommitArchiveAcceptsGitHubDirectoryEntries()
         {
             string commit = new string('a', 40);
-            string wrapper = "GeurtsGameForge_Documentation-" + commit;
+            string wrapper = "GeurtsGameForge_Commandments-" + commit;
             string archivePath = Path.Combine(temporaryRoot, "documentation.zip");
             string extractionRoot = Path.Combine(temporaryRoot, "extracted");
             Directory.CreateDirectory(extractionRoot);
@@ -141,7 +141,7 @@ namespace Geurts.GameForge.Documentation.Tests
                 archive.CreateEntry(wrapper + "/");
                 archive.CreateEntry(wrapper + "/GeurtsTechniques/");
                 ZipArchiveEntry contract = archive.CreateEntry(
-                    wrapper + "/GeurtsTechniques/GeurtsDocumentationCompanionContract.json");
+                    wrapper + "/GeurtsTechniques/GeurtsCommandmentsCompanionContract.json");
                 using (StreamWriter writer = new StreamWriter(contract.Open()))
                 {
                     writer.Write("{}");
@@ -158,7 +158,7 @@ namespace Geurts.GameForge.Documentation.Tests
                 File.ReadAllText(Path.Combine(
                     extractionRoot,
                     "GeurtsTechniques",
-                    "GeurtsDocumentationCompanionContract.json")),
+                    "GeurtsCommandmentsCompanionContract.json")),
                 Is.EqualTo("{}"));
         }
 
@@ -166,7 +166,7 @@ namespace Geurts.GameForge.Documentation.Tests
         public void ExtractCommitArchiveRejectsTraversalBeforeWritingOutsideExtractionRoot()
         {
             string commit = new string('b', 40);
-            string wrapper = "GeurtsGameForge_Documentation-" + commit;
+            string wrapper = "GeurtsGameForge_Commandments-" + commit;
             string archivePath = Path.Combine(temporaryRoot, "documentation.zip");
             string extractionRoot = Path.Combine(temporaryRoot, "extracted");
             string escapedPath = Path.Combine(temporaryRoot, "escaped.txt");

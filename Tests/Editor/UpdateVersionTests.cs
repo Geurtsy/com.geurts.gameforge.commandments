@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ namespace Geurts.GameForge.Documentation.Tests
 {
     internal sealed class UpdateVersionTests
     {
-        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.documentation.git", "HEAD", "")]
-        [TestCase("git+https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#main", "main", "")]
+        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.commandments.git", "HEAD", "")]
+        [TestCase("git+https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#main", "main", "")]
         [TestCase("git@github.com:Other/Fork.git?path=/Packages/docs#preview/ui", "preview%2Fui", "Packages/docs/")]
         [TestCase("ssh://git@github.com/Other/Fork.git#v0.4.0", "v0.4.0", "")]
         [TestCase("https://github.com/Other/Fork.git#aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "")]

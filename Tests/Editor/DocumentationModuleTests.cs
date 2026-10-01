@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 using System;
 using System.IO;
 using System.Threading;
@@ -47,8 +47,8 @@ namespace Geurts.GameForge.Documentation.Tests
             {
                 DocumentationIntegration.SetModuleEnabled(false);
                 await DocumentationIntegration.CheckForUpdatesAsync();
-                await DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => true);
-                LogAssert.Expect(LogType.Warning, "[Geurts Documentation Companion] Documentation update could not start: Enable the Documentation Companion module first. Try Update again when Unity is ready.");
+                await DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => true);
+                LogAssert.Expect(LogType.Warning, "[Geurts Commandments Companion] Commandments update could not start: Enable the Commandments Companion module first. Try Update again when Unity is ready.");
                 DocumentationIntegration.UpdateDocumentation();
                 Assert.That(confirmations + transport.Calls, Is.Zero);
                 Assert.Throws<InvalidOperationException>(() => BuildForgeIntegration.InstallGitIgnore(root));

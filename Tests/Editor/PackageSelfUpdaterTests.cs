@@ -1,4 +1,4 @@
-// IMPORTANT: This script must comply with GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeDocumentation/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
+// IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 
 using NUnit.Framework;
 using UnityEditor.PackageManager;
@@ -7,11 +7,11 @@ namespace Geurts.GameForge.Documentation.Tests
 {
     internal sealed class PackageSelfUpdaterTests
     {
-        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.documentation.git")]
-        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#main")]
-        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#codex/package-self-update")]
-        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#v0.4.0")]
-        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.documentation.git#0592549b676e3c5145a53b2a66c2cf8dd43aaffd")]
+        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.commandments.git")]
+        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#main")]
+        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#codex/package-self-update")]
+        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#v0.4.0")]
+        [TestCase("https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#0592549b676e3c5145a53b2a66c2cf8dd43aaffd")]
         [TestCase("ssh://git@github.com/studio/fork.git?path=/Packages/Documentation#preview")]
         [TestCase("git+file:///C:/Packages/Documentation#main")]
         public void UpdatePreservesTheExactConfiguredGitReference(string reference)
