@@ -17,7 +17,7 @@ namespace Geurts.GameForge.Documentation
         /// <summary>Reads ModuleEnabled from the God-owned service without starting work.</summary>
         public static bool ModuleEnabled => GodForwarder.Read<bool>("ModuleEnabled", false);
         /// <summary>Reads ModuleToggleUnavailableReason from the God-owned service without starting work.</summary>
-        public static string ModuleToggleUnavailableReason => GodForwarder.Read<string>("ModuleToggleUnavailableReason", null);
+        public static string ModuleToggleUnavailableReason => GodForwarder.Read<string>("ModuleToggleUnavailableReason", GodForwarder.MissingMessage);
         /// <summary>Reads StatusMessage from the God-owned service without starting work.</summary>
         public static string StatusMessage => GodForwarder.Read<string>("StatusMessage", GodForwarder.MissingMessage);
         /// <summary>Reads InstalledVersion from the God-owned service without starting work.</summary>
@@ -69,8 +69,15 @@ namespace Geurts.GameForge.Documentation
         /// <summary>Registers a conflict guard in God's single service.</summary>
         /// <param name="unavailableReason">A reason while a host operation conflicts.</param>
         /// <returns>A token to dispose at host teardown.</returns>
-        public static IDisposable RegisterOperationGuard(Func<string> unavailableReason) =>
-            (IDisposable)GodForwarder.Invoke(false, "RegisterOperationGuard", unavailableReason);
+        public static IDisposable RegisterOperationGuard(Func<string> unavailableReason)
+        {
+            if (unavailableReason == null) throw new ArgumentNullException(nameof(unavailableReason));
+            // Older God registers its guard during initialization. No owner means no work to guard;
+            // keep that initialization and package updates usable until God itself is upgraded.
+            return GodForwarder.Content == null ? new UnavailableOwnerGuard() :
+                (IDisposable)GodForwarder.Invoke(false, "RegisterOperationGuard", unavailableReason);
+        }
+        private sealed class UnavailableOwnerGuard : IDisposable { public void Dispose() { } }
     }
 
     internal static class GodForwarder
@@ -132,7 +139,7 @@ namespace Geurts.GameForge.Commandments
         /// <param name="stillAuthorized">Checks live explicit consent for schema-3 targets.</param>
         /// <returns>The bounded shared controller update.</returns>
         public static System.Threading.Tasks.Task UpdateCommandmentsAutomaticallyAsync(System.Func<bool> stillAuthorized) => Documentation.DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(stillAuthorized);
-        /// <summary>Opens the existing independently owned Companion dashboard.</summary>
+        /// <summary>Opens the shared God-owned Commandments view.</summary>
         public static void OpenWindow() => Documentation.DocumentationIntegration.OpenWindow();
         /// <summary>Creates a hidden full dashboard, without network work on opening.</summary>
         /// <param name="navigate">Optional host brick navigation.</param>

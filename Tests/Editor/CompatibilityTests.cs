@@ -34,6 +34,9 @@ namespace Geurts.GameForge.Documentation.Tests
             Assert.That(Geurts.GameForge.Commandments.CommandmentsIntegration.IsBusy, Is.EqualTo(DocumentationIntegration.IsBusy));
             if (GodForwarder.Content == null)
             {
+                using (DocumentationIntegration.RegisterOperationGuard(() => "Blocked"))
+                    Assert.That(DocumentationIntegration.IsBusy, Is.False, "Old God must initialize and remain able to update packages.");
+                Assert.That(DocumentationIntegration.ModuleToggleUnavailableReason, Does.Contain("God"));
                 Assert.That(DocumentationIntegration.ActionUnavailableReason, Does.Contain("God"));
                 Assert.Throws<InvalidOperationException>(() => DocumentationIntegration.CheckForUpdatesAsync());
             }
