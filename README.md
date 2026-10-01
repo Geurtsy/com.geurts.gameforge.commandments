@@ -1,134 +1,15 @@
-# Geurts Game Forge Commandments Companion
+# Geurts Game Forge Commandments Compatibility
 
-An independent Windows Unity Editor package that installs and updates the project-local copy of the authoritative [Geurts Game Forge Commandments](https://github.com/Geurtsy/GeurtsGameForge_Commandments).
+Version **0.15.0**, Windows Unity **6000.6.3f1**. This package is now a passive Editor API adapter for existing Companion installations. God **0.29.0** owns viewing, acquisition, version checks, confirmed updates and status. Fresh installations need God only.
 
-The package contains no generic Geurts documentation. Open **Tools > Geurts Game Forge > Commandments Companion** to check the package and documentation Git versions. Unity startup and restored windows remain offline. Manual content updates begin only when the user chooses **Update Geurts Game Forge Commandments** and confirms the four listed managed targets; the separately opted-in God workflow is described below.
+Update this package and God through their immutable Git releases, in either order. With older God the adapter reports the missing supported owner. New God blocks competing content work while an old Companion implementation remains installed. Package updates alone never acquire content or change saved module preferences, schema-3 consent, managed AI routes, AGENTS.md or game design.
 
-The companion's display name distinguishes the Editor package from the actual documentation. Its existing package identity `com.geurts.gameforge.documentation`, Git repository, public APIs and saved preferences remain compatible. The documentation content stays in `GeurtsGameForgeCommandments/` and keeps its own version and update action.
+The existing UPM ID `com.geurts.gameforge.documentation`, Editor assembly `Geurts.GameForge.Documentation.Editor`, public `DocumentationIntegration`, `Geurts.GameForge.Commandments.CommandmentsIntegration`, `BuildForgeIntegration`, and legacy window script GUID remain compatible. The adapter contains no updater, transport, automatic initializer, menu or command registrations. A restored old window offers only a handoff to God.
 
-## Install through Unity Package Manager
+Use **Tools > Geurts Game Forge > Commandments** or **View Commandments** inside God. The same four-target confirmation applies to content replacement. Preserve local edits manually before accepting it; no backup, rollback or automatic migration is supplied. `Docs/GameDesign/`, `AGENTS.md`, the old `GeurtsGameForgeDocumentation/` folder and unlisted paths remain outside that action.
 
-In Unity, open **Window > Package Manager**, choose **Install package from git URL**, and enter:
+Custom Editor assemblies can keep this adapter while migrating to `Geurts.GameForge.God.Editor.CommandmentsIntegration` and `CommandmentsSetupIntegration`, in God's Editor assembly. Remove the adapter through UPM only after those references migrate. Its reflection forwarding introduces no God/vendor compile dependency and reports unavailable operations when God is absent. Never reference either Editor API from runtime assemblies.
 
-```text
-https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#v0.14.1
-```
+Install or update from `https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#v0.15.0` (the immutable release includes an exact commit pin). The source Commandments remain independent at [GeurtsGameForge_Commandments](https://github.com/Geurtsy/GeurtsGameForge_Commandments), and local Markdown is readable without God or this adapter. See the authoritative [0.41.0 migration](https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/v0.41.0/Migrations/v0.41.0.md).
 
-Package version 0.14.1 targets **Unity 6000.6.3f1 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
-
-Select **Geurts Game Forge Commandments Companion** in Unity Package Manager to see **Required external dependencies**, with separate **Required** labels for Odin Inspector and Quantum Console. The package description also includes these labels before the scripts compile. These are separately imported assets, so the native resolver's Dependencies list remains reserved for Unity package dependencies.
-
-Each dark dependency card gains a green accent and shows **Installed and ready** when its required tool types are loaded and Unity has no script compilation errors. Cards show **Checking** during compilation/import, or a missing/unavailable status when readiness cannot be confirmed. This checks Editor availability; it does not test scene-specific console setup or every tool feature.
-
-## Odin documentation dashboard
-
-The `OdinEditorWindow` dashboard checks **both the editor package and documentation on a deliberate menu opening while its module is enabled**. Restoring a window only refreshes its companion title and retains its size and layout. The boxed **Check for updates** section has a larger full-width button to refresh both sources manually. Each update card shows **Installed** and **Available on Git** version numbers, a last-check time, and a plain-language result. Yellow means the installed Git commit differs from the available revision (or no successful documentation install is recorded). This also detects changes published without a version bump. Each version now includes its short Git revision; when both version numbers match but revisions differ, the card explains that Git changed without a version bump. A missing installed revision is described as unverified rather than claiming a newer version exists. Matching commits are green; unknown and failed checks are clearly labelled, with unavailable remote versions shown as **Unavailable** rather than stale numbers.
-
-Checking and installation each show an animated activity bar and detailed status. Documentation downloads show bytes received and a percentage when the server supplies a total size; unknown-duration steps use activity animation without inventing a percentage. The package bar stays active while Unity resolves, installs, and recompiles. **Source and managed files** contains copyable source URLs, both package/documentation commit identifiers, and the four documentation-update targets. Content scrolls in small or docked windows.
-
-**Dependencies** shows both required tools using the update-card palette: green for installed and ready, yellow for missing, red for script or installation-action errors, and muted text for unverified tools. Green activity bars with **Checking** labels identify compilation/import; Unity owns download/import progress in its native windows. **Installed and ready** verifies loaded tool assemblies, not ownership or the latest vendor version. The assembly references require both Odin Inspector and Quantum Console; missing commercial assemblies must be installed before this package compiles. Keep Odin's standard `ODIN_INSPECTOR` define enabled. `GeurtsGameForge.Documentation.Status` exposes the existing dashboard status through Quantum Console as a read-only Editor command. This tool requirement supersedes older optional or no-tool compilation guidance; Commandments Companion remains independent of God.
-
-## Update the editor package from Git
-
-In **Tools > Geurts Game Forge > Commandments Companion**, use **Package update > Update package from Git**. The card shows installed and available package versions, the Git comparison, and update progress. Its configured URL is in Source and managed files. This refreshes the Unity package code; the separate **Documentation update** action replaces the shared documentation and AI instructions.
-
-The button uses Unity's `Client.Add` API with this package's existing Git URL, so the Package Manager window does not need to open. Unity resolves the latest commit for that same reference and manages its package cache, manifest, and lock file. A chosen branch or tag is retained; a pinned commit remains pinned. An unchanged source is reported separately from an update. Git and any credentials needed by the configured source must already work in Unity.
-
-Package updates run only when you press the button. Unity may recompile scripts; the active request and its result are retained across script reloads for the Editor session, and closing the dashboard does not cancel the request. Other documentation actions are disabled during a package update. Errors appear in the package card and allow another attempt. Updates are disabled during compilation, import, and Play mode. A local, embedded, or indirect installation is identified in the UI and is not converted or overwritten; maintain that installation through its source checkout or install the package directly from Git.
-
-This package-maintenance action is an explicitly requested extension to the original companion scope. It does not run the documentation-content update or the .gitignore installer, and it does not directly rewrite Unity's package files.
-
-## Version checks
-
-Dashboard actions run after the current Odin draw finishes. Documentation confirmation is a UI Toolkit dialog with Cancel focused by default; accepting it starts the update after the modal window closes. If Unity cannot start the action, the dashboard or Console explains the reason instead of silently returning.
-
-Package version checks support public `github.com` repositories, including configured forks, branches, tags, pinned commits, and package subfolders. They resolve that exact source and read `package.json` at its resolved commit. Local/embedded installations display the official Git release version but cannot claim Git equality or use self-update. Other Git hosts, local Git URLs, private repositories without anonymous access, and network/rate-limit errors show an explicit unavailable check result; the existing Unity Git update action still uses its configured URL.
-
-Documentation checks resolve official `main`, then read `GeurtsTechniqueManifest.md` at that exact commit. The installed version comes only from the local documentation manifest. A missing installation says **Not installed**; an unreadable/invalid manifest says **Unknown**. Commit comparisons use the per-project last-successful-install signal and do not certify the contents of local files. Versions are informational; Git revision equality determines whether an update is available.
-
-Checks never acquire an installation archive, run an installer, or modify project files. Overlapping explicit-open/manual checks share the same active requests. A successful package installation refreshes both checks. Unity startup and restored dashboard windows perform no remote checks and open no update popup. Deliberate menu openings and manual refresh keep their bounded metadata checks and narrow local-manifest read; the documentation replacement boundary and confirmation remain unchanged.
-
-## Install the project .gitignore
-
-After installing the documentation, use the **Git ignore rules** step in **Tools > Geurts Game Forge > Build Forge**. The Commandments Companion window opens that setup window when available. When God is absent or predates the setup window, use **Install Geurts .gitignore** inside the Commandments Companion window. The duplicate top-level installation menus have been removed.
-
-The tool reads the approved fenced payload from `GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsGitIgnoreTechnique.md` and checks its version against `GeurtsTechniqueManifest.md`, plus its markers, encoding, line count, and checksum. Version 0.11.0 accepts both the original template 1.0.0 and FMOD template 1.0.1, each with its own pinned fingerprint. Update an older companion before provisioning template 1.0.1. No template is bundled with this Unity package or downloaded by this action. If the installed documentation is missing or invalid, installation stops before changing `.gitignore`; run the documentation Update first.
-
-The confirmation names the full project-root destination. Cancel is focused initially; Cancel, Enter, Escape, and closing the dialog leave the file untouched. Choose **Install** to create a missing file. An existing approved file with LF, CRLF or CR newlines counts as installed and is left unchanged, including its bytes and timestamp. Only newlines are normalized for comparison: other text, whitespace, ordering, BOM and terminal-newline differences are preserved and reported for review. A file created while confirmation is open is also preserved. There is no replacement, merge, or Git tracking change.
-
-This separately confirmed tool is an explicitly requested extension to the original companion's update-only scope and the template technique's create-only policy. It does not expand the documentation Update contract or run at startup.
-
-## Documentation update boundary
-
-A confirmed update replaces only:
-
-- `GeurtsGameForgeCommandments/`
-- `.github/copilot-instructions.md`
-- `.github/instructions/geurts-unity.instructions.md`
-- `.github/instructions/geurts-game-design.instructions.md`
-
-The destination and three-route list are pinned by schema 2.0.0 of `GeurtsTechniques/GeurtsCommandmentsCompanionContract.json` and are verified against the downloaded archive before any replacement begins. Documentation release versions and validation entries may advance without changing that closed update boundary. The separate .gitignore installer writes only the project-root `.gitignore`. In particular, `Docs/GameDesign/` is never inspected or changed by either action.
-
-## Scope
-
-This package is Windows-only and Editor-only. Its dashboard requires Odin Inspector and its status command requires Quantum Console; it has no dependency on Geurts Game Forge God, Brick Manager, or GameForgeIntelligence. These required tool integrations are explicitly requested changes to the original companion's tool exemptions. They do not change the documentation replacement contract or copy generic Geurts guidance into this package. It does not provide preview, backup, rollback, journaling, migration, recovery, or local-drift preservation.
-
-## Validation
-
-Run `Tools/ValidatePackage.ps1 -PackageReference <Git-URL-with-pushed-revision> -DocumentationPath <path-to-GeurtsGameForgeCommandments> -OdinPath <licensed-Sirenix-folder> -QuantumConsolePath <licensed-Quantum-Console-folder>` to run Editor tests in a disposable project with Unity **6000.6.3f1**. Use the candidate's immutable Git commit to make the run reproducible; local file and embedded package references are rejected before project creation. The documentation path supplies the entry, manifest, Git Ignore Technique and AGENTS.md Technique as external integration fixtures; their source is not changed or bundled with the package. Without this parameter, tests requiring real templates are reported as skipped. `-StaticOnly` checks package structure without a Git reference or Unity launch.
-
-Provide `-OdinPath <path-to-Assets/Plugins/Sirenix> -QuantumConsolePath <path-to-Assets/Plugins/QFSW/Quantum Console> -ProjectPath <package-root>/work~/UnityValidationOdin` to compile and test against your installed licensed tools. Both paths are required for the integration tests. The validation copy stays under the ignored `work~/` directory and must not be committed or distributed. `-StaticOnly` checks the manifest and assembly contract without importing tools.
-
-## Install owned dependencies inside the Editor
-
-Each dependency card in the Commandments Companion dashboard and Unity Package Manager includes **Download / import owned copy in My Assets**. This opens Unity''s My Assets view: sign in to the account that owns the tool, search for its name, choose **Download**, then **Import**. Ownership and download progress remain in Unity''s native view; opening it does not claim installation has begun.
-
-Alternatively choose **Import licensed .unitypackage…**, select the file from your licensed source, and review Unity''s asset selection before importing. Reimporting can replace existing vendor files. Cancelling the file picker imports nothing. Both actions are disabled while Unity or a documentation/package operation is busy, and launch failures are shown on the affected card. Readiness refreshes after scripts compile.
-
-For a first installation where required assemblies are missing and this package cannot compile, use Unity''s built-in **Window > Package Management > My Assets** to import Odin Inspector and Quantum Console first; the custom cards become available after compilation succeeds.
-
-## Install Codex guide
-
-In **Tools > Geurts Game Forge > Build Forge**, use the **Codex guide** step, select a folder and confirm the displayed destination and documentation entry point. When the Build Forge setup window is unavailable, **Install Codex guide** remains inside the Commandments Companion window. The action writes **AGENTS.md** from the sole template in the installed `GeurtsTechniques/GeurtsAgentTechnique.md`. Existing contents are overwritten only after confirmation. Start a new Codex task in that folder or a descendant within the same project to load it.
-
-The guide points to the exact absolute path of this Unity project's `GeurtsGameForgeCommandments/AI_READ_FIRST.md`, even when installed elsewhere. Reinstall the guide if the Unity project moves. Normal documentation Update no longer creates or changes root Codex guides, and the documentation contains no standalone AGENTS.md. To replace an old project-root guide, select the project root with this button.
-
-Update this companion package to **0.7.0** before updating documentation to **0.12.0**, which introduces contract schema **2.0.0**. Then install the guide; older documentation has no guide technique and will show an instruction to update it first.
-
-## Build Forge integration API
-
-Version **0.8.0** exposes `Geurts.GameForge.Documentation.BuildForgeIntegration` in the Editor-only assembly. It lets God reuse the validated payloads and existing confirmation dialogs without introducing a companion dependency on God:
-
-- `IsBusy` reports active documentation/package work, Unity import, compilation, Play Mode, compilation failure or missing required tools.
-- `LoadGitIgnore(projectRoot)` and `LoadCodexGuide(projectRoot)` return validated payload bytes without writing.
-- `IsGitIgnoreInstalled(projectRoot)` compares strict UTF-8 text after newline normalization; version 0.8.1 recognizes the approved CRLF source without rewriting it. `IsCodexGuideInstalled(projectRoot, target)` compares exact guide bytes. Invalid source or unsafe destinations throw; missing or differing files return false. A null guide selection returns false without inspecting a guide.
-- `InstallGitIgnore(projectRoot)` returns true for a verified creation or equivalent existing text, false for cancellation or a preserved custom file. The caller should report a differing file for review.
-- `InstallCodexGuide(projectRoot, target)` requires a target explicitly selected through a folder picker, retains the cancel-default overwrite confirmation and returns true only after verifying the installed bytes.
-
-These methods never update documentation, run scripts, create the folder structure or access project game-design content. Build Forge owns its setup steps. The companion keeps its independent documentation Update workflow.
-
-## Optional Game Forge God interface
-
-God 0.8.0 or later can be installed first. Its **Game Forge God** window can then install this companion, update the companion package, and separately check or update the actual project documentation. Package 0.13.2 includes the shared Editor theme and optional God integration API; documentation content has its own version and update action. Use the authoritative catalogue's immutable source for a specific package release. This companion remains independently installable.
-
-## Shared Editor appearance
-
-All companion-owned Editor surfaces follow the Geurts Game Forge dark/green theme, including the dependency guidance shown without Odin, the Package Manager dependency panel, and confirmation dialogs. Yellow warnings and red destructive/error accents retain their meanings. The theme changes only its owning window or subtree; it does not recolour Unity Package Manager or other inspectors.
-
-`Editor/DocumentationEditorTheme.cs` and `.uss` are generated from God's canonical `Editor/ForgeEditorTheme.cs` and `.uss` by `Tools~/SyncEditorTheme.ps1 -DocumentationPackagePath <this-package-path>`. Use the same command with `-Check` to detect drift. Change the canonical source and regenerate both copies; do not hand-edit the generated files. The generated helper has no God dependency and guards its optional Odin styling with `ODIN_INSPECTOR`. Its IMGUI scope restores shared styles after each draw and disposes only its own generated textures.
-
-`Geurts.GameForge.Documentation.DocumentationIntegration` exposes content `InstalledVersion`, `AvailableVersion`, `Availability`, `StatusMessage`, `Failed`, measured nullable `Progress`, actual-operation `IsBusy`, `ActionUnavailableReason`, and a `Changed` event. `CheckForUpdatesAsync` delegates to the existing content controller. `UpdateDocumentation` opens the same single cancel-default confirmation and uses the same updater; cancelling performs no acquisition or write. `OpenWindow` opens the existing companion dashboard. `RegisterOperationGuard(Func<string>)` allows an optional host to explain a conflicting operation without a reverse dependency; dispose its returned token on host unload. Hosts must unsubscribe from `Changed` when their UI closes.
-
-### Optional automatic updates from God
-
-God 0.17.1 can request `DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(Func<bool> stillAuthorized)` after the user enables its default-off, project-saved automatic update option and accepts the four-target overwrite explanation. The callback must remain true only while that host stays open and its saved consent remains enabled. The companion checks metadata, skips current content, and rechecks consent and operation guards before any replacement. It uses the same validated archive and exact managed targets as manual Update. It never automatically repairs an interrupted update. Errors remain visible in the shared status. Restoring God at Unity startup does not invoke this API. It does not change manual confirmation or the independent package dependency boundary.
-
-Documentation commit lookup uses bounded Git HTTP reference discovery from the authoritative repository, avoiding anonymous GitHub REST API rate limits. Archives remain pinned to the resolved main commit. Unexpected responses fail before replacement; no automatic retries are made.
-
-## Module switch
-
-### Embedded tools inside God
-
-Commandments Companion **0.13.2** exposes `DocumentationIntegration.CreateEmbeddedWindow(Action<string> navigate)`. It returns an unshown, independently owned Editor window for God **0.26.0** or later to draw inside its panel. The embedded view shows the full dashboard, including both version/update cards, dependencies, source details and the explicit Check for updates action. Opening the panel starts no check or update. Content updates retain the same cancel-default confirmation; package updates retain their configured Git source and busy/module guards. The callback navigates to Build Forge inside God. The host destroys only this view when leaving it. Standalone Commandments Companion windows keep their existing tools and update controls; the companion has no God dependency.
-
-Use Module enabled in this window, or Game Forge God 0.25.0 or later, to pause Commandments Companion checks, content updates and setup tools for the current project. The package and installed documentation are retained. The preference is stored in per-project Editor preferences without a God dependency. Enabling does not start work; use an explicit action or reopen the window. Active operations must finish before changing the preference.
+The prior validation records describe historical releases; they do not assign ongoing ownership to this adapter. Current behavior is covered by `Tests/Editor/CompatibilityTests.cs` and God's transferred acquisition/consent/boundary regressions and package-transition validation.

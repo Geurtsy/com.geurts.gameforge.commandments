@@ -1,14 +1,14 @@
 {
   "name": "Geurts.GameForge.Documentation.Editor",
   "rootNamespace": "Geurts.GameForge.Documentation",
-  "references": ["QFSW.QC"],
+  "references": [],
   "includePlatforms": [
     "Editor"
   ],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
-  "overrideReferences": true,
-  "precompiledReferences": ["Sirenix.OdinInspector.Attributes.dll", "Sirenix.OdinInspector.Editor.dll", "Sirenix.Utilities.dll", "Sirenix.Utilities.Editor.dll", "Sirenix.Serialization.dll"],
+  "overrideReferences": false,
+  "precompiledReferences": [],
   "autoReferenced": true,
   "defineConstraints": [
     "UNITY_EDITOR_WIN"

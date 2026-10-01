@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.15.0
+
+- Transfer the full content service and setup helpers to God 0.29.0. Retain the package ID, public Editor APIs and legacy window GUID as a passive forwarding adapter.
+- Remove independent menus, commands, transport, updater, package management and vendor references. Existing module preferences and content consent remain unchanged.
+- Support either update order; custom Editor references migrate explicitly before adapter removal. Package updates never replace user content.
+
+
 ## 0.14.1 - 2026-10-01
 
 - Align current package guide version and supported immutable installation example with the coordinated Commandments release. No behavior, API or Unity GUID changes.
