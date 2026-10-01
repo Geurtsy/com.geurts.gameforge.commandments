@@ -69,7 +69,7 @@ namespace Geurts.GameForge.Documentation
             if ((ConfirmForTests ?? DocumentationUpdateConfirmation.Confirm)())
             {
                 _updateQueued = true;
-                Status.Message = "Documentation update confirmed; waiting to start.";
+                Status.Message = "Commandments update confirmed; waiting to start.";
                 NotifyChanged();
                 EditorApplication.delayCall += BeginConfirmedUpdate;
             }
@@ -178,7 +178,7 @@ namespace Geurts.GameForge.Documentation
             if (result.InstalledVersion == result.AvailableVersion)
                 return "Git has a different revision with the same version number (" + result.AvailableVersion + "). " +
                        "Update to install those changes; the version number may stay the same.";
-            return "Documentation update available. Install the latest Git revision using the button below.";
+            return "Commandments update available. Install the latest Git revision using the button below.";
         }
 
         private static bool CanStartUpdate()
@@ -189,7 +189,7 @@ namespace Geurts.GameForge.Documentation
                 : PackageSelfUpdater.EditorBusy ? "Unity is compiling, importing assets, or in Play mode." : null);
             if (reason == null) return true;
             // Do not replace progress from an active operation, but never silently discard an accepted action.
-            string message = "Documentation update could not start: " + reason + " Try Update again when Unity is ready.";
+            string message = "Commandments update could not start: " + reason + " Try Update again when Unity is ready.";
             if (!IsBusy)
             {
                 Status.Message = message;

@@ -48,7 +48,7 @@ namespace Geurts.GameForge.Documentation.Tests
                 DocumentationIntegration.SetModuleEnabled(false);
                 await DocumentationIntegration.CheckForUpdatesAsync();
                 await DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => true);
-                LogAssert.Expect(LogType.Warning, "[Geurts Commandments Companion] Documentation update could not start: Enable the Commandments Companion module first. Try Update again when Unity is ready.");
+                LogAssert.Expect(LogType.Warning, "[Geurts Commandments Companion] Commandments update could not start: Enable the Commandments Companion module first. Try Update again when Unity is ready.");
                 DocumentationIntegration.UpdateDocumentation();
                 Assert.That(confirmations + transport.Calls, Is.Zero);
                 Assert.Throws<InvalidOperationException>(() => BuildForgeIntegration.InstallGitIgnore(root));

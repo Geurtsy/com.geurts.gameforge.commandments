@@ -77,7 +77,7 @@ namespace Geurts.GameForge.Documentation
             string folder = Path.GetDirectoryName(target);
             string fullRoot = Path.GetFullPath(projectRoot);
             string documentation = Path.Combine(fullRoot, DocumentationPackageConstants.ManagedDocumentationDirectory);
-            if (IsWithin(target, documentation) || IsWithin(target, Path.Combine(fullRoot, "Docs", "GameDesign")))
+            if (IsWithin(target, documentation) || IsWithin(target, Path.Combine(fullRoot, "GeurtsGameForgeDocumentation")) || IsWithin(target, Path.Combine(fullRoot, "Docs", "GameDesign")))
                 throw new InvalidDataException("Choose a location outside the managed documentation and Docs/GameDesign folders.");
             if (!Directory.Exists(folder)) throw new DirectoryNotFoundException("Choose an existing destination folder.");
             ValidateTarget(target);

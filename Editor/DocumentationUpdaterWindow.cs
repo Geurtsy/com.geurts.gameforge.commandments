@@ -195,7 +195,7 @@ namespace Geurts.GameForge.Documentation
         [OnInspectorGUI, PropertyOrder(0)]
         private void DrawDocumentationCard()
         {
-            DrawUpdateCard("Documentation update", DocumentationUpdaterController.Status,
+            DrawUpdateCard("Commandments update", DocumentationUpdaterController.Status,
                 DocumentationUpdaterController.IsInstalling,
                 "Checks the official documentation repository on main.",
                 "Replaces the shared documentation and three Copilot instruction files after confirmation.",

@@ -114,6 +114,7 @@ namespace Geurts.GameForge.Documentation.Tests
 
         /// <summary>The guide must remain outside documentation replacement and project-authored design paths.</summary>
         [TestCase("GeurtsGameForgeCommandments")]
+        [TestCase("GeurtsGameForgeDocumentation")]
         [TestCase("Docs/GameDesign")]
         public void ProtectedDestinationsAreRejected(string relative)
         {
@@ -189,7 +190,7 @@ namespace Geurts.GameForge.Documentation.Tests
                             root.SendEvent(key);
                         }
                     }
-                    if (window != null) window.Close();
+                    if (action == "close") root.schedule.Execute(window.Close);
                 };
                 Assert.That(CodexGuideInstaller.Install(_project, _destination, CodexGuideConfirmation.Confirm),
                     Is.EqualTo(action == "install"));
