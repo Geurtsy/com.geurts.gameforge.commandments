@@ -1,6 +1,6 @@
 # Geurts Game Forge Commandments Companion
 
-An independent Windows Unity Editor package that installs and updates the project-local copy of the authoritative [Geurts Game Forge documentation](https://github.com/Geurtsy/GeurtsGameForge_Commandments).
+An independent Windows Unity Editor package that installs and updates the project-local copy of the authoritative [Geurts Game Forge Commandments](https://github.com/Geurtsy/GeurtsGameForge_Commandments).
 
 The package contains no generic Geurts documentation. Open **Tools > Geurts Game Forge > Commandments Companion** to check the package and documentation Git versions. Unity startup and restored windows remain offline. Manual content updates begin only when the user chooses **Update Geurts Game Forge Commandments** and confirms the four listed managed targets; the separately opted-in God workflow is described below.
 
@@ -11,10 +11,10 @@ The companion's display name distinguishes the Editor package from the actual do
 In Unity, open **Window > Package Manager**, choose **Install package from git URL**, and enter:
 
 ```text
-https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#main
+https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#v0.14.1
 ```
 
-Package version 0.13.2 targets **Unity 6000.6.3f1 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
+Package version 0.14.1 targets **Unity 6000.6.3f1 on Windows**. Import your licensed **Odin Inspector** and **Quantum Console**, including Quantum Console's Input System and TextMesh Pro dependencies, before compiling this package. Both commercial tools are required, used through their actual assembly references, and installed separately. Neither is bundled; downloads use Unity My Assets or your licensed vendor source. The repository is public, so the Git URL does not require package-specific credentials.
 
 Select **Geurts Game Forge Commandments Companion** in Unity Package Manager to see **Required external dependencies**, with separate **Required** labels for Odin Inspector and Quantum Console. The package description also includes these labels before the scripts compile. These are separately imported assets, so the native resolver's Dependencies list remains reserved for Unity package dependencies.
 

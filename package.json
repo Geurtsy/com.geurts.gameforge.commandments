@@ -1,6 +1,6 @@
 {
   "name": "com.geurts.gameforge.documentation",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "displayName": "Geurts Game Forge Commandments Companion",
   "description": "An Odin Inspector dashboard for updating this package from Git, updating Geurts Game Forge documentation and AI routes, and installing the documentation-owned .gitignore after confirmation. Exposes read-only status through Quantum Console.\n\nRequired external dependencies (import licensed copies separately):\n- Odin Inspector \u2014 Required\n- Quantum Console \u2014 Required",
   "unity": "6000.6",
