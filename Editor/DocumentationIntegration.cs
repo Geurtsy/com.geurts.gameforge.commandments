@@ -135,33 +135,51 @@ namespace Geurts.GameForge.Commandments
     /// <summary>Canonical optional Editor API for Commandments Companion; legacy integration remains supported.</summary>
     public static class CommandmentsIntegration
     {
+        /// <summary>Reports existing shared controller activity without starting work.</summary>
         public static bool IsBusy => Documentation.DocumentationIntegration.IsBusy;
+        /// <summary>Reads the retained project module preference.</summary>
         public static bool ModuleEnabled => Documentation.DocumentationIntegration.ModuleEnabled;
+        /// <summary>Explains why the shared module preference cannot change now.</summary>
         public static string ModuleToggleUnavailableReason => Documentation.DocumentationIntegration.ModuleToggleUnavailableReason;
+        /// <summary>Reads the shared controller status message.</summary>
         public static string StatusMessage => Documentation.DocumentationIntegration.StatusMessage;
+        /// <summary>Reads the installed Commandments content version.</summary>
         public static string InstalledVersion => Documentation.DocumentationIntegration.InstalledVersion;
+        /// <summary>Reads the last explicitly checked content version.</summary>
         public static string AvailableVersion => Documentation.DocumentationIntegration.AvailableVersion;
+        /// <summary>Reads the shared written availability state.</summary>
         public static string Availability => Documentation.DocumentationIntegration.Availability;
+        /// <summary>Reports the current shared operation failure.</summary>
         public static bool Failed => Documentation.DocumentationIntegration.Failed;
+        /// <summary>Explains why an explicit content action is unavailable.</summary>
         public static string ActionUnavailableReason => Documentation.DocumentationIntegration.ActionUnavailableReason;
+        /// <summary>Reads measured progress; null means the underlying operation supplies no percentage.</summary>
         public static float? Progress => Documentation.DocumentationIntegration.Progress;
         /// <summary>Changes when the existing shared controller changes; unsubscribe on disposal.</summary>
         public static event System.Action Changed { add { Documentation.DocumentationIntegration.Changed += value; } remove { Documentation.DocumentationIntegration.Changed -= value; } }
         /// <summary>Sets the existing project module preference without starting work.</summary>
+        /// <param name="enabled">Requested project module preference.</param>
         public static void SetModuleEnabled(bool enabled) => Documentation.DocumentationIntegration.SetModuleEnabled(enabled);
         /// <summary>Explicitly checks metadata through the shared controller.</summary>
+        /// <returns>The existing controller metadata check.</returns>
         public static System.Threading.Tasks.Task CheckForUpdatesAsync() => Documentation.DocumentationIntegration.CheckForUpdatesAsync();
         /// <summary>Shows the schema-3 cancel-default confirmation before acquisition.</summary>
         public static void UpdateCommandments() => Documentation.DocumentationIntegration.UpdateDocumentation();
         /// <summary>Compatibility method used by supported legacy host integrations; still shows the new confirmation.</summary>
         public static void UpdateDocumentation() => UpdateCommandments();
         /// <summary>Updates for a host with explicit, live schema-3 target consent.</summary>
+        /// <param name="stillAuthorized">Checks live explicit consent for schema-3 targets.</param>
+        /// <returns>The bounded shared controller update.</returns>
         public static System.Threading.Tasks.Task UpdateCommandmentsAutomaticallyAsync(System.Func<bool> stillAuthorized) => Documentation.DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(stillAuthorized);
         /// <summary>Opens the existing independently owned Companion dashboard.</summary>
         public static void OpenWindow() => Documentation.DocumentationIntegration.OpenWindow();
         /// <summary>Creates a hidden full dashboard, without network work on opening.</summary>
+        /// <param name="navigate">Optional host brick navigation.</param>
+        /// <returns>A hidden dashboard owned and disposed by the host.</returns>
         public static UnityEditor.EditorWindow CreateEmbeddedWindow(System.Action<string> navigate) => Documentation.DocumentationIntegration.CreateEmbeddedWindow(navigate);
         /// <summary>Registers a host conflict guard; dispose the returned token at teardown.</summary>
+        /// <param name="unavailableReason">Returns a conflict reason, or null when actions are allowed.</param>
+        /// <returns>A subscription token that the host must dispose.</returns>
         public static System.IDisposable RegisterOperationGuard(System.Func<string> unavailableReason) => Documentation.DocumentationIntegration.RegisterOperationGuard(unavailableReason);
     }
 }
