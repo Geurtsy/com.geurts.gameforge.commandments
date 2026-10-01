@@ -8,7 +8,7 @@ namespace Geurts.GameForge.Documentation
     internal static class DocumentationConsoleCommands
     {
         [Command("GeurtsGameForge.Commandments.Status", "Shows current documentation and package update status in the Unity Editor."), Preserve]
-        [Command("GeurtsGameForge.Documentation.Status", "Compatibility alias for GeurtsGameForge.Commandments.Status."), Preserve]
+        [Command("GeurtsGameForge.Documentation.Status", "Compatibility alias for GeurtsGameForge.Commandments.Status.")]
         internal static string ReadStatus()
         {
             return DocumentationPackageConstants.DisplayName + "\nCommandments: " + DocumentationUpdaterController.StatusMessage +
