@@ -1,12 +1,32 @@
 // IMPORTANT: This script must comply with GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsTechnicalTechnique.md and folder placement rules in GeurtsGameForgeCommandments/GeurtsTechniques/GeurtsFolderStructureTechnique.md.
 using System;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 namespace Geurts.GameForge.Documentation.Tests
 {
     public sealed class CompatibilityTests
     {
+        [Test] public void RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction()
+        {
+            var window = ScriptableObject.CreateInstance<DocumentationUpdaterWindow>();
+            try
+            {
+                var build = typeof(DocumentationUpdaterWindow).GetMethod("CreateGUI", BindingFlags.Instance | BindingFlags.NonPublic);
+                build.Invoke(window, null); build.Invoke(window, null);
+                Assert.That(window.rootVisualElement.Query<HelpBox>().ToList().Count, Is.EqualTo(1));
+                Assert.That(window.rootVisualElement.Query<Button>().ToList().Count, Is.EqualTo(1));
+                var open = window.rootVisualElement.Q<Button>("compatibility_open_owner");
+                Assert.That(open.enabledSelf, Is.EqualTo(GodForwarder.Content != null));
+                Assert.That(open.GetFirstAncestorOfType<ScrollView>(), Is.Null); Assert.That(open.GetFirstAncestorOfType<Foldout>(), Is.Null);
+                Assert.That(window.rootVisualElement.Q<HelpBox>("compatibility_owner_status").text, Does.StartWith(GodForwarder.Content == null ? "Unavailable" : "Information"));
+                if (GodForwarder.Content != null) Assert.That(window.rootVisualElement.ClassListContains("geurts-forge"), Is.True);
+            }
+            finally { UnityEngine.Object.DestroyImmediate(window); }
+        }
         [Test] public void AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater()
         {
             var assembly = typeof(DocumentationIntegration).Assembly;

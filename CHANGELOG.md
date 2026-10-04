@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.15.1
+
+- Rebuild the restored handoff window without duplicate controls. Show the actual unavailable owner inline and disable its handoff action until God is available.
+- Reuse God's canonical Toolkit theme through optional reflection when available; retain the passive Editor API, no dependency declarations, menus, updater or automatic work.
+
 ## 0.15.0
 
 - Transfer the full content service and setup helpers to God 0.29.0. Retain the package ID, public Editor APIs and legacy window GUID as a passive forwarding adapter.
