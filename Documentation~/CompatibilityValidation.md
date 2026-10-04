@@ -1,3 +1,5 @@
+Current 0.15.1 native handoff acceptance is recorded in [AuthoringValidation](AuthoringValidation.md). The following 0.15.0 migration evidence is retained unchanged and is not relabelled as a current rerun.
+
 # Compatibility adapter 0.15.0 validation
 
 Windows Unity **6000.6.3f1** compiled the adapter as an immutable Git package with God, Odin Inspector and Quantum Console absent. All three adapter tests passed with no compiler warnings. The same three tests passed alongside God 0.29.0 and BigBang 0.2.3 in the combined 580-pass suite.

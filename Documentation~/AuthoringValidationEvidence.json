@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "package": "com.geurts.gameforge.documentation",
+  "version": "0.15.1",
+  "testedCandidate": "54b8b354c36a396098c5fde84ae27824024a34b7",
+  "baseline": {
+    "version": "0.44.12",
+    "commit": "17f6cfe2611fec1301856b0fa054fb60bf1e70f5"
+  },
+  "unity": "6000.6.3f1",
+  "testFramework": "1.8.0",
+  "nativeEditor": [
+    {
+      "skipped": 0,
+      "failed": 0,
+      "documentationBytesPreserved": true,
+      "fixture": "C:\\gf\\cmp\\p",
+      "passed": 4,
+      "label": "PassivePresentV1",
+      "exitCode": 0,
+      "selected": 4,
+      "logSha256": "698B93EBB110A80D674DE7C01D0B25201B7A106C539F1B7193AC81A0A2313B39",
+      "god": "b42012288c26e3b7a3ab72834f37026859b6f925",
+      "source": "54b8b354c36a396098c5fde84ae27824024a34b7",
+      "xmlSha256": "4D5917F4CC70719D5E8FABCBCA3FA336A9CE8D748808A6803C3BA1F505B3FFC8"
+    },
+    {
+      "skipped": 0,
+      "failed": 0,
+      "documentationBytesPreserved": true,
+      "fixture": "C:\\gf\\cmp\\r",
+      "passed": 4,
+      "label": "PassiveAbsentV1",
+      "exitCode": 0,
+      "selected": 4,
+      "logSha256": "01F9A40891EFD78A56C9E2A76C9A431C67BD0C032BDD22F4B768985C3D9A236D",
+      "god": null,
+      "source": "54b8b354c36a396098c5fde84ae27824024a34b7",
+      "xmlSha256": "08A838E4CF587FC13253C2D9F89E3EBFEE980125F2FC23295DC7FC8F790EE201"
+    }
+  ],
+  "sourceEquivalent": true,
+  "metadataIdentitiesPreserved": true,
+  "staticValidation": "Passed",
+  "registryApplicability": "No domain authoring settings; passive handoff only",
+  "playerApplicability": "Windows Editor-only",
+  "limitations": [
+    "Full rendered/physical normal/narrow/floating/docked/light/dark/high-scaling/keyboard focus acceptance unverified",
+    "Older migration-order installations not rerun; unchanged forwarding/protocol has separate historical0.15.0 evidence",
+    "No live consumer changes; manual installation"
+  ]
+}
