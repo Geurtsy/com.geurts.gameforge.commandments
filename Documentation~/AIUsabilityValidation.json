@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "com.geurts.gameforge.documentation",
+  "packageVersion": "0.15.2",
+  "unityVersion": "6000.6.3f1",
+  "sourceFingerprint": "de32b6e832c39ed1c7a987ba62003e2bc988a5038da1acf2ba8901690121d65b",
+  "testedCandidateCommit": "43d164a01b81ca8434697061d4036acaa0e5bede",
+  "recordedUtc": "2026-10-07T07:33:30.740953+00:00",
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "examplesCompiled": true,
+  "exampleSource": "Tools~/Examples/AutomationExample.cs",
+  "scope": "Installed candidate Git packages; Editor source, owner operations, metadata and existing regression suites. Graphics-enabled hidden Unity batch fixture with separately installed licensed vendors.",
+  "resultFileSha256": "841d9e31fe50cea58500d8ce41e643207016d644288eb65551019e6ca75ce3fa",
+  "conditionalChecks": [],
+  "unverified": [
+    "Physical input and visual acceptance on the user desktop",
+    "Vendor devices, native backend playback and real player behavior",
+    "Unopened scenes and game-design content",
+    "Conditions explicitly skipped by the recorded fixture"
+  ],
+  "independentFixture": {
+    "godInstalled": false,
+    "licensedVendorsInstalled": false,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "resultFileSha256": "8fc1eb5750925cbdee47491af93f7ac730c70ec869800f9abd151a36a1d7a4ca"
+  }
+}

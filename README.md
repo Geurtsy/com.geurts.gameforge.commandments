@@ -1,5 +1,7 @@
 # Geurts Game Forge Commandments Compatibility
 
+See [release capabilities and supported AI usage](Documentation~/AIUsability.md) for operation inputs and [this release validation](Documentation~/AIUsabilityValidation.json) for tested scope. Older fixture counts below are historical evidence and do not certify this release.
+
 Version **0.15.2**, Windows Unity **6000.6.3f1**. This package is now a passive Editor API adapter for existing Companion installations. God **0.29.0** owns viewing, acquisition, version checks, confirmed updates and status. Fresh installations need God only.
 
 Update this package and God through their immutable Git releases, in either order. With older God the adapter reports the missing supported owner. New God blocks competing content work while an old Companion implementation remains installed. Package updates alone never acquire content or change saved module preferences, schema-3 consent, managed AI routes, AGENTS.md or game design.

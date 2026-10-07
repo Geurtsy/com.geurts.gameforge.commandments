@@ -63,6 +63,17 @@ foreach ($relative in $current) {
     $claims = @{}; foreach ($property in $context.dependencies.PSObject.Properties) { $claims[$property.Name] = [string]$property.Value }
     Require ($claims.Count -eq $expectedDependencies.Count) "Current guide dependency count mismatch: $relative"
     foreach ($id in $expectedDependencies.Keys) { Require ($claims.ContainsKey($id) -and $claims[$id] -eq $expectedDependencies[$id]) "Current guide dependency mismatch: $relative / $id" }
+    # Current prose may state dependency minimums, but old introductions and explicitly historical sections retain their original identities.
+    $prose = [regex]::Split($text, '(?im)^#{1,6}\s+(?:change\s*log|release history|version history)\b')[0]
+    foreach ($line in $prose -split "`r?`n") {
+        if ($line -match '(?i)\b(?:historical|introduced|original|provenance|migration|minimum compatibility profile)\b' -or $line -notmatch '(?i)\b(?:requires?|depend(?:s|ency)?|install|use|manifest|minimum|mandatory)\b') { continue }
+        foreach ($id in $expectedDependencies.Keys) {
+            $alias = if ($id -eq 'com.geurts.gameforge.god') { '(?:God|com\.geurts\.gameforge\.god)' } else { [regex]::Escape($id) }
+            foreach ($claim in [regex]::Matches($line, '(?i)' + $alias + '\*{0,2}\s+\*{0,2}(?<version>\d+\.\d+\.\d+)')) {
+                Require ($claim.Groups['version'].Value -eq $expectedDependencies[$id]) "Stale prose dependency: $relative / $id / $($claim.Groups['version'].Value)"
+            }
+        }
+    }
     foreach ($match in [regex]::Matches($text, '(?m)^# [^\r\n]*?(?<version>\d+\.\d+\.\d+)\s*$')) { Require ($match.Groups['version'].Value -eq $package.version) "Stale current guide heading: $relative" }
     foreach ($match in [regex]::Matches($text, '\]\((?<path>[^)]+)\)')) {
         $link = [Uri]::UnescapeDataString($match.Groups['path'].Value.Trim('<','>').Split('#')[0])
@@ -71,6 +82,7 @@ foreach ($relative in $current) {
         if ($resolved.StartsWith($RepositoryRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { Require (Test-Path -LiteralPath $resolved) "Broken current guide link: $relative -> $link" }
     }
 }
+Require ([IO.File]::ReadAllText((Resolve-Owned 'README.md')).Contains('(Documentation~/AIUsability.md)')) 'The package entry point must link supported AI usage.'
 foreach ($relative in $history) { Require (Test-Path -LiteralPath (Resolve-Owned $relative) -PathType Leaf) "Missing explicitly classified historical document: $relative" }
 foreach ($file in Get-ChildItem -LiteralPath (Join-Path $RepositoryRoot 'Documentation~') -File -Filter '*.md') {
     $relative = 'Documentation~/' + $file.Name
