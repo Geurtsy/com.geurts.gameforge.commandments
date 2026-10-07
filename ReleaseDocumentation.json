@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "com.geurts.gameforge.documentation",
+  "packageVersion": "0.15.2",
+  "previousVersion": "0.15.1",
+  "currentDocuments": [
+    "Documentation~/AIUsability.md",
+    "Documentation~/GodToolRequirements.md",
+    "Documentation~/README.md",
+    "README.md"
+  ],
+  "historicalDocuments": [
+    "Documentation~/AuthoringValidation.md",
+    "Documentation~/CompatibilityValidation.md",
+    "Documentation~/EmbeddedToolsValidation.md",
+    "Documentation~/StartupOfflineValidation.md"
+  ],
+  "examples": [
+    {
+      "source": "Tools~/Examples/AutomationExample.cs",
+      "symbol": "GeurtsGameForgeCommandmentsCompatibilityAutomationExample"
+    }
+  ]
+}

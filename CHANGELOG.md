@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.2 - 2026-10-07
+
+- Add versioned AI capability declarations and a documentation/source-evidence release gate.
+- Preserve independent installation/compatibility ownership; no God dependency or automation provider added.
+
+
 ## 0.15.1
 
 - Rebuild the restored handoff window without duplicate controls. Show the actual unavailable owner inline and disable its handoff action until God is available.

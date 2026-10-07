@@ -1,0 +1,107 @@
+param([string]$RepositoryRoot = (Split-Path $PSScriptRoot -Parent), [switch]$RequireUnityEvidence)
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+$RepositoryRoot = [IO.Path]::GetFullPath($RepositoryRoot)
+function Read-Json([string]$Relative) { return [IO.File]::ReadAllText((Join-Path $RepositoryRoot $Relative)) | ConvertFrom-Json }
+function Require([bool]$Condition, [string]$Message) { if (-not $Condition) { throw $Message } }
+function Resolve-Owned([string]$Relative) {
+    Require (-not [IO.Path]::IsPathRooted($Relative) -and $Relative -notmatch '(^|[\\/])\.\.([\\/]|$)') "Unsafe release path: $Relative"
+    $path = [IO.Path]::GetFullPath((Join-Path $RepositoryRoot $Relative))
+    Require ($path.StartsWith($RepositoryRoot.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) "Path escapes owner: $Relative"
+    return $path
+}
+$package = Read-Json 'package.json'
+$capability = Read-Json 'ForgeCapabilities.json'
+$documents = Read-Json 'ReleaseDocumentation.json'
+Require ($capability.schemaVersion -eq '1.0.0' -and $documents.schemaVersion -eq '1.0.0') 'Unsupported release metadata schema.'
+Require ($capability.packageId -eq $package.name -and $documents.packageId -eq $package.name) 'Release package identity mismatch.'
+Require ($capability.packageVersion -eq $package.version -and $documents.packageVersion -eq $package.version) 'Stale release capability/documentation version.'
+Require ([version]$package.version -gt [version]$documents.previousVersion) 'The release must exceed its previous published version.'
+$ids = @{}
+foreach ($operation in $capability.operations) {
+    Require ($operation.id -cmatch '^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$' -and -not $ids.ContainsKey($operation.id)) "Invalid/duplicate operation: $($operation.id)"
+    $ids[$operation.id] = $true
+    $source = Resolve-Owned $operation.source
+    Require (Test-Path -LiteralPath $source -PathType Leaf) "Missing operation source: $($operation.source)"
+    $code = [IO.File]::ReadAllText($source)
+    Require ($code.Contains($operation.symbol)) "Unsupported operation symbol: $($operation.symbol)"
+    if ($operation.id -ne 'inspect_sources') { Require ($code.Contains('"' + $operation.id + '"')) "Operation ID absent from its owner source: $($operation.id)" }
+}
+$features = @{}
+foreach ($feature in $capability.features) {
+    Require ($feature.id -cmatch '^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$' -and -not $features.ContainsKey($feature.id)) "Invalid/duplicate feature: $($feature.id)"
+    $features[$feature.id] = $true
+    Require ($feature.provider -in @('editor','runtime','none') -and -not [string]::IsNullOrWhiteSpace($feature.maturity)) "Invalid feature provider/maturity: $($feature.id)"
+    Require ($feature.implemented -or @($feature.operations).Count -eq 0) "Planned feature advertises operations: $($feature.id)"
+    foreach ($id in $feature.operations) { Require ($ids.ContainsKey($id)) "Unknown supported operation: $id" }
+    Require (@($feature.validation).Count -gt 0) "Feature validation scope missing: $($feature.id)"
+}
+$expectedDependencies = @{}
+foreach ($property in $package.dependencies.PSObject.Properties) { $expectedDependencies[$property.Name] = [string]$property.Value }
+foreach ($dependency in $capability.prerequisites | Where-Object { $_.kind -eq 'package' -and $_.required }) {
+    Require ($expectedDependencies.ContainsKey($dependency.id) -and $expectedDependencies[$dependency.id] -eq $dependency.minimumVersion) "Dependency declaration mismatch: $($dependency.id)"
+}
+foreach ($id in $expectedDependencies.Keys) {
+    Require (@($capability.prerequisites | Where-Object { $_.id -eq $id -and $_.kind -eq 'package' -and $_.required -and $_.minimumVersion -eq $expectedDependencies[$id] }).Count -eq 1) "Dependency omitted from capabilities: $id"
+}
+if ($package.name -notin @('com.geurts.gameforge.god','com.geurts.gameforge.bigbang','com.geurts.gameforge.documentation')) {
+    Require ($expectedDependencies.ContainsKey('com.geurts.gameforge.god')) 'God dependency missing.'
+    Require (@($expectedDependencies.Keys | Where-Object { $_ -like 'com.geurts.*' -and $_ -ne 'com.geurts.gameforge.god' }).Count -eq 0) 'A peer integration became mandatory.'
+}
+if ($package.name -in @('com.geurts.gameforge.bigbang','com.geurts.gameforge.documentation')) { Require (-not $expectedDependencies.ContainsKey('com.geurts.gameforge.god')) 'Independent adapter/installer acquired a God dependency.' }
+$current = @($documents.currentDocuments)
+$history = @($documents.historicalDocuments)
+Require (@($current | Where-Object { $_ -in $history }).Count -eq 0) 'Current and historical documentation overlap.'
+foreach ($relative in $current) {
+    $path = Resolve-Owned $relative
+    Require (Test-Path -LiteralPath $path -PathType Leaf) "Missing current guide: $relative"
+    $text = [IO.File]::ReadAllText($path)
+    $blocks = [regex]::Matches($text, '(?s)<!-- GEURTS-RELEASE-CONTEXT:BEGIN -->\s*```json\s*(?<json>.*?)\s*```\s*<!-- GEURTS-RELEASE-CONTEXT:END -->')
+    Require ($blocks.Count -eq 1) "Current guide lacks one release context: $relative"
+    $context = $blocks[0].Groups['json'].Value | ConvertFrom-Json
+    Require ($context.packageId -eq $package.name -and $context.packageVersion -eq $package.version) "Stale current guide: $relative"
+    $claims = @{}; foreach ($property in $context.dependencies.PSObject.Properties) { $claims[$property.Name] = [string]$property.Value }
+    Require ($claims.Count -eq $expectedDependencies.Count) "Current guide dependency count mismatch: $relative"
+    foreach ($id in $expectedDependencies.Keys) { Require ($claims.ContainsKey($id) -and $claims[$id] -eq $expectedDependencies[$id]) "Current guide dependency mismatch: $relative / $id" }
+    foreach ($match in [regex]::Matches($text, '(?m)^# [^\r\n]*?(?<version>\d+\.\d+\.\d+)\s*$')) { Require ($match.Groups['version'].Value -eq $package.version) "Stale current guide heading: $relative" }
+    foreach ($match in [regex]::Matches($text, '\]\((?<path>[^)]+)\)')) {
+        $link = [Uri]::UnescapeDataString($match.Groups['path'].Value.Trim('<','>').Split('#')[0])
+        if ($link -eq '' -or $link -match '^[a-zA-Z][a-zA-Z0-9+.-]*:' -or $link.StartsWith('/')) { continue }
+        $resolved = [IO.Path]::GetFullPath((Join-Path (Split-Path $path -Parent) $link))
+        if ($resolved.StartsWith($RepositoryRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) { Require (Test-Path -LiteralPath $resolved) "Broken current guide link: $relative -> $link" }
+    }
+}
+foreach ($relative in $history) { Require (Test-Path -LiteralPath (Resolve-Owned $relative) -PathType Leaf) "Missing explicitly classified historical document: $relative" }
+foreach ($file in Get-ChildItem -LiteralPath (Join-Path $RepositoryRoot 'Documentation~') -File -Filter '*.md') {
+    $relative = 'Documentation~/' + $file.Name
+    Require ($relative -in $current -or $relative -in $history) "Unclassified documentation: $relative"
+}
+foreach ($example in $documents.examples) {
+    $path = Resolve-Owned $example.source
+    Require ((Test-Path -LiteralPath $path -PathType Leaf) -and [IO.File]::ReadAllText($path).Contains($example.symbol)) "Missing supported example: $($example.source)"
+    $sourceText = [IO.File]::ReadAllText($path).Replace("`r`n", "`n").TrimEnd()
+    $found = $false
+    foreach ($relative in $current) {
+        $text = [IO.File]::ReadAllText((Resolve-Owned $relative)).Replace("`r`n", "`n")
+        $sample = [regex]::Match($text, '(?s)<!-- GEURTS-EXAMPLE: ' + [regex]::Escape($example.source) + ' -->\s*```csharp\n(?<code>.*?)\n```')
+        if ($sample.Success) { Require ($sample.Groups['code'].Value.TrimEnd() -ceq $sourceText) "Guide example differs from compile-checked source: $relative"; $found = $true }
+    }
+    Require $found "Supported example is absent from current guides: $($example.source)"
+}
+# Hash exactly the C# implementation, tests and supported examples; evidence/docs-only commits do not invalidate a tested source snapshot.
+$sourceFiles = @(Get-ChildItem -LiteralPath $RepositoryRoot -Recurse -File -Filter '*.cs' | Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' } | Sort-Object { $_.FullName.Substring($RepositoryRoot.Length).Replace('\','/') })
+$entries = foreach ($file in $sourceFiles) {
+    $relative = $file.FullName.Substring($RepositoryRoot.Length + 1).Replace('\','/')
+    $content = [IO.File]::ReadAllText($file.FullName).Replace("`r`n", "`n").Replace("`r", "`n")
+    $contentSha = [Security.Cryptography.SHA256]::Create()
+    try { $hash = [BitConverter]::ToString($contentSha.ComputeHash([Text.Encoding]::UTF8.GetBytes($content))).Replace('-','').ToLowerInvariant() } finally { $contentSha.Dispose() }
+    "$relative`:$hash"
+}
+$sha = [Security.Cryptography.SHA256]::Create()
+try { $fingerprint = [BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes(($entries -join "`n")))).Replace('-','').ToLowerInvariant() } finally { $sha.Dispose() }
+if ($RequireUnityEvidence) {
+    $evidence = Read-Json 'Documentation~/AIUsabilityValidation.json'
+    Require ($evidence.packageVersion -eq $package.version -and $evidence.sourceFingerprint -eq $fingerprint -and $evidence.unityVersion -eq '6000.6.3f1') 'Unity evidence does not match the current source/version.'
+    Require ($evidence.failed -eq 0 -and $evidence.passed -gt 0 -and $evidence.examplesCompiled) 'Unity validation/examples did not pass.'
+}
+[pscustomobject]@{ Package=$package.name; Version=$package.version; SourceFingerprint=$fingerprint; CurrentGuides=$current.Count; Operations=@($capability.operations).Count; UnityEvidenceRequired=[bool]$RequireUnityEvidence } | ConvertTo-Json -Compress

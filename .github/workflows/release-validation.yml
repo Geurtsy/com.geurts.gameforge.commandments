@@ -1,0 +1,10 @@
+name: Release documentation and capabilities
+on: [push, pull_request]
+jobs:
+  release-contract:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify current guides, capabilities and matching Unity evidence
+        shell: pwsh
+        run: '& ./Tools~/Validate-Release.ps1 -RequireUnityEvidence'

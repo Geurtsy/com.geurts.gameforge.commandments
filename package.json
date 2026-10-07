@@ -1,6 +1,6 @@
 {
   "name": "com.geurts.gameforge.documentation",
-  "version": "0.15.1",
+  "version": "0.15.2",
   "displayName": "Geurts Game Forge Commandments Compatibility",
   "description": "Optional Editor API adapter for existing Commandments Companion installations. All viewing, acquisition and updates are owned by God 0.29.0 or newer. No menus or updater.",
   "unity": "6000.6",

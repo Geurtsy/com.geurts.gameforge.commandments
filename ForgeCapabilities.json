@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "com.geurts.gameforge.documentation",
+  "packageVersion": "0.15.2",
+  "maturity": "pre_release",
+  "prerequisites": [],
+  "features": [
+    {
+      "id": "passive_adapter",
+      "description": "Passive legacy Editor API/status handoff; no updater ownership.",
+      "implemented": true,
+      "maturity": "pre_release",
+      "provider": "none",
+      "operations": [],
+      "validation": [
+        "metadata_and_existing_owner_contract"
+      ]
+    }
+  ],
+  "operations": [],
+  "validation": {
+    "unityVersion": "6000.6.3f1",
+    "scope": "Editor APIs, owner source rules, metadata and supported examples. See matching release evidence.",
+    "unverified": [
+      "Interactive desktop and physical input acceptance.",
+      "Declared runtime features have not been exercised by merely capturing a report."
+    ]
+  }
+}
