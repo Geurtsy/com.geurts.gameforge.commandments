@@ -6,18 +6,18 @@
   "testedCandidateCommit": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553",
   "unityVersion": "6000.6.3f1",
   "recordedUtc": "2026-10-10T23:14:12.382771+00:00",
-  "publicationReady": true,
+  "publicationReady": false,
   "passed": 8,
   "failed": 0,
   "skipped": 0,
-  "examplesCompiled": true,
+  "examplesCompiled": false,
   "exampleSource": "Tools~/Examples/AutomationExample.cs",
   "commandmentsBaseline": {
     "version": "0.59.0",
     "commit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
     "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git"
   },
-  "scope": "Demonstrated compliance corrections only; source-matched Editor/Play checks and separately scoped native evidence. Counts are actual successful executions across the named runs, including repeated independent/bootstrap checks.",
+  "scope": "Pending fresh validation after preserving upstream integration recipes and selecting unoccupied releases.",
   "findings": [
     {
       "id": "GF-R3-006",
