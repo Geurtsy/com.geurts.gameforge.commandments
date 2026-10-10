@@ -6,7 +6,7 @@ Adapter 0.15.0 has no vendor or God compile references. It cannot acquire Comman
 ```json
 {
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.15.2",
+  "packageVersion": "0.15.3",
   "dependencies": {}
 }
 ```

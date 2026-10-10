@@ -1,6 +1,6 @@
 # AI usability in Geurts Game Forge Commandments Compatibility
 
-Release 0.15.2. `ForgeCapabilities.json` is this release's machine-readable declaration. Read installed package metadata and discovered owner providers separately; declaration alone never proves readiness. Planned features remain unavailable. Consumers update manually from Git.
+Release 0.15.3. `ForgeCapabilities.json` is this release's machine-readable declaration. Read installed package metadata and discovered owner providers separately; declaration alone never proves readiness. Planned features remain unavailable. Consumers update manually from Git.
 
 This independent package declares metadata without acquiring a God dependency. Its existing owner APIs remain authoritative; God automation operations are not advertised.
 
@@ -24,6 +24,7 @@ using UnityEditor.PackageManager;
 public static class GeurtsGameForgeCommandmentsCompatibilityAutomationExample
 {
     /// <summary>Reads actual installed package metadata without installation or remote access.</summary>
+    /// <returns>The string result of the operation described above; absence and failures retain this owner&apos;s documented contract.</returns>
     public static string InstalledVersion() => PackageInfo.GetAllRegisteredPackages().SingleOrDefault(value => value.name == "com.geurts.gameforge.documentation")?.version ?? "unknown";
 }
 ```
@@ -36,7 +37,7 @@ Run `Tools~/Validate-Release.ps1 -RequireUnityEvidence` before publication. The 
 ```json
 {
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.15.2",
+  "packageVersion": "0.15.3",
   "dependencies": {}
 }
 ```

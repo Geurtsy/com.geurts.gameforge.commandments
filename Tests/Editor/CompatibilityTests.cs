@@ -8,8 +8,10 @@ using UnityEngine;
 using UnityEngine.UIElements;
 namespace Geurts.GameForge.Documentation.Tests
 {
+    /// <summary>Exercises Compatibility behavior with isolated inputs and owned fixture cleanup.</summary>
     public sealed class CompatibilityTests
     {
+        /// <summary>Asserts restored Handoff Reconstruction Retains One Status And Reachable Owner Action using isolated fixture state.</summary>
         [Test] public void RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction()
         {
             var window = ScriptableObject.CreateInstance<DocumentationUpdaterWindow>();
@@ -27,6 +29,7 @@ namespace Geurts.GameForge.Documentation.Tests
             }
             finally { UnityEngine.Object.DestroyImmediate(window); }
         }
+        /// <summary>Asserts adapter Has No Menu Registrations Or Automatic Initializers Or Updater using isolated fixture state.</summary>
         [Test] public void AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater()
         {
             var assembly = typeof(DocumentationIntegration).Assembly;
@@ -42,12 +45,14 @@ namespace Geurts.GameForge.Documentation.Tests
                 }
             }
         }
+        /// <summary>Asserts legacy Consent Never Invokes Its Callback using isolated fixture state.</summary>
         [Test] public void LegacyConsentNeverInvokesItsCallback()
         {
             bool called = false;
             Assert.Throws<InvalidOperationException>(() => DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => { called=true; return true; }));
             Assert.That(called, Is.False);
         }
+        /// <summary>Asserts both Public Namespaces Share The God Owner Or The Same Missing Owner Explanation using isolated fixture state.</summary>
         [Test] public void BothPublicNamespacesShareTheGodOwnerOrTheSameMissingOwnerExplanation()
         {
             Assert.That(Geurts.GameForge.Commandments.CommandmentsIntegration.StatusMessage, Is.EqualTo(DocumentationIntegration.StatusMessage));

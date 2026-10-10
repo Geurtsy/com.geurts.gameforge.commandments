@@ -74,6 +74,7 @@ foreach ($relative in $current) {
             }
         }
     }
+    foreach ($claim in [regex]::Matches($text, '(?m)^Release\s+(?<version>\d+\.\d+\.\d+)(?:\s|[.,:]|$)')) { Require ($claim.Groups['version'].Value -eq $package.version) "Stale current release prose: $relative" }
     foreach ($match in [regex]::Matches($text, '(?m)^# [^\r\n]*?(?<version>\d+\.\d+\.\d+)\s*$')) { Require ($match.Groups['version'].Value -eq $package.version) "Stale current guide heading: $relative" }
     foreach ($match in [regex]::Matches($text, '\]\((?<path>[^)]+)\)')) {
         $link = [Uri]::UnescapeDataString($match.Groups['path'].Value.Trim('<','>').Split('#')[0])

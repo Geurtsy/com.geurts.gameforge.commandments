@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.3 — 2026-10-11
+
+- Retain current supported behavior and dependency boundaries while completing public API documentation.
+- Complete missing public API contracts, serialized field guidance and safe internal naming conventions.
+
+
 ## 0.15.2 - 2026-10-07
 
 - Add versioned AI capability declarations and a documentation/source-evidence release gate.
