@@ -1,0 +1,33 @@
+{
+  "kind": "full",
+  "unityVersion": "6000.6.3f1",
+  "testedCandidateCommit": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553",
+  "startUtc": "2026-10-10 23:10:15Z",
+  "endUtc": "2026-10-10 23:10:54Z",
+  "wholeRunResultSha256": "1bcc013974f88ebbe44fb29ed39a1a4baa06965e0ff39a02acef115ef4ebecbd",
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "cases": [
+    {
+      "name": "Geurts.GameForge.Documentation.Tests.CompatibilityTests.AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater",
+      "result": "Passed",
+      "reason": null
+    },
+    {
+      "name": "Geurts.GameForge.Documentation.Tests.CompatibilityTests.BothPublicNamespacesShareTheGodOwnerOrTheSameMissingOwnerExplanation",
+      "result": "Passed",
+      "reason": null
+    },
+    {
+      "name": "Geurts.GameForge.Documentation.Tests.CompatibilityTests.LegacyConsentNeverInvokesItsCallback",
+      "result": "Passed",
+      "reason": null
+    },
+    {
+      "name": "Geurts.GameForge.Documentation.Tests.CompatibilityTests.RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction",
+      "result": "Passed",
+      "reason": null
+    }
+  ]
+}

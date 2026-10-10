@@ -1,0 +1,189 @@
+{
+  "scope": "Exact scoped build/runtime evidence, with later Editor/test-only changes independently compiled. Shipping Runtime source remained unchanged after the successful Mono and IL2CPP High builds.",
+  "players": [
+    {
+      "kind": "Mono2x",
+      "runs": [
+        {
+          "kind": "apply",
+          "exit": 0,
+          "batchMode": true,
+          "graphics": false
+        },
+        {
+          "kind": "reload",
+          "exit": 0,
+          "batchMode": true,
+          "graphics": false
+        },
+        {
+          "kind": "diagnostics-ownership",
+          "exit": 0,
+          "batchMode": true,
+          "graphics": false
+        }
+      ],
+      "scope": "Background API, saved-state and ordinary bootstrap ownership only. No graphics, physical input, audible output or device acceptance.",
+      "buildReport": "Succeeded\nErrors=0\nWarnings=13",
+      "playerExecutableSha256": "96b492cb271111251fe42b8646e65370a1b7b566773a1e35b34c3f2d1ae70873",
+      "evidence": [
+        {
+          "kind": "apply",
+          "sha256": "e3625320f19e54dab6664ae65043462e5f923eb3fa0023c6a2922c0e91f784fd",
+          "reported": "PASS: Ordinary boot-first/development-second startup and runtime-host ownership; strict settings damage/version/unknown-field preservation; Settings Stage/Apply/save or new-process restore; inert serialized-field configuration; Audio library lookup. Physical input, audible output and display/device acceptance are not asserted."
+        },
+        {
+          "kind": "reload",
+          "sha256": "e3625320f19e54dab6664ae65043462e5f923eb3fa0023c6a2922c0e91f784fd",
+          "reported": "PASS: Ordinary boot-first/development-second startup and runtime-host ownership; strict settings damage/version/unknown-field preservation; Settings Stage/Apply/save or new-process restore; inert serialized-field configuration; Audio library lookup. Physical input, audible output and display/device acceptance are not asserted."
+        },
+        {
+          "kind": "diagnostics-ownership",
+          "sha256": "d9d2316512d3034977134df65aa448331b45340b645ef91f347268f100b3a7cb",
+          "reported": "{\n    \"unity\": \"6000.6.3f1\",\n    \"diagnostics\": \"0.11.1\",\n    \"graphicsDevice\": \"Null Device\",\n    \"startedUtc\": \"2026-10-10T23:04:15.1527730Z\",\n    \"completedUtc\": \"2026-10-10T23:04:15.5478307Z\",\n    \"error\": \"\",\n    \"developmentBuild\": false,\n    \"passed\": true,\n    \"heldForReview\": false,\n    \"screenWidth\": 1424,\n    \"screenHeight\": 730,\n    \"checks\": [\n        \"The opt-in probe retains its diagnostic authored role.\",\n        \"The opt-in probe belongs to the ordinary loaded bootstrap.\",\n        \"A fresh test target shares the known bootstrap ownership.\",\n        \"The owner releases its exact temporary target without persistent Unity scene state.\"\n    ],\n    \"screenshots\": []\n}"
+        }
+      ]
+    },
+    {
+      "kind": "IL2CPP",
+      "runs": [
+        {
+          "kind": "apply",
+          "exit": 0,
+          "batchMode": true,
+          "graphics": false
+        },
+        {
+          "kind": "reload",
+          "exit": 0,
+          "batchMode": true,
+          "graphics": false
+        },
+        {
+          "kind": "diagnostics-ownership",
+          "exit": 0,
+          "batchMode": true,
+          "graphics": false
+        }
+      ],
+      "scope": "Background API, saved-state and ordinary bootstrap ownership only. No graphics, physical input, audible output or device acceptance.",
+      "buildReport": "Succeeded\nErrors=0\nWarnings=16",
+      "playerExecutableSha256": "46e56c95ed56a47bcac9baa7dc7ea450aba0ce0998f6ad48db31680fc1d223a1",
+      "evidence": [
+        {
+          "kind": "apply",
+          "sha256": "e3625320f19e54dab6664ae65043462e5f923eb3fa0023c6a2922c0e91f784fd",
+          "reported": "PASS: Ordinary boot-first/development-second startup and runtime-host ownership; strict settings damage/version/unknown-field preservation; Settings Stage/Apply/save or new-process restore; inert serialized-field configuration; Audio library lookup. Physical input, audible output and display/device acceptance are not asserted."
+        },
+        {
+          "kind": "reload",
+          "sha256": "e3625320f19e54dab6664ae65043462e5f923eb3fa0023c6a2922c0e91f784fd",
+          "reported": "PASS: Ordinary boot-first/development-second startup and runtime-host ownership; strict settings damage/version/unknown-field preservation; Settings Stage/Apply/save or new-process restore; inert serialized-field configuration; Audio library lookup. Physical input, audible output and display/device acceptance are not asserted."
+        },
+        {
+          "kind": "diagnostics-ownership",
+          "sha256": "fd9a2081ba4ac47759177cbb14662a132bd6314090f0d64df48b158127c9e864",
+          "reported": "{\n    \"unity\": \"6000.6.3f1\",\n    \"diagnostics\": \"0.11.1\",\n    \"graphicsDevice\": \"Null Device\",\n    \"startedUtc\": \"2026-10-10T23:04:28.4232982Z\",\n    \"completedUtc\": \"2026-10-10T23:04:28.5926035Z\",\n    \"error\": \"\",\n    \"developmentBuild\": false,\n    \"passed\": true,\n    \"heldForReview\": false,\n    \"screenWidth\": 1424,\n    \"screenHeight\": 730,\n    \"checks\": [\n        \"The opt-in probe retains its diagnostic authored role.\",\n        \"The opt-in probe belongs to the ordinary loaded bootstrap.\",\n        \"A fresh test target shares the known bootstrap ownership.\",\n        \"The owner releases its exact temporary target without persistent Unity scene state.\"\n    ],\n    \"screenshots\": []\n}"
+        }
+      ]
+    }
+  ],
+  "runtimeSourceComparison": [
+    {
+      "owner": "b",
+      "nativeBuildCommits": {
+        "Mono2x": "3aff0a439348882447049b27a7a5174ea0936d0c",
+        "IL2CPP": "3aff0a439348882447049b27a7a5174ea0936d0c"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "p",
+      "nativeBuildCommits": {
+        "Mono2x": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553",
+        "IL2CPP": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "g",
+      "nativeBuildCommits": {
+        "Mono2x": "392c0b1f6a93a9636ffda4bf41de78f2eef246d7",
+        "IL2CPP": "392c0b1f6a93a9636ffda4bf41de78f2eef246d7"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "e",
+      "nativeBuildCommits": {
+        "Mono2x": "4af07366cd4a4575e24b6bd3922403beb917d774",
+        "IL2CPP": "4af07366cd4a4575e24b6bd3922403beb917d774"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "d",
+      "nativeBuildCommits": {
+        "Mono2x": "adfe0dde30c52ac129cb45952634c97afbdfd343",
+        "IL2CPP": "adfe0dde30c52ac129cb45952634c97afbdfd343"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "n",
+      "nativeBuildCommits": {
+        "Mono2x": "d92ad6ef9e378e555159c98025bdddf2bb9ce6e2",
+        "IL2CPP": "d92ad6ef9e378e555159c98025bdddf2bb9ce6e2"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "s",
+      "nativeBuildCommits": {
+        "Mono2x": "5157be162258071a127bd28f56d882edf58ce360",
+        "IL2CPP": "5157be162258071a127bd28f56d882edf58ce360"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "l",
+      "nativeBuildCommits": {
+        "Mono2x": "a6679353a0b5a945f839da23a342eb2c0e1ef9ff",
+        "IL2CPP": "a6679353a0b5a945f839da23a342eb2c0e1ef9ff"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "v",
+      "nativeBuildCommits": {
+        "Mono2x": "1dff14eaf37dff56a7ab6d337a9387d4d17cd3d9",
+        "IL2CPP": "1dff14eaf37dff56a7ab6d337a9387d4d17cd3d9"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "a",
+      "nativeBuildCommits": {
+        "Mono2x": "6c0ca30a0384bbcbcf8e60f4d42b7a37398eeec4",
+        "IL2CPP": "6c0ca30a0384bbcbcf8e60f4d42b7a37398eeec4"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "u",
+      "nativeBuildCommits": {
+        "Mono2x": "dd0a924ea8bc1da525afb6f3dbe593ad1fa07638",
+        "IL2CPP": "dd0a924ea8bc1da525afb6f3dbe593ad1fa07638"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    },
+    {
+      "owner": "o",
+      "nativeBuildCommits": {
+        "Mono2x": "439557d53b95359a1d08946098724420d7e2b8a2",
+        "IL2CPP": "439557d53b95359a1d08946098724420d7e2b8a2"
+      },
+      "shippingRuntimeUnchangedSinceNativeBuild": true
+    }
+  ]
+}

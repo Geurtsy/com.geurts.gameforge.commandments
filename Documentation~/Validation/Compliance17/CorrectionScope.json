@@ -1,0 +1,45 @@
+{
+  "commandmentsBaseline": {
+    "version": "0.59.0",
+    "commit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+    "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git"
+  },
+  "auditedSourceCommit": "36c0bd1362e2618c366d07999c3fcb03082c7ddb",
+  "testedCandidateCommit": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553",
+  "findings": [
+    {
+      "id": "GF-R3-006",
+      "title": "Public classes still lack meaningful XML descriptions",
+      "requirementReferences": [
+        {
+          "file": "GeurtsTechniques/GeurtsCodeTechnique.md",
+          "section": "Public Classes",
+          "version": "0.1.1",
+          "baselineCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+          "url": "https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/1efe5e03eb6b70a1188d9d999678dc6fb38b483a/GeurtsTechniques/GeurtsCodeTechnique.md"
+        }
+      ]
+    },
+    {
+      "id": "GF-R3-007",
+      "title": "Public methods have incomplete XML summaries and parameter/return contracts",
+      "requirementReferences": [
+        {
+          "file": "GeurtsTechniques/GeurtsCodeTechnique.md",
+          "section": "Public Methods",
+          "version": "0.1.1",
+          "baselineCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+          "url": "https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/1efe5e03eb6b70a1188d9d999678dc6fb38b483a/GeurtsTechniques/GeurtsCodeTechnique.md"
+        }
+      ]
+    }
+  ],
+  "dependencyExempt": false,
+  "unverified": [
+    "Physical keyboard/mouse, alternate skin, high-DPI and device acceptance were not performed. Native dark-skin Inspector captures are scoped to the recorded panels and widths.",
+    "Windows batch players validate APIs, persistence and ordinary bootstrap ownership. They do not certify visual console layout, physical input, audible output, native Steam sessions or every product capability.",
+    "FMOD has separately recorded real licensed compilation and native NOSOUND_NRT checks. Audible/device acceptance and unchanged vendor RuntimeManager behavior remain outside this correction.",
+    "Real paid model naming accuracy was not tested. Synthetic audio/filtering and controlled late/cancelled request tests do not certify semantic naming accuracy.",
+    "BigBang remains exempt from dependency compliance and dependency-driven changes. Consumer installation is manual; unfinished SaveLoad and Steam features were not implemented."
+  ]
+}
