@@ -1,11 +1,14 @@
 {
   "commandmentsBaseline": {
-    "version": "0.59.0",
-    "commit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
-    "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git"
+    "version": "0.59.1",
+    "commit": "1501f4644f1d750c7dd8ce7422163de648ee4d7d",
+    "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git",
+    "originalAuditVersion": "0.59.0",
+    "originalAuditCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+    "changeReview": "Reviewed the complete upstream delta. Brick Contract 1.22.1 adds catalogue-only installation routing and release-matched practical recipes. Published upstream recipes and executable tests were preserved, declared, compiled and re-exercised in this combined delivery; the original seventeen findings and corrections remain applicable. Other selected subject rules are unchanged."
   },
   "auditedSourceCommit": "36c0bd1362e2618c366d07999c3fcb03082c7ddb",
-  "testedCandidateCommit": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553",
+  "testedCandidateCommit": "dccd43fad54cc44cb1bdc05ecdfbbcbf720a07d8",
   "findings": [
     {
       "id": "GF-R3-006",

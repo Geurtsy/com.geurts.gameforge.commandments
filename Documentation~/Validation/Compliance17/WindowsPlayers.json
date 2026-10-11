@@ -39,8 +39,8 @@
         },
         {
           "kind": "diagnostics-ownership",
-          "sha256": "d9d2316512d3034977134df65aa448331b45340b645ef91f347268f100b3a7cb",
-          "reported": "{\n    \"unity\": \"6000.6.3f1\",\n    \"diagnostics\": \"0.11.1\",\n    \"graphicsDevice\": \"Null Device\",\n    \"startedUtc\": \"2026-10-10T23:04:15.1527730Z\",\n    \"completedUtc\": \"2026-10-10T23:04:15.5478307Z\",\n    \"error\": \"\",\n    \"developmentBuild\": false,\n    \"passed\": true,\n    \"heldForReview\": false,\n    \"screenWidth\": 1424,\n    \"screenHeight\": 730,\n    \"checks\": [\n        \"The opt-in probe retains its diagnostic authored role.\",\n        \"The opt-in probe belongs to the ordinary loaded bootstrap.\",\n        \"A fresh test target shares the known bootstrap ownership.\",\n        \"The owner releases its exact temporary target without persistent Unity scene state.\"\n    ],\n    \"screenshots\": []\n}"
+          "sha256": "635eddf526609c1407c2ea14220c52a9786aad9813ad84bd0eb2a2b08f648178",
+          "reported": "{\n    \"unity\": \"6000.6.3f1\",\n    \"diagnostics\": \"0.11.2\",\n    \"graphicsDevice\": \"Null Device\",\n    \"startedUtc\": \"2026-10-10T23:56:21.7584771Z\",\n    \"completedUtc\": \"2026-10-10T23:56:22.1189039Z\",\n    \"error\": \"\",\n    \"developmentBuild\": false,\n    \"passed\": true,\n    \"heldForReview\": false,\n    \"screenWidth\": 1424,\n    \"screenHeight\": 730,\n    \"checks\": [\n        \"The opt-in probe retains its diagnostic authored role.\",\n        \"The opt-in probe belongs to the ordinary loaded bootstrap.\",\n        \"A fresh test target shares the known bootstrap ownership.\",\n        \"The owner releases its exact temporary target without persistent Unity scene state.\"\n    ],\n    \"screenshots\": []\n}"
         }
       ]
     },
@@ -82,8 +82,8 @@
         },
         {
           "kind": "diagnostics-ownership",
-          "sha256": "fd9a2081ba4ac47759177cbb14662a132bd6314090f0d64df48b158127c9e864",
-          "reported": "{\n    \"unity\": \"6000.6.3f1\",\n    \"diagnostics\": \"0.11.1\",\n    \"graphicsDevice\": \"Null Device\",\n    \"startedUtc\": \"2026-10-10T23:04:28.4232982Z\",\n    \"completedUtc\": \"2026-10-10T23:04:28.5926035Z\",\n    \"error\": \"\",\n    \"developmentBuild\": false,\n    \"passed\": true,\n    \"heldForReview\": false,\n    \"screenWidth\": 1424,\n    \"screenHeight\": 730,\n    \"checks\": [\n        \"The opt-in probe retains its diagnostic authored role.\",\n        \"The opt-in probe belongs to the ordinary loaded bootstrap.\",\n        \"A fresh test target shares the known bootstrap ownership.\",\n        \"The owner releases its exact temporary target without persistent Unity scene state.\"\n    ],\n    \"screenshots\": []\n}"
+          "sha256": "b35e32f22f3bbf3fd814c54c1c145a0fc95497fb6c6412b084f3cf8704d65f9b",
+          "reported": "{\n    \"unity\": \"6000.6.3f1\",\n    \"diagnostics\": \"0.11.2\",\n    \"graphicsDevice\": \"Null Device\",\n    \"startedUtc\": \"2026-10-10T23:56:31.0934566Z\",\n    \"completedUtc\": \"2026-10-10T23:56:31.2151193Z\",\n    \"error\": \"\",\n    \"developmentBuild\": false,\n    \"passed\": true,\n    \"heldForReview\": false,\n    \"screenWidth\": 1424,\n    \"screenHeight\": 730,\n    \"checks\": [\n        \"The opt-in probe retains its diagnostic authored role.\",\n        \"The opt-in probe belongs to the ordinary loaded bootstrap.\",\n        \"A fresh test target shares the known bootstrap ownership.\",\n        \"The owner releases its exact temporary target without persistent Unity scene state.\"\n    ],\n    \"screenshots\": []\n}"
         }
       ]
     }
@@ -92,96 +92,96 @@
     {
       "owner": "b",
       "nativeBuildCommits": {
-        "Mono2x": "3aff0a439348882447049b27a7a5174ea0936d0c",
-        "IL2CPP": "3aff0a439348882447049b27a7a5174ea0936d0c"
+        "Mono2x": "b07396e024d4437b229033661fbaf56bbf74454b",
+        "IL2CPP": "b07396e024d4437b229033661fbaf56bbf74454b"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "p",
       "nativeBuildCommits": {
-        "Mono2x": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553",
-        "IL2CPP": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553"
+        "Mono2x": "dccd43fad54cc44cb1bdc05ecdfbbcbf720a07d8",
+        "IL2CPP": "dccd43fad54cc44cb1bdc05ecdfbbcbf720a07d8"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "g",
       "nativeBuildCommits": {
-        "Mono2x": "392c0b1f6a93a9636ffda4bf41de78f2eef246d7",
-        "IL2CPP": "392c0b1f6a93a9636ffda4bf41de78f2eef246d7"
+        "Mono2x": "98052ff61d7bb7bcee0406e95be1b558e4365f0d",
+        "IL2CPP": "98052ff61d7bb7bcee0406e95be1b558e4365f0d"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "e",
       "nativeBuildCommits": {
-        "Mono2x": "4af07366cd4a4575e24b6bd3922403beb917d774",
-        "IL2CPP": "4af07366cd4a4575e24b6bd3922403beb917d774"
+        "Mono2x": "10fc8ff2aa2937593a2c16efeb94a01ad18d8072",
+        "IL2CPP": "10fc8ff2aa2937593a2c16efeb94a01ad18d8072"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "d",
       "nativeBuildCommits": {
-        "Mono2x": "adfe0dde30c52ac129cb45952634c97afbdfd343",
-        "IL2CPP": "adfe0dde30c52ac129cb45952634c97afbdfd343"
+        "Mono2x": "9ced9523e100379ca38eea811161192cf878c0a3",
+        "IL2CPP": "9ced9523e100379ca38eea811161192cf878c0a3"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "n",
       "nativeBuildCommits": {
-        "Mono2x": "d92ad6ef9e378e555159c98025bdddf2bb9ce6e2",
-        "IL2CPP": "d92ad6ef9e378e555159c98025bdddf2bb9ce6e2"
+        "Mono2x": "187d1c36c8c450f2ac185e85c0ffb542e8105292",
+        "IL2CPP": "187d1c36c8c450f2ac185e85c0ffb542e8105292"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "s",
       "nativeBuildCommits": {
-        "Mono2x": "5157be162258071a127bd28f56d882edf58ce360",
-        "IL2CPP": "5157be162258071a127bd28f56d882edf58ce360"
+        "Mono2x": "53b4b12d5e15d9751fc187a8d132e9d0a0a40e61",
+        "IL2CPP": "53b4b12d5e15d9751fc187a8d132e9d0a0a40e61"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "l",
       "nativeBuildCommits": {
-        "Mono2x": "a6679353a0b5a945f839da23a342eb2c0e1ef9ff",
-        "IL2CPP": "a6679353a0b5a945f839da23a342eb2c0e1ef9ff"
+        "Mono2x": "4a0c74c5436c40dbdaba538d4a0e48991bf7f20c",
+        "IL2CPP": "4a0c74c5436c40dbdaba538d4a0e48991bf7f20c"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "v",
       "nativeBuildCommits": {
-        "Mono2x": "1dff14eaf37dff56a7ab6d337a9387d4d17cd3d9",
-        "IL2CPP": "1dff14eaf37dff56a7ab6d337a9387d4d17cd3d9"
+        "Mono2x": "27f5f9429f7ed621feaf7b08a296461dc8e7699b",
+        "IL2CPP": "27f5f9429f7ed621feaf7b08a296461dc8e7699b"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "a",
       "nativeBuildCommits": {
-        "Mono2x": "6c0ca30a0384bbcbcf8e60f4d42b7a37398eeec4",
-        "IL2CPP": "6c0ca30a0384bbcbcf8e60f4d42b7a37398eeec4"
+        "Mono2x": "b83e908d2ae8fc547ef7b9d2aca36695672adeaa",
+        "IL2CPP": "b83e908d2ae8fc547ef7b9d2aca36695672adeaa"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "u",
       "nativeBuildCommits": {
-        "Mono2x": "dd0a924ea8bc1da525afb6f3dbe593ad1fa07638",
-        "IL2CPP": "dd0a924ea8bc1da525afb6f3dbe593ad1fa07638"
+        "Mono2x": "7d394b78ae308a2014c4c34741542bd6c49f62f1",
+        "IL2CPP": "7d394b78ae308a2014c4c34741542bd6c49f62f1"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     },
     {
       "owner": "o",
       "nativeBuildCommits": {
-        "Mono2x": "439557d53b95359a1d08946098724420d7e2b8a2",
-        "IL2CPP": "439557d53b95359a1d08946098724420d7e2b8a2"
+        "Mono2x": "8cea44866047d6bf182a46c8583f2fc2e49fc58e",
+        "IL2CPP": "8cea44866047d6bf182a46c8583f2fc2e49fc58e"
       },
       "shippingRuntimeUnchangedSinceNativeBuild": true
     }

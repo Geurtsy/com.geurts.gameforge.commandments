@@ -3,21 +3,24 @@
   "packageId": "com.geurts.gameforge.documentation",
   "packageVersion": "0.15.3",
   "sourceFingerprint": "cb73bda0a207199b53f197b5564f60317736e91ac814642d62a863894568fba7",
-  "testedCandidateCommit": "b59d6cc2e27e8e7bc62de4dfe040a360ef58f553",
+  "testedCandidateCommit": "dccd43fad54cc44cb1bdc05ecdfbbcbf720a07d8",
   "unityVersion": "6000.6.3f1",
-  "recordedUtc": "2026-10-10T23:14:12.382771+00:00",
-  "publicationReady": false,
+  "recordedUtc": "2026-10-11T00:24:28.605804+00:00",
+  "publicationReady": true,
   "passed": 8,
   "failed": 0,
   "skipped": 0,
-  "examplesCompiled": false,
+  "examplesCompiled": true,
   "exampleSource": "Tools~/Examples/AutomationExample.cs",
   "commandmentsBaseline": {
-    "version": "0.59.0",
-    "commit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
-    "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git"
+    "version": "0.59.1",
+    "commit": "1501f4644f1d750c7dd8ce7422163de648ee4d7d",
+    "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git",
+    "originalAuditVersion": "0.59.0",
+    "originalAuditCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+    "changeReview": "Reviewed the complete upstream delta. Brick Contract 1.22.1 adds catalogue-only installation routing and release-matched practical recipes. Published upstream recipes and executable tests were preserved, declared, compiled and re-exercised in this combined delivery; the original seventeen findings and corrections remain applicable. Other selected subject rules are unchanged."
   },
-  "scope": "Pending fresh validation after preserving upstream integration recipes and selecting unoccupied releases.",
+  "scope": "Demonstrated compliance corrections only; source-matched Editor/Play checks and separately scoped native evidence. Counts are actual successful executions across the named runs, including repeated independent/bootstrap checks.",
   "findings": [
     {
       "id": "GF-R3-006",
@@ -67,7 +70,7 @@
       "passed": 4,
       "failed": 0,
       "skipped": 0,
-      "wholeRunResultSha256": "1bcc013974f88ebbe44fb29ed39a1a4baa06965e0ff39a02acef115ef4ebecbd",
+      "wholeRunResultSha256": "b93de884c9d244b97b39ff0dfea134ef7cb3b1b168ca7910d8f7ff8bcebeba69",
       "resultFile": "Documentation~/Validation/Compliance17/fullResults.json"
     },
     {
@@ -75,7 +78,7 @@
       "passed": 4,
       "failed": 0,
       "skipped": 0,
-      "wholeRunResultSha256": "7ba94e37b5050a9053e1ba1adc57f48eaa0fd87c49df764b79c654bc267837e3",
+      "wholeRunResultSha256": "f0b0b2362ff0574bb74159ce304c5573b538d7b3bdca3ef4c0650890e2c34beb",
       "resultFile": "Documentation~/Validation/Compliance17/independentResults.json"
     }
   ],
@@ -89,6 +92,10 @@
   ],
   "historicalEvidence": "Earlier evidence remains under Documentation~/History and is not used as validation for this release.",
   "bigBangDependencyExempt": false,
+  "exampleSources": [
+    "Tools~/Examples/AutomationExample.cs"
+  ],
+  "integrationRecipes": [],
   "windowsPlayerValidation": "Documentation~/Validation/Compliance17/WindowsPlayers.json",
   "ordinalSourceTreeSha256": "cb73bda0a207199b53f197b5564f60317736e91ac814642d62a863894568fba7",
   "sourceFingerprintAlgorithm": "The owning Validate-Release.ps1 algorithm; independent ordinal source hashes additionally match the Git-resolved fixture byte for byte after newline normalization."
