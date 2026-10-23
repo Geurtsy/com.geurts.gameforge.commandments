@@ -14,6 +14,7 @@ After the current Commandments entry and manifest, select the row matching the t
 |---|---|
 | Migrate existing Companion callers to God | [Read this section](README.md) |
 | Check licensed tool requirements | [Read this section](GodToolRequirements.md) |
+| Validate this owner (maintainers) | [Release gate](../Tools~/Validate-Release.ps1) and [recorded evidence](AIUsabilityValidation.json) |
 
 ## Supported operations
 
