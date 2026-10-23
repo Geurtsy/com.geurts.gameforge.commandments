@@ -20,7 +20,7 @@ The restored handoff retains one native status and action across reconstruction,
 ```json
 {
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.15.3",
+  "packageVersion": "0.15.4",
   "dependencies": {}
 }
 ```

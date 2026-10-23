@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.15.4 - 2026-10-23
+
+- Add concise task-based reading routes and preserve current installation, consent and compatibility boundaries.
+
 ## 0.15.3 — 2026-10-11
 
 - Retain current supported behavior and dependency boundaries while completing public API documentation.
