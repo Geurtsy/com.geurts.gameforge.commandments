@@ -1,102 +1,71 @@
 {
   "schemaVersion": "1.0.0",
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.15.3",
+  "packageVersion": "0.15.4",
   "sourceFingerprint": "cb73bda0a207199b53f197b5564f60317736e91ac814642d62a863894568fba7",
-  "testedCandidateCommit": "dccd43fad54cc44cb1bdc05ecdfbbcbf720a07d8",
+  "sourceFingerprintAlgorithm": "Owning Tools~/Validate-Release.ps1 normalized C# hashes",
   "unityVersion": "6000.6.3f1",
-  "recordedUtc": "2026-10-11T00:24:28.605804+00:00",
-  "publicationReady": true,
-  "passed": 8,
+  "candidateCommit": "05e5ec0ef91e7e41ee0fd7ec262a27f6231510f4",
+  "testedCandidateCommit": "05e5ec0ef91e7e41ee0fd7ec262a27f6231510f4",
+  "sourceKind": "git",
+  "resolvedPackageHash": "05e5ec0ef91e7e41ee0fd7ec262a27f6231510f4",
+  "testedPackagePins": {
+    "com.geurts.gameforge.god": "https://github.com/Geurtsy/com.geurts.gameforge.god.git#2338772f7cf6232a3d40d30a8b37d23c88b6c3aa",
+    "com.geurts.gameforge.angels": "https://github.com/Geurtsy/com.geurts.gameforge.angels.git#83a0c2f0df50b6889a8777343bac2f26e9aeba21",
+    "com.geurts.gameforge.bigbang": "https://github.com/Geurtsy/GeurtsGameForgeBigBang.git#788536a921fd65af691c5ddc028a55650f8ecf28",
+    "com.geurts.gameforge.documentation": "https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#05e5ec0ef91e7e41ee0fd7ec262a27f6231510f4",
+    "com.geurts.gameforge.steam": "https://github.com/Geurtsy/com.geurts.gameforge.steam.git#5775e713c9b71877f89caf8035d437a49fb3285f",
+    "com.geurts.gameforge.diagnostics": "https://github.com/Geurtsy/com.geurts.gameforge.diagnostics.git#300f8a17cf0ed28a4c5c0018933048231bdbdf85",
+    "com.geurts.gameforge.settings": "https://github.com/Geurtsy/com.geurts.gameforge.settings.git#d0d6d44b64e117b45e55193740402461ab482844",
+    "com.geurts.gameforge.sceneloading": "https://github.com/Geurtsy/com.geurts.gameforge.sceneloading.git#fc5827bbe3f6a652029541319da12d037e5db947",
+    "com.geurts.gameforge.saveload": "https://github.com/Geurtsy/com.geurts.gameforge.saveload.git#89259ddcaf89acda424a4b888af01ec80e3ed5c7",
+    "com.geurts.gameforge.audio": "https://github.com/Geurtsy/com.geurts.gameforge.audio.git#2f3d6af7c694df1eaed01fc500ad077472182625",
+    "com.geurts.gameforge.userinterface": "https://github.com/Geurtsy/com.geurts.gameforge.userinterface.git#c86f1ddbcd372b28090da23086f9980e4416b647",
+    "com.geurts.gameforge.objectpooling": "https://github.com/Geurtsy/com.geurts.gameforge.objectpooling.git#3dcefd5c1adffc73ed8a3e7e31c141a8f6f76148",
+    "com.geurts.gameforge.gitflow": "https://github.com/Geurtsy/com.geurts.gameforge.gitflow.git#88abe279dd95b45f4294e7b348a342fdbee74ea3"
+  },
+  "passed": 4,
   "failed": 0,
   "skipped": 0,
+  "passedTests": [
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater",
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.BothPublicNamespacesShareTheGodOwnerOrTheSameMissingOwnerExplanation",
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.LegacyConsentNeverInvokesItsCallback",
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction"
+  ],
   "examplesCompiled": true,
-  "exampleSource": "Tools~/Examples/AutomationExample.cs",
-  "commandmentsBaseline": {
-    "version": "0.59.1",
-    "commit": "1501f4644f1d750c7dd8ce7422163de648ee4d7d",
-    "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git",
-    "originalAuditVersion": "0.59.0",
-    "originalAuditCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
-    "changeReview": "Reviewed the complete upstream delta. Brick Contract 1.22.1 adds catalogue-only installation routing and release-matched practical recipes. Published upstream recipes and executable tests were preserved, declared, compiled and re-exercised in this combined delivery; the original seventeen findings and corrections remain applicable. Other selected subject rules are unchanged."
-  },
-  "scope": "Demonstrated compliance corrections only; source-matched Editor/Play checks and separately scoped native evidence. Counts are actual successful executions across the named runs, including repeated independent/bootstrap checks.",
-  "findings": [
-    {
-      "id": "GF-R3-006",
-      "title": "Public classes still lack meaningful XML descriptions",
-      "requirementReferences": [
-        {
-          "file": "GeurtsTechniques/GeurtsCodeTechnique.md",
-          "section": "Public Classes",
-          "version": "0.1.1",
-          "baselineCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
-          "url": "https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/1efe5e03eb6b70a1188d9d999678dc6fb38b483a/GeurtsTechniques/GeurtsCodeTechnique.md"
-        }
-      ]
-    },
-    {
-      "id": "GF-R3-007",
-      "title": "Public methods have incomplete XML summaries and parameter/return contracts",
-      "requirementReferences": [
-        {
-          "file": "GeurtsTechniques/GeurtsCodeTechnique.md",
-          "section": "Public Methods",
-          "version": "0.1.1",
-          "baselineCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
-          "url": "https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/1efe5e03eb6b70a1188d9d999678dc6fb38b483a/GeurtsTechniques/GeurtsCodeTechnique.md"
-        }
-      ]
-    }
-  ],
-  "validationDependencies": {
-    "unmodifiedLicensedAssets": {
-      "Sirenix": {
-        "files": 99,
-        "treeSha256": "8e644e4845688597ad3f2eb19f6707afad960fa7196b4059d0afd64f84ec4a40",
-        "unmodifiedVendorSourceVerified": true
-      },
-      "QFSW": {
-        "files": 587,
-        "treeSha256": "80b5eb444a2ab188f25e7fa5f72ecc6a4b864f9613a284140d432795244d18b2",
-        "unmodifiedVendorSourceVerified": true
-      }
-    },
-    "allOwnerGitSourcesAndExamplesVerified": true
-  },
-  "runs": [
-    {
-      "kind": "full",
-      "passed": 4,
-      "failed": 0,
-      "skipped": 0,
-      "wholeRunResultSha256": "b93de884c9d244b97b39ff0dfea134ef7cb3b1b168ca7910d8f7ff8bcebeba69",
-      "resultFile": "Documentation~/Validation/Compliance17/fullResults.json"
-    },
-    {
-      "kind": "independent",
-      "passed": 4,
-      "failed": 0,
-      "skipped": 0,
-      "wholeRunResultSha256": "f0b0b2362ff0574bb74159ce304c5573b538d7b3bdca3ef4c0650890e2c34beb",
-      "resultFile": "Documentation~/Validation/Compliance17/independentResults.json"
-    }
-  ],
-  "conditionalChecks": [],
-  "unverified": [
-    "Physical keyboard/mouse, alternate skin, high-DPI and device acceptance were not performed. Native dark-skin Inspector captures are scoped to the recorded panels and widths.",
-    "Windows batch players validate APIs, persistence and ordinary bootstrap ownership. They do not certify visual console layout, physical input, audible output, native Steam sessions or every product capability.",
-    "FMOD has separately recorded real licensed compilation and native NOSOUND_NRT checks. Audible/device acceptance and unchanged vendor RuntimeManager behavior remain outside this correction.",
-    "Real paid model naming accuracy was not tested. Synthetic audio/filtering and controlled late/cancelled request tests do not certify semantic naming accuracy.",
-    "BigBang remains exempt from dependency compliance and dependency-driven changes. Consumer installation is manual; unfinished SaveLoad and Steam features were not implemented."
-  ],
-  "historicalEvidence": "Earlier evidence remains under Documentation~/History and is not used as validation for this release.",
-  "bigBangDependencyExempt": false,
   "exampleSources": [
     "Tools~/Examples/AutomationExample.cs"
   ],
   "integrationRecipes": [],
-  "windowsPlayerValidation": "Documentation~/Validation/Compliance17/WindowsPlayers.json",
-  "ordinalSourceTreeSha256": "cb73bda0a207199b53f197b5564f60317736e91ac814642d62a863894568fba7",
-  "sourceFingerprintAlgorithm": "The owning Validate-Release.ps1 algorithm; independent ordinal source hashes additionally match the Git-resolved fixture byte for byte after newline normalization."
+  "publicationReady": true,
+  "historicalEvidence": "Documentation~/History/AIUsabilityValidation-0.15.3.json",
+  "scope": "AI reading-efficiency maintenance: all supported examples compiled; ten practical recipes, selected owner lifecycle/preservation checks and all-owner operation parity executed. Package runtime behavior is unchanged apart from version metadata.",
+  "runs": [
+    {
+      "file": "recipes-results.xml",
+      "sha256": "eefe7e885911adfa93abe0051f3238ded7370f52066d6b5405abfabf699e230b",
+      "passed": 51,
+      "failed": 2,
+      "skipped": 0
+    },
+    {
+      "file": "graphics-results.xml",
+      "sha256": "46167c5cda34a00ea40f689f6ac09fed5d94b9bdb90ab180fd32e8e30d17aacb",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "resolvedFixtureFailures": {
+    "originalFailed": [
+      "Geurts.GameForge.SaveLoad.Tests.SaveLoadStarterTests.PrimaryMenuIsTruthfulAndReadOnly",
+      "Geurts.GameForge.SaveLoad.Tests.SaveLoadStarterTests.SharedSourceRulesAndExplicitCreationPreserveScope"
+    ],
+    "reason": "Initial headless fixture could not create a real Editor view and omitted the legacy test folder. The same unchanged cases passed with graphics and the missing disposable folder; no product assertion was changed."
+  },
+  "unverified": [
+    "No new player/backend, native Steam, audio listening, physical input, visual-layout or newer-Editor acceptance is claimed. Prior release evidence retains its original source/environment scope.",
+    "No consumer project or Docs/GameDesign content was modified. Consumer adoption remains manual."
+  ]
 }

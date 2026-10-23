@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "packageId": "com.geurts.gameforge.documentation",
+  "packageVersion": "0.15.3",
+  "sourceFingerprint": "cb73bda0a207199b53f197b5564f60317736e91ac814642d62a863894568fba7",
+  "testedCandidateCommit": "dccd43fad54cc44cb1bdc05ecdfbbcbf720a07d8",
+  "unityVersion": "6000.6.3f1",
+  "recordedUtc": "2026-10-11T00:24:28.605804+00:00",
+  "publicationReady": true,
+  "passed": 8,
+  "failed": 0,
+  "skipped": 0,
+  "examplesCompiled": true,
+  "exampleSource": "Tools~/Examples/AutomationExample.cs",
+  "commandmentsBaseline": {
+    "version": "0.59.1",
+    "commit": "1501f4644f1d750c7dd8ce7422163de648ee4d7d",
+    "repository": "https://github.com/Geurtsy/GeurtsGameForge_Commandments.git",
+    "originalAuditVersion": "0.59.0",
+    "originalAuditCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+    "changeReview": "Reviewed the complete upstream delta. Brick Contract 1.22.1 adds catalogue-only installation routing and release-matched practical recipes. Published upstream recipes and executable tests were preserved, declared, compiled and re-exercised in this combined delivery; the original seventeen findings and corrections remain applicable. Other selected subject rules are unchanged."
+  },
+  "scope": "Demonstrated compliance corrections only; source-matched Editor/Play checks and separately scoped native evidence. Counts are actual successful executions across the named runs, including repeated independent/bootstrap checks.",
+  "findings": [
+    {
+      "id": "GF-R3-006",
+      "title": "Public classes still lack meaningful XML descriptions",
+      "requirementReferences": [
+        {
+          "file": "GeurtsTechniques/GeurtsCodeTechnique.md",
+          "section": "Public Classes",
+          "version": "0.1.1",
+          "baselineCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+          "url": "https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/1efe5e03eb6b70a1188d9d999678dc6fb38b483a/GeurtsTechniques/GeurtsCodeTechnique.md"
+        }
+      ]
+    },
+    {
+      "id": "GF-R3-007",
+      "title": "Public methods have incomplete XML summaries and parameter/return contracts",
+      "requirementReferences": [
+        {
+          "file": "GeurtsTechniques/GeurtsCodeTechnique.md",
+          "section": "Public Methods",
+          "version": "0.1.1",
+          "baselineCommit": "1efe5e03eb6b70a1188d9d999678dc6fb38b483a",
+          "url": "https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/1efe5e03eb6b70a1188d9d999678dc6fb38b483a/GeurtsTechniques/GeurtsCodeTechnique.md"
+        }
+      ]
+    }
+  ],
+  "validationDependencies": {
+    "unmodifiedLicensedAssets": {
+      "Sirenix": {
+        "files": 99,
+        "treeSha256": "8e644e4845688597ad3f2eb19f6707afad960fa7196b4059d0afd64f84ec4a40",
+        "unmodifiedVendorSourceVerified": true
+      },
+      "QFSW": {
+        "files": 587,
+        "treeSha256": "80b5eb444a2ab188f25e7fa5f72ecc6a4b864f9613a284140d432795244d18b2",
+        "unmodifiedVendorSourceVerified": true
+      }
+    },
+    "allOwnerGitSourcesAndExamplesVerified": true
+  },
+  "runs": [
+    {
+      "kind": "full",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "wholeRunResultSha256": "b93de884c9d244b97b39ff0dfea134ef7cb3b1b168ca7910d8f7ff8bcebeba69",
+      "resultFile": "Documentation~/Validation/Compliance17/fullResults.json"
+    },
+    {
+      "kind": "independent",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "wholeRunResultSha256": "f0b0b2362ff0574bb74159ce304c5573b538d7b3bdca3ef4c0650890e2c34beb",
+      "resultFile": "Documentation~/Validation/Compliance17/independentResults.json"
+    }
+  ],
+  "conditionalChecks": [],
+  "unverified": [
+    "Physical keyboard/mouse, alternate skin, high-DPI and device acceptance were not performed. Native dark-skin Inspector captures are scoped to the recorded panels and widths.",
+    "Windows batch players validate APIs, persistence and ordinary bootstrap ownership. They do not certify visual console layout, physical input, audible output, native Steam sessions or every product capability.",
+    "FMOD has separately recorded real licensed compilation and native NOSOUND_NRT checks. Audible/device acceptance and unchanged vendor RuntimeManager behavior remain outside this correction.",
+    "Real paid model naming accuracy was not tested. Synthetic audio/filtering and controlled late/cancelled request tests do not certify semantic naming accuracy.",
+    "BigBang remains exempt from dependency compliance and dependency-driven changes. Consumer installation is manual; unfinished SaveLoad and Steam features were not implemented."
+  ],
+  "historicalEvidence": "Earlier evidence remains under Documentation~/History and is not used as validation for this release.",
+  "bigBangDependencyExempt": false,
+  "exampleSources": [
+    "Tools~/Examples/AutomationExample.cs"
+  ],
+  "integrationRecipes": [],
+  "windowsPlayerValidation": "Documentation~/Validation/Compliance17/WindowsPlayers.json",
+  "ordinalSourceTreeSha256": "cb73bda0a207199b53f197b5564f60317736e91ac814642d62a863894568fba7",
+  "sourceFingerprintAlgorithm": "The owning Validate-Release.ps1 algorithm; independent ordinal source hashes additionally match the Git-resolved fixture byte for byte after newline normalization."
+}
