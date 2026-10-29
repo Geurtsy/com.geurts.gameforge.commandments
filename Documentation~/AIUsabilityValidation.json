@@ -39,7 +39,7 @@
   "evidenceFiles": [
     {
       "file": "Documentation~/Validation/ExplicitUpdates/Editor.log.txt",
-      "sha256": "377a983e0d1be994a7e0b9e0f7565b1f3dc3bbacd2347cea786e0498cd28a889",
+      "sha256": "0f7960ce322947a78211bad5816b72c9b3760e7627e136b2a8421a6e19431507",
       "originalLocalPath": "C:\\gfnu\\a\\Evidence\\adapter-final.log",
       "originalSha256": "e13ac1cdfc8532cdbf7c65eb751576ad2f27bf7acc751bd7ee2d22284f2fec4a",
       "redactions": "Local user name and licensing identity lines only; compiler and test diagnostics are retained."
@@ -54,7 +54,7 @@
     },
     {
       "file": "Documentation~/Validation/ExplicitUpdates/EditMode.xml",
-      "sha256": "dcd399ff231e66c9f2d30ac2eb3f95194a8c26fa6d9205afa24ec3e70677a485"
+      "sha256": "b00abb07cb936b5df6bfc923685eeef429eb4de8044dd0c3595d7c7aa67000d5"
     }
   ],
   "historicalEvidence": "Documentation~/History/AIUsabilityValidation-0.15.4.json",
@@ -62,5 +62,6 @@
     "The paired God candidate could not compile because of required Quantum Console 2.6.7 diagnostics; paired owner tests were not executed. Adapter automatic entry points refuse locally without inspecting or forwarding to any God version.",
     "The adapter UI is unchanged. No new rendered UI, player/backend, physical input or newer-Editor acceptance is claimed.",
     "No consumer project was updated. An older God can still run its own automatic workflow until a policy-compliant God release is explicitly installed."
-  ]
+  ],
+  "evidenceSha256Algorithm": "SHA-256 of Git-normalized evidence file bytes (LF for text); originalLocalPath hashes use unmodified original bytes."
 }
