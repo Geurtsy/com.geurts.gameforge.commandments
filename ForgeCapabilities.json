@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.15.4",
+  "packageVersion": "0.16.0",
   "maturity": "pre_release",
   "prerequisites": [],
   "features": [

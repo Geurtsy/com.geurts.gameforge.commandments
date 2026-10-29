@@ -52,13 +52,15 @@ namespace Geurts.GameForge.Documentation
         public static Task UpdateDocumentationAutomaticallyAsync(Func<bool> stillAuthorized)
         {
             if (stillAuthorized == null) throw new ArgumentNullException(nameof(stillAuthorized));
-            throw new InvalidOperationException("Documentation schema-2 automatic consent cannot update Commandments. Update God and explicitly renew automatic-update consent.");
+            throw new InvalidOperationException("Automatic updates are unavailable. Choose Update Geurts Game Forge Commandments and accept its confirmation; saved consent cannot authorize replacement.");
         }
-        /// <summary>Uses God's bounded automatic operation with live schema-3 consent.</summary>
+        /// <summary>Refuses automatic work locally, including when an older God still offers an automatic updater.</summary>
         /// <param name="stillAuthorized">True only during the explicitly authorized host opening.</param>
         /// <returns>The shared bounded operation.</returns>
-        public static Task UpdateCommandmentsAutomaticallyAsync(Func<bool> stillAuthorized) =>
-            (Task)GodForwarder.Invoke(false, "UpdateCommandmentsAutomaticallyAsync", stillAuthorized);
+        public static Task UpdateCommandmentsAutomaticallyAsync(Func<bool> stillAuthorized)
+        {
+            throw new InvalidOperationException("Automatic updates are unavailable. Choose Update Geurts Game Forge Commandments and accept its confirmation; saved consent cannot authorize replacement.");
+        }
         /// <summary>Opens the God-owned view without starting checks.</summary>
         public static void OpenWindow() => GodForwarder.Invoke(false, "OpenWindow");
         /// <summary>Creates a hidden God-owned view; the caller owns disposal.</summary>
@@ -135,7 +137,7 @@ namespace Geurts.GameForge.Commandments
         public static void UpdateCommandments() => Documentation.DocumentationIntegration.UpdateDocumentation();
         /// <summary>Compatibility method used by supported legacy host integrations; still shows the new confirmation.</summary>
         public static void UpdateDocumentation() => UpdateCommandments();
-        /// <summary>Updates for a host with explicit, live schema-3 target consent.</summary>
+        /// <summary>Refuses the legacy automatic call without forwarding to God.</summary>
         /// <param name="stillAuthorized">Checks live explicit consent for schema-3 targets.</param>
         /// <returns>The bounded shared controller update.</returns>
         public static System.Threading.Tasks.Task UpdateCommandmentsAutomaticallyAsync(System.Func<bool> stillAuthorized) => Documentation.DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(stillAuthorized);

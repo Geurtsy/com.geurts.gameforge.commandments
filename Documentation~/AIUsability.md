@@ -1,6 +1,6 @@
 # AI usability in Geurts Game Forge Commandments Compatibility
 
-Release 0.15.4. `ForgeCapabilities.json` is this release's machine-readable declaration. Read installed package metadata and discovered owner providers separately; declaration alone never proves readiness. Planned features remain unavailable. Consumers update manually from Git.
+Release 0.16.0. `ForgeCapabilities.json` is this release's machine-readable declaration. Read installed package metadata and discovered owner providers separately; declaration alone never proves readiness. Planned features remain unavailable. Consumers update manually from Git.
 
 This independent package declares metadata without acquiring a God dependency. Its existing owner APIs remain authoritative; God automation operations are not advertised.
 
@@ -47,7 +47,7 @@ Run `Tools~/Validate-Release.ps1 -RequireUnityEvidence` before publication. The 
 ```json
 {
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.15.4",
+  "packageVersion": "0.16.0",
   "dependencies": {}
 }
 ```

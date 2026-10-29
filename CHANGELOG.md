@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.16.0 - 2026-10-30
+
+- Refuse all legacy automatic update APIs locally, including with older God owners. Manual APIs retain their existing God confirmation and guards; signatures and dependency-free adapter identity remain compatible.
+
 ## 0.15.4 - 2026-10-23
 
 - Add concise task-based reading routes and preserve current installation, consent and compatibility boundaries.

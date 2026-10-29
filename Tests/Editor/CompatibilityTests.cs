@@ -50,6 +50,8 @@ namespace Geurts.GameForge.Documentation.Tests
         {
             bool called = false;
             Assert.Throws<InvalidOperationException>(() => DocumentationIntegration.UpdateDocumentationAutomaticallyAsync(() => { called=true; return true; }));
+            Assert.Throws<InvalidOperationException>(() => DocumentationIntegration.UpdateCommandmentsAutomaticallyAsync(() => { called = true; return true; }));
+            Assert.Throws<InvalidOperationException>(() => Geurts.GameForge.Commandments.CommandmentsIntegration.UpdateCommandmentsAutomaticallyAsync(() => { called = true; return true; }));
             Assert.That(called, Is.False);
         }
         /// <summary>Asserts both Public Namespaces Share The God Owner Or The Same Missing Owner Explanation using isolated fixture state.</summary>
