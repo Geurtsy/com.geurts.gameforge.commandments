@@ -2,12 +2,65 @@
   "schemaVersion": "1.0.0",
   "packageId": "com.geurts.gameforge.documentation",
   "packageVersion": "0.16.0",
-  "sourceFingerprint": "pending",
+  "sourceFingerprint": "2eb01f71feac2d7a1192d9b9e91bbb719b92abc0b278462862b5c08f7d02ad77",
+  "sourceFingerprintAlgorithm": "Owning Tools~/Validate-Release.ps1 normalized C# hashes",
+  "documentationCommit": "681813498e7878c68c0b7f191528ce9f0cd29938",
   "unityVersion": "6000.6.3f1",
-  "passed": 0,
+  "candidateCommit": "1eeef78ce3d1d93e85c09d913cfc7ba6fd0289fd",
+  "testedCandidateCommit": "1eeef78ce3d1d93e85c09d913cfc7ba6fd0289fd",
+  "sourceKind": "git",
+  "resolvedPackageHash": "1eeef78ce3d1d93e85c09d913cfc7ba6fd0289fd",
+  "testedPackagePins": {
+    "com.geurts.gameforge.documentation": "https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#1eeef78ce3d1d93e85c09d913cfc7ba6fd0289fd"
+  },
+  "passed": 4,
   "failed": 0,
-  "examplesCompiled": false,
-  "publicationReady": false,
-  "scope": "Explicit user updates only. Validation pending; historical evidence is not reused for changed behavior.",
-  "historicalEvidence": "Documentation~/History/AIUsabilityValidation-0.15.4.json"
+  "skipped": 0,
+  "passedTests": [
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater",
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.BothPublicNamespacesShareTheGodOwnerOrTheSameMissingOwnerExplanation",
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.LegacyConsentNeverInvokesItsCallback",
+    "Geurts.GameForge.Documentation.Tests.CompatibilityTests.RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction"
+  ],
+  "examplesCompiled": true,
+  "exampleSources": [
+    "Tools~/Examples/AutomationExample.cs"
+  ],
+  "integrationRecipes": [],
+  "publicationReady": true,
+  "compiler": {
+    "warningsAsErrors": true,
+    "effectiveOwnerResponseFileSha256": "c2b856dc12fc69ef803c200eb615d23b1993ac9d228c701ee1c7239672f53029",
+    "warnings": 0,
+    "errors": 0,
+    "exitCode": 0
+  },
+  "scope": "Standalone passive adapter with God absent: all four compatibility tests passed, including all legacy automatic API refusals before callbacks; supported example compiled. No updater/initializer was introduced. Manual forwarding implementation is unchanged.",
+  "evidenceFiles": [
+    {
+      "file": "Documentation~/Validation/ExplicitUpdates/Editor.log.txt",
+      "sha256": "377a983e0d1be994a7e0b9e0f7565b1f3dc3bbacd2347cea786e0498cd28a889",
+      "originalLocalPath": "C:\\gfnu\\a\\Evidence\\adapter-final.log",
+      "originalSha256": "e13ac1cdfc8532cdbf7c65eb751576ad2f27bf7acc751bd7ee2d22284f2fec4a",
+      "redactions": "Local user name and licensing identity lines only; compiler and test diagnostics are retained."
+    },
+    {
+      "file": "Documentation~/Validation/ExplicitUpdates/manifest.json",
+      "sha256": "2ec17798414ca1854fc8fc789a342e40998f706f4f6784e61b9040b315c43a07"
+    },
+    {
+      "file": "Documentation~/Validation/ExplicitUpdates/packages-lock.json",
+      "sha256": "2e80293fa88986da44cb36a4ad1ecec14ba36c97d49c82d7fa85270887c93b1b"
+    },
+    {
+      "file": "Documentation~/Validation/ExplicitUpdates/EditMode.xml",
+      "sha256": "dcd399ff231e66c9f2d30ac2eb3f95194a8c26fa6d9205afa24ec3e70677a485"
+    }
+  ],
+  "historicalEvidence": "Documentation~/History/AIUsabilityValidation-0.15.4.json",
+  "unverified": [
+    "The paired God candidate could not compile because of required Quantum Console 2.6.7 diagnostics; paired owner tests were not executed. Adapter automatic entry points refuse locally without inspecting or forwarding to any God version.",
+    "The adapter UI is unchanged. No new rendered UI, player/backend, physical input or newer-Editor acceptance is claimed.",
+    "No consumer project was updated. An older God can still run its own automatic workflow until a policy-compliant God release is explicitly installed."
+  ]
 }
