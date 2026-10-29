@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Passed" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.2651209">
+  <test-suite type="TestSuite" id="1000" name="a" fullname="a" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.265121" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1006" name="Geurts.GameForge.Documentation.Editor.Tests.dll" fullname="C:/gfnu/a/Library/ScriptAssemblies/Geurts.GameForge.Documentation.Editor.Tests.dll" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.251197" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="32176" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1007" name="Geurts" fullname="Geurts" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.249773" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1008" name="GameForge" fullname="Geurts.GameForge" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.249196" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1009" name="Documentation" fullname="Geurts.GameForge.Documentation" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.248752" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestSuite" id="1010" name="Tests" fullname="Geurts.GameForge.Documentation.Tests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.248274" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-suite type="TestFixture" id="1001" name="CompatibilityTests" fullname="Geurts.GameForge.Documentation.Tests.CompatibilityTests" classname="Geurts.GameForge.Documentation.Tests.CompatibilityTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.246465" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1003" name="AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater" fullname="Geurts.GameForge.Documentation.Tests.CompatibilityTests.AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater" methodname="AdapterHasNoMenuRegistrationsOrAutomaticInitializersOrUpdater" classname="Geurts.GameForge.Documentation.Tests.CompatibilityTests" runstate="Runnable" seed="1397514844" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.027414" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1005" name="BothPublicNamespacesShareTheGodOwnerOrTheSameMissingOwnerExplanation" fullname="Geurts.GameForge.Documentation.Tests.CompatibilityTests.BothPublicNamespacesShareTheGodOwnerOrTheSameMissingOwnerExplanation" methodname="BothPublicNamespacesShareTheGodOwnerOrTheSameMissingOwnerExplanation" classname="Geurts.GameForge.Documentation.Tests.CompatibilityTests" runstate="Runnable" seed="1272691438" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.036205" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1004" name="LegacyConsentNeverInvokesItsCallback" fullname="Geurts.GameForge.Documentation.Tests.CompatibilityTests.LegacyConsentNeverInvokesItsCallback" methodname="LegacyConsentNeverInvokesItsCallback" classname="Geurts.GameForge.Documentation.Tests.CompatibilityTests" runstate="Runnable" seed="770849764" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.000724" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1002" name="RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction" fullname="Geurts.GameForge.Documentation.Tests.CompatibilityTests.RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction" methodname="RestoredHandoffReconstructionRetainsOneStatusAndReachableOwnerAction" classname="Geurts.GameForge.Documentation.Tests.CompatibilityTests" runstate="Runnable" seed="1752784085" result="Passed" start-time="2026-10-29 16:49:08Z" end-time="2026-10-29 16:49:08Z" duration="0.159716" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: C:/gfnu/a/Evidence/adapter-final.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

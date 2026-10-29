@@ -1,0 +1,1 @@
+{"dependencies": {"com.geurts.gameforge.documentation": "https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#1eeef78ce3d1d93e85c09d913cfc7ba6fd0289fd", "com.unity.test-framework": "1.8.0", "com.unity.modules.uielements": "1.0.0", "com.unity.modules.imgui": "1.0.0"}, "testables": ["com.geurts.gameforge.documentation"]}
