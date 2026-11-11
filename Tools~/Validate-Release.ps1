@@ -10,6 +10,8 @@ function Resolve-Owned([string]$Relative) {
     Require ($path.StartsWith($RepositoryRoot.TrimEnd('\','/') + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) "Path escapes owner: $Relative"
     return $path
 }
+Require (Test-Path -LiteralPath (Resolve-Owned 'AGENTS.md.meta') -PathType Leaf) 'AGENTS.md lacks its Unity metadata; immutable Git packages cannot generate it.'
+Require ([IO.File]::ReadAllText((Resolve-Owned 'AGENTS.md.meta')) -match '(?m)^guid: [0-9a-f]{32}\r?$') 'AGENTS.md has invalid Unity asset metadata.'
 $package = Read-Json 'package.json'
 $capability = Read-Json 'ForgeCapabilities.json'
 $documents = Read-Json 'ReleaseDocumentation.json'

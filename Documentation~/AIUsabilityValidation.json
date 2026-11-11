@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.16.0",
+  "packageVersion": "0.16.1",
   "sourceFingerprint": "2eb01f71feac2d7a1192d9b9e91bbb719b92abc0b278462862b5c08f7d02ad77",
   "sourceFingerprintAlgorithm": "Owning Tools~/Validate-Release.ps1 normalized C# hashes",
   "documentationCommit": "681813498e7878c68c0b7f191528ce9f0cd29938",
@@ -63,5 +63,11 @@
     "The adapter UI is unchanged. No new rendered UI, player/backend, physical input or newer-Editor acceptance is claimed.",
     "No consumer project was updated. An older God can still run its own automatic workflow until a policy-compliant God release is explicitly installed."
   ],
-  "evidenceSha256Algorithm": "SHA-256 of Git-normalized evidence file bytes (LF for text); originalLocalPath hashes use unmodified original bytes."
+  "evidenceSha256Algorithm": "SHA-256 of Git-normalized evidence file bytes (LF for text); originalLocalPath hashes use unmodified original bytes.",
+  "assetMetadataPatch": {
+    "summary": "Documentation~/Validation/AssetMetadata/summary.json",
+    "functionalEvidenceReused": true,
+    "unchangedCSharp": true,
+    "consumerInstalled": false
+  }
 }

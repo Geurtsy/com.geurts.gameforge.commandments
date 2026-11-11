@@ -1,0 +1,11 @@
+{
+  "packageId": "com.geurts.gameforge.documentation",
+  "packageVersion": "0.16.1",
+  "documentationAuthorityCommit": "12ff354a83a700b3ba77e0f5ad3f423b189927f3",
+  "previousReleaseCommit": "705d00078f8b5bad797dd297f99296fd59476451",
+  "metadataGenerator": "Unity 6000.6.8f1 AssetDatabase in isolated writable fixture C:/gfmt",
+  "metadataSha256": "ef77df655b3402a925a758ca0c20c0d1908fec00deae0eed986de8ee91b6df3f",
+  "csharpChangeScope": "No C# files, assembly definitions, examples or dependency inputs changed. All six C# files verified identical to released 0.16.0.",
+  "compilerAndFunctionalEvidence": "Reused prior source-matched zero-warning compilation and four compatibility tests; original tested candidate, hashes, compiler policy and limitations retained in previous-validation.json. No fresh C# compilation or behavior execution claimed.",
+  "verification": "Owning release gate with matching unchanged source fingerprint and shared committed-tree metadata validation; no live consumer installation."
+}

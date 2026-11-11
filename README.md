@@ -2,7 +2,7 @@
 
 See [release capabilities and supported AI usage](Documentation~/AIUsability.md) for operation inputs and [this release validation](Documentation~/AIUsabilityValidation.json) for tested scope. Older fixture counts below are historical evidence and do not certify this release.
 
-Version **0.15.3**, Windows Unity **6000.6.3f1**. This package is now a passive Editor API adapter for existing Companion installations. God **0.29.0** owns viewing, acquisition, version checks, confirmed updates and status. Fresh installations need God only.
+Version **0.16.1**, Windows Unity **6000.6.3f1**. This package is now a passive Editor API adapter for existing Companion installations. God **0.29.0** owns viewing, acquisition, version checks, confirmed updates and status. Fresh installations need God only.
 
 Update this package and God through their immutable Git releases, in either order. With older God the adapter reports the missing supported owner. New God blocks competing content work while an old Companion implementation remains installed. Package updates alone never acquire content or change saved module preferences, schema-3 consent, managed AI routes, AGENTS.md or game design.
 
@@ -12,7 +12,7 @@ Use **Tools > Geurts Game Forge > Commandments** or **View Commandments** inside
 
 Custom Editor assemblies can keep this adapter while migrating to `Geurts.GameForge.God.Editor.CommandmentsIntegration` and `CommandmentsSetupIntegration`, in God's Editor assembly. Remove the adapter through UPM only after those references migrate. Its reflection forwarding introduces no God/vendor compile dependency and reports unavailable operations when God is absent. Never reference either Editor API from runtime assemblies.
 
-Install or update from `https://github.com/Geurtsy/com.geurts.gameforge.commandments.git#v0.15.3` (the immutable release includes an exact commit pin). The source Commandments remain independent at [GeurtsGameForge_Commandments](https://github.com/Geurtsy/GeurtsGameForge_Commandments), and local Markdown is readable without God or this adapter. See the authoritative [0.41.0 migration](https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/v0.41.0/Migrations/v0.41.0.md).
+Install or update explicitly from the [current Commandments Catalogue](https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/main/GeurtsTechniques/GeurtsBrickCatalogue.json), which supplies the immutable Git release. The source Commandments remain independent at [GeurtsGameForge_Commandments](https://github.com/Geurtsy/GeurtsGameForge_Commandments), and local Markdown is readable without God or this adapter. See the authoritative [0.41.0 migration](https://github.com/Geurtsy/GeurtsGameForge_Commandments/blob/v0.41.0/Migrations/v0.41.0.md).
 
 The prior validation records describe historical releases; they do not assign ongoing ownership to this adapter. Current behavior is covered by `Tests/Editor/CompatibilityTests.cs` and God's transferred acquisition/consent/boundary regressions and package-transition validation.
 
@@ -22,7 +22,7 @@ The restored handoff retains one native status and action across reconstruction,
 ```json
 {
   "packageId": "com.geurts.gameforge.documentation",
-  "packageVersion": "0.16.0",
+  "packageVersion": "0.16.1",
   "dependencies": {}
 }
 ```
