@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.16.1 - 2026-11-11
+
+- Include Unity-generated instruction metadata so immutable Git imports do not skip AGENTS.md.
+- Reject missing/invalid instruction sidecars in release validation; preserve unchanged adapter implementation and recorded acceptance limits.
+
 ## 0.16.0 - 2026-10-30
 
 - Refuse all legacy automatic update APIs locally, including with older God owners. Manual APIs retain their existing God confirmation and guards; signatures and dependency-free adapter identity remain compatible.
